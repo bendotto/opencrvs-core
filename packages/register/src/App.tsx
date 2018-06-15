@@ -13,7 +13,6 @@ import { Route } from 'react-router'
 import styled, { ThemeProvider } from 'styled-components'
 import { RegistrationList } from './registrations/RegistrationList'
 import { config } from './config'
-import { MobileNumberForm } from './login/MobileNumberForm'
 
 import { Header } from '@opencrvs/components/lib/Header'
 import { Nav } from '@opencrvs/components/lib/Nav'
@@ -85,12 +84,6 @@ const Home = injectIntl(({ intl }) => (
     </Header>
     <Main>
       <Box id="loginBox" columns={6}>
-        <p>
-          To get started, edit
-          <code>src/App.tsx</code>
-          and save to reload.
-        </p>
-        <MobileNumberForm />
         <RegistrationList />
       </Box>
     </Main>
