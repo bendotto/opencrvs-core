@@ -27,13 +27,13 @@ export class InputField extends React.Component<
         <Input
           {...this.props}
           placeholder={placeholder ? placeholder : defaultLabel}
-          error={Boolean(meta.error)}
-          touched={meta.touched}
+          // error={Boolean(meta.error)}
+          // touched={meta.touched}
         />
-        {meta.touched &&
+        {/* {meta.touched &&
           meta.error && (
             <InputError id={id + '_error'} errorMessage={meta.error} />
-          )}
+          )} */}
       </div>
     )
   }
