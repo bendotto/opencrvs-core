@@ -103,30 +103,37 @@ class ImageUploadComponent extends React.Component<
     this.toggleNestedSection()
   }
 
+  onDelete = (file: IFileValue, index: number) => {
+    const files = this.props.files ? this.props.files : []
+    delete files[index]
+    files.splice(index, 1)
+    console.log(files)
+    this.props.onComplete(files)
+  }
+
   render = () => {
     const { title, optionSection, files, intl } = this.props
     const fileList =
-      files &&
-      files.map((file: IFileValue & { subject: string }, index: number) => {
-        file.subject = file.optionValues.join(' ')
-        return (
-          <FileItemContainer key={index}>
-            <FileItem
-              file={file}
-              deleteLabel={intl.formatMessage(messages.delete)}
-              onDelete={() =>
-                /* need to change it for deleting from the file array and push it back on draft */
-                alert(`#${index} deleted`)
-              }
-              previewLabel={intl.formatMessage(messages.preview)}
-              onPreview={() =>
-                /* need to change it for getting file.data using the index and use it for preview */
-                alert(`#${index} previewed`)
-              }
-            />
-          </FileItemContainer>
-        )
-      })
+      (files &&
+        files.length &&
+        files.map((file: IFileValue & { subject: string }, index: number) => {
+          file.subject = file.optionValues.join(' ')
+          return (
+            <FileItemContainer key={index}>
+              <FileItem
+                file={file}
+                deleteLabel={intl.formatMessage(messages.delete)}
+                onDelete={() => this.onDelete(file, index)}
+                previewLabel={intl.formatMessage(messages.preview)}
+                onPreview={() =>
+                  /* need to change it for getting file.data using the index and use it for preview */
+                  alert(`#${index} previewed`)
+                }
+              />
+            </FileItemContainer>
+          )
+        })) ||
+      ''
     return (
       <Container>
         <PhotoIconAction
