@@ -3,100 +3,107 @@ import {
   FHIR_SPECIFICATION_URL,
   OPENCRVS_SPECIFICATION_URL
 } from 'src/features/fhir/constants'
+import uuid = require('uuid')
 
 test('should build a minimal FHIR registration document without error', async () => {
-  const fhir = await buildFHIRBundle({
-    mother: {
-      identifier: [{ id: '123456', type: 'PASSPORT' }],
-      gender: 'female',
-      birthDate: '2000-01-28',
-      maritalStatus: 'MARRIED',
-      name: [{ firstNames: 'Jane', familyName: 'Doe', use: 'english' }],
-      deceased: false,
-      multipleBirth: 1,
-      dateOfMarriage: '2014-01-28',
-      nationality: ['BGD'],
-      educationalAttainment: 'UPPER_SECONDARY_ISCED_3'
+  const birthTrackingId = uuid()
+  const fhir = await buildFHIRBundle(
+    {
+      mother: {
+        identifier: [{ id: '123456', type: 'PASSPORT' }],
+        gender: 'female',
+        birthDate: '2000-01-28',
+        maritalStatus: 'MARRIED',
+        name: [{ firstNames: 'Jane', familyName: 'Doe', use: 'english' }],
+        deceased: false,
+        multipleBirth: 1,
+        dateOfMarriage: '2014-01-28',
+        nationality: ['BGD'],
+        educationalAttainment: 'UPPER_SECONDARY_ISCED_3'
+      },
+      father: {
+        gender: 'male',
+        name: [],
+        telecom: [{ use: 'mobile', system: 'phone', value: '0171111111' }],
+        maritalStatus: 'MARRIED',
+        birthDate: '2000-09-28',
+        deceased: false,
+        multipleBirth: 2,
+        address: [
+          {
+            use: 'home',
+            type: 'both',
+            line: ['2760 Mlosi Street', 'Wallacedene'],
+            district: 'Kraaifontein',
+            state: 'Western Cape',
+            city: 'Cape Town',
+            postalCode: '7570',
+            country: 'BGD'
+          },
+          {
+            use: 'home',
+            type: 'both',
+            line: ['40 Orbis Wharf', 'Wallacedene'],
+            text: 'Optional address text',
+            district: 'Kraaifontein',
+            state: 'Western Cape',
+            city: 'Cape Town',
+            postalCode: '7570',
+            country: 'BGD'
+          }
+        ],
+        photo: [
+          {
+            contentType: 'image/jpeg',
+            data: '123456',
+            title: 'father-national-id'
+          }
+        ],
+        dateOfMarriage: '2014-01-28',
+        nationality: ['BGD'],
+        educationalAttainment: 'UPPER_SECONDARY_ISCED_3'
+      },
+      child: {
+        gender: 'male',
+        name: [],
+        birthDate: '2018-01-28',
+        maritalStatus: 'NOT_STATED',
+        deceased: false,
+        multipleBirth: 3,
+        dateOfMarriage: '',
+        nationality: ['BGD'],
+        educationalAttainment: 'NO_SCHOOLING'
+      },
+      registration: {
+        trackingId: birthTrackingId,
+        attachments: [
+          {
+            contentType: 'image/jpeg',
+            data: 'SampleData',
+            status: 'final',
+            originalFileName: 'original.jpg',
+            systemFileName: 'system.jpg',
+            type: 'NATIONAL_ID',
+            createdAt: '2018-10-21'
+          },
+          {
+            contentType: 'image/png',
+            data: 'ExampleData',
+            status: 'deleted',
+            originalFileName: 'original.png',
+            systemFileName: 'system.png',
+            type: 'PASSPORT',
+            createdAt: '2018-10-22'
+          }
+        ]
+      },
+      createdAt: new Date()
     },
-    father: {
-      gender: 'male',
-      name: [],
-      telecom: [{ use: 'mobile', system: 'phone', value: '0171111111' }],
-      maritalStatus: 'MARRIED',
-      birthDate: '2000-09-28',
-      deceased: false,
-      multipleBirth: 2,
-      address: [
-        {
-          use: 'home',
-          type: 'both',
-          line: ['2760 Mlosi Street', 'Wallacedene'],
-          district: 'Kraaifontein',
-          state: 'Western Cape',
-          city: 'Cape Town',
-          postalCode: '7570',
-          country: 'BGD'
-        },
-        {
-          use: 'home',
-          type: 'both',
-          line: ['40 Orbis Wharf', 'Wallacedene'],
-          text: 'Optional address text',
-          district: 'Kraaifontein',
-          state: 'Western Cape',
-          city: 'Cape Town',
-          postalCode: '7570',
-          country: 'BGD'
-        }
-      ],
-      photo: [
-        {
-          contentType: 'image/jpeg',
-          data: '123456',
-          title: 'father-national-id'
-        }
-      ],
-      dateOfMarriage: '2014-01-28',
-      nationality: ['BGD'],
-      educationalAttainment: 'UPPER_SECONDARY_ISCED_3'
-    },
-    child: {
-      gender: 'male',
-      name: [],
-      birthDate: '2018-01-28',
-      maritalStatus: 'NOT_STATED',
-      deceased: false,
-      multipleBirth: 3,
-      dateOfMarriage: '',
-      nationality: ['BGD'],
-      educationalAttainment: 'NO_SCHOOLING'
-    },
-    registration: {
-      attachments: [
-        {
-          contentType: 'image/jpeg',
-          data: 'SampleData',
-          status: 'final',
-          originalFileName: 'original.jpg',
-          systemFileName: 'system.jpg',
-          type: 'NATIONAL_ID',
-          createdAt: '2018-10-21'
-        },
-        {
-          contentType: 'image/png',
-          data: 'ExampleData',
-          status: 'deleted',
-          originalFileName: 'original.png',
-          systemFileName: 'system.png',
-          type: 'PASSPORT',
-          createdAt: '2018-10-22'
-        }
-      ]
-    },
-    createdAt: new Date()
-  })
+    birthTrackingId
+  )
 
   expect(fhir).toBeDefined()
+  expect(fhir.entry[0].resource.identifier.value).toEqual(birthTrackingId)
   expect(fhir.entry[0].resource.section.length).toBe(4)
   expect(fhir.entry[0].resource.date).toBeDefined()
   expect(fhir.entry[1].resource.gender).toBe('female')
@@ -153,7 +160,7 @@ test('should build a minimal FHIR registration document without error', async ()
     'UPPER_SECONDARY_ISCED_3'
   )
   expect(fhir.entry[1].resource.extension[2].url).toBe(
-    `${OPENCRVS_SPECIFICATION_URL}educational-attainment`
+    `${OPENCRVS_SPECIFICATION_URL}extension/educational-attainment`
   )
   expect(fhir.entry[1].resource.extension[0].valueDateTime).toBe('2014-01-28')
   expect(fhir.entry[2].resource.extension[1]).toEqual({
@@ -178,7 +185,7 @@ test('should build a minimal FHIR registration document without error', async ()
     'UPPER_SECONDARY_ISCED_3'
   )
   expect(fhir.entry[2].resource.extension[2].url).toBe(
-    `${OPENCRVS_SPECIFICATION_URL}educational-attainment`
+    `${OPENCRVS_SPECIFICATION_URL}extension/educational-attainment`
   )
   expect(fhir.entry[3].resource.extension[0].valueDateTime).toBe('')
   expect(fhir.entry[3].resource.extension[1]).toEqual({
@@ -201,57 +208,74 @@ test('should build a minimal FHIR registration document without error', async ()
   })
   expect(fhir.entry[3].resource.extension[2].valueString).toBe('NO_SCHOOLING')
   expect(fhir.entry[3].resource.extension[2].url).toBe(
-    `${OPENCRVS_SPECIFICATION_URL}educational-attainment`
+    `${OPENCRVS_SPECIFICATION_URL}extension/educational-attainment`
   )
-
-  // Attachment Test cases
-  expect(fhir.entry[4].resource.docStatus).toBe('final')
-  expect(fhir.entry[4].resource.created).toBe('2018-10-21')
-  expect(fhir.entry[4].resource.type).toEqual({
+  /* Task Test cases */
+  expect(fhir.entry[4].resource.resourceType).toBe('Task')
+  expect(fhir.entry[4].resource.code).toEqual({
     coding: [
       {
-        system: 'http://opencrvs.org/specs/supporting-doc-type',
+        system: `${OPENCRVS_SPECIFICATION_URL}types`,
+        code: 'birth-registration'
+      }
+    ]
+  })
+  expect(fhir.entry[4].resource.focus.reference).toEqual(
+    `urn:tackingid:${fhir.entry[0].resource.identifier.value}`
+  )
+  expect(fhir.entry[4].resource.identifier[0]).toEqual({
+    system: `${OPENCRVS_SPECIFICATION_URL}id/birth-tracking-id`,
+    value: fhir.entry[0].resource.identifier.value
+  })
+
+  // Attachment Test cases
+  expect(fhir.entry[5].resource.docStatus).toBe('final')
+  expect(fhir.entry[5].resource.created).toBe('2018-10-21')
+  expect(fhir.entry[5].resource.type).toEqual({
+    coding: [
+      {
+        system: `${OPENCRVS_SPECIFICATION_URL}supporting-doc-type`,
         code: 'NATIONAL_ID'
       }
     ]
   })
-  expect(fhir.entry[4].resource.content).toEqual({
+  expect(fhir.entry[5].resource.content).toEqual({
     attachment: {
       contentType: 'image/jpeg',
       data: 'SampleData'
     }
   })
-  expect(fhir.entry[4].resource.identifier).toEqual([
+  expect(fhir.entry[5].resource.identifier).toEqual([
     {
-      system: 'http://opencrvs.org/specs/id/original-file-name',
+      system: `${OPENCRVS_SPECIFICATION_URL}id/original-file-name`,
       value: 'original.jpg'
     },
     {
-      system: 'http://opencrvs.org/specs/id/system-file-name',
+      system: `${OPENCRVS_SPECIFICATION_URL}id/system-file-name`,
       value: 'system.jpg'
     }
   ])
-  expect(fhir.entry[5].resource.docStatus).toBe('deleted')
-  expect(fhir.entry[5].resource.created).toBe('2018-10-22')
-  expect(fhir.entry[5].resource.type).toEqual({
+  expect(fhir.entry[6].resource.docStatus).toBe('deleted')
+  expect(fhir.entry[6].resource.created).toBe('2018-10-22')
+  expect(fhir.entry[6].resource.type).toEqual({
     coding: [
       {
-        system: 'http://opencrvs.org/specs/supporting-doc-type',
+        system: `${OPENCRVS_SPECIFICATION_URL}supporting-doc-type`,
         code: 'PASSPORT'
       }
     ]
   })
-  expect(fhir.entry[5].resource.identifier).toEqual([
+  expect(fhir.entry[6].resource.identifier).toEqual([
     {
-      system: 'http://opencrvs.org/specs/id/original-file-name',
+      system: `${OPENCRVS_SPECIFICATION_URL}id/original-file-name`,
       value: 'original.png'
     },
     {
-      system: 'http://opencrvs.org/specs/id/system-file-name',
+      system: `${OPENCRVS_SPECIFICATION_URL}id/system-file-name`,
       value: 'system.png'
     }
   ])
-  expect(fhir.entry[5].resource.content).toEqual({
+  expect(fhir.entry[6].resource.content).toEqual({
     attachment: {
       contentType: 'image/png',
       data: 'ExampleData'

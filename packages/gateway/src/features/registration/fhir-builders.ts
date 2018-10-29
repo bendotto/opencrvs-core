@@ -10,6 +10,7 @@ import {
   selectOrCreatePersonResource,
   selectOrCreateDocRefResource,
   setObjectPropInResourceArray,
+  selectOrCreateTaskRefResource,
   getMaritalStatusCode
 } from 'src/features/fhir/utils'
 import {
@@ -316,7 +317,7 @@ function createDateOfMarriageBuilder(resource: any, fieldValue: string) {
     resource.extension = []
   }
   resource.extension.push({
-    url: `${OPENCRVS_SPECIFICATION_URL}date-of-marriage`,
+    url: `${OPENCRVS_SPECIFICATION_URL}extension/date-of-marriage`,
     valueDateTime: fieldValue
   })
 }
@@ -360,8 +361,18 @@ function createEducationalAttainmentBuilder(resource: any, fieldValue: string) {
     resource.extension = []
   }
   resource.extension.push({
-    url: `${OPENCRVS_SPECIFICATION_URL}educational-attainment`,
+    url: `${OPENCRVS_SPECIFICATION_URL}extension/educational-attainment`,
     valueString: fieldValue
+  })
+}
+
+function createBirthTrackingIdentifier(resource: any, fieldValue: string) {
+  if (!resource.identifier) {
+    resource.identifier = []
+  }
+  resource.identifier.push({
+    system: `${OPENCRVS_SPECIFICATION_URL}id/birth-tracking-id`,
+    value: fieldValue
   })
 }
 
@@ -625,6 +636,14 @@ const builders: IFieldBuilders = {
     }
   },
   registration: {
+    trackingId: (fhirBundle: fhir.Bundle, fieldValue: string, context: any) => {
+      const taskResource = selectOrCreateTaskRefResource(
+        fhirBundle,
+        fieldValue,
+        context
+      )
+      return createBirthTrackingIdentifier(taskResource, fieldValue)
+    },
     attachments: {
       originalFileName: (
         fhirBundle: fhir.Bundle,
@@ -640,7 +659,7 @@ const builders: IFieldBuilders = {
           docRef.identifier = []
         }
         docRef.identifier.push({
-          system: 'http://opencrvs.org/specs/id/original-file-name',
+          system: `${OPENCRVS_SPECIFICATION_URL}id/original-file-name`,
           value: fieldValue
         })
       },
@@ -658,7 +677,7 @@ const builders: IFieldBuilders = {
           docRef.identifier = []
         }
         docRef.identifier.push({
-          system: 'http://opencrvs.org/specs/id/system-file-name',
+          system: `${OPENCRVS_SPECIFICATION_URL}id/system-file-name`,
           value: fieldValue
         })
       },
@@ -679,7 +698,7 @@ const builders: IFieldBuilders = {
         docRef.type = {
           coding: [
             {
-              system: 'http://opencrvs.org/specs/supporting-doc-type',
+              system: `${OPENCRVS_SPECIFICATION_URL}supporting-doc-type`,
               code: fieldValue
             }
           ]
@@ -732,11 +751,11 @@ const builders: IFieldBuilders = {
   }
 }
 
-export async function buildFHIRBundle(reg: any) {
+export async function buildFHIRBundle(reg: any, trackingId?: string) {
   const fhirBundle = {
     resourceType: 'Bundle',
     type: 'document',
-    entry: [createCompositionTemplate()]
+    entry: [createCompositionTemplate(trackingId)]
   }
 
   await transformObj(reg, fhirBundle, builders)
