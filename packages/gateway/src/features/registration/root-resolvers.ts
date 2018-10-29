@@ -34,7 +34,7 @@ export const resolvers: GQLResolver = {
 
       const doc = await buildFHIRBundle(
         Object.assign(
-          { registration: { trackingId: { birthTrackingId } } },
+          { registration: { trackingId: birthTrackingId } },
           details
         ),
         birthTrackingId
