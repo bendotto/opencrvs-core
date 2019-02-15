@@ -24,6 +24,9 @@ export const resolvers: GQLResolver = {
     async fetchBirthRegistration(_, { id }, authHeader) {
       return await fetchFHIR(`/Composition/${id}`, authHeader)
     },
+    async fetchDeathRegistration(_, { id }, authHeader) {
+      return await fetchFHIR(`/Composition/${id}`, authHeader)
+    },
     async queryRegistrationByIdentifier(_, { identifier }, authHeader) {
       const taskBundle = await fetchFHIR(
         `/Task?identifier=${identifier}`,
