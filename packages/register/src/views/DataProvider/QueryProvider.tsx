@@ -2,6 +2,7 @@ import * as React from 'react'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { Event, Action } from 'src/forms'
 import { getBirthQueryMappings } from './birth/queries'
+import { getDeathQueryMappings } from './death/queries'
 import { Query } from 'react-apollo'
 
 interface IQueryProviderProps {
@@ -12,7 +13,8 @@ interface IQueryProviderProps {
 type IProps = IQueryProviderProps & InjectedIntlProps
 /* Need to add mappings for events here */
 const QueryMapper = {
-  [Event.BIRTH]: getBirthQueryMappings
+  [Event.BIRTH]: getBirthQueryMappings,
+  [Event.DEATH]: getDeathQueryMappings
 }
 
 export const QueryContext = React.createContext({
@@ -45,6 +47,7 @@ class QueryProviderComponent extends React.Component<IProps> {
                 // @ts-ignore
                 error,
                 data,
+                // @ts-ignore
                 dataKey: eventQueryMapping.dataKey
               }}
             >
