@@ -18,7 +18,8 @@ import {
   SUBSECTION,
   SELECT_WITH_OPTIONS,
   SELECT_WITH_DYNAMIC_OPTIONS,
-  FIELD_WITH_DYNAMIC_DEFINITIONS
+  FIELD_WITH_DYNAMIC_DEFINITIONS,
+  FETCH_BUTTON
 } from 'src/forms'
 import {
   bengaliOnlyNameFormat,
@@ -56,6 +57,14 @@ import {
   sameAddressFieldTransformer
 } from 'src/forms/mappings/query/field-mappings'
 import { emptyFatherSectionTransformer } from './mappings/query/father-mappings'
+import {
+  FETCH_REGISTRATION,
+  transformRegistrationData
+} from '@opencrvs/register/src/forms/register/queries/registration'
+import {
+  FETCH_PERSON,
+  transformPersonData
+} from '@opencrvs/register/src/forms/register/queries/person'
 
 export const messages = defineMessages({
   fatherTab: {
@@ -142,6 +151,46 @@ export const messages = defineMessages({
     id: 'formFields.optionalLabel',
     defaultMessage: 'Optional',
     description: 'Optional label'
+  },
+  fetchButtonLabel: {
+    id: 'formFields.fetchButtonLabel',
+    defaultMessage: "Retrieve Father's Details",
+    description: 'Label for loader button'
+  },
+  FetchButtonModalTitle: {
+    id: 'formFields.FetchButtonModalTitle',
+    defaultMessage: 'Checking',
+    description: 'Label for fetch modal title'
+  },
+  FetchButtonModalSuccessTitle: {
+    id: 'formFields.FetchButtonModalSuccessTitle',
+    defaultMessage: 'ID valid',
+    description: 'Label for fetch modal success title'
+  },
+  FetchButtonModalErrorTitle: {
+    id: 'formFields.FetchButtonModalErrorTitle',
+    defaultMessage: 'Invalid Id',
+    description: 'Label for fetch modal error title'
+  },
+  FetchButtonModalErrorText: {
+    id: 'formFields.FetchButtonModalErrorText',
+    defaultMessage: 'No registration found for provided BRN',
+    description: 'Label for fetch modal error title'
+  },
+  fetchPersonByNIDModalErrorText: {
+    id: 'formFields.fetchPersonByNIDModalErrorText',
+    defaultMessage: 'No person found for provided NID',
+    description: 'Label for fetch modal error title'
+  },
+  FetchButtonModalInfo: {
+    id: 'formFields.FetchButtonModalInfo',
+    defaultMessage: 'Birth Registration Number',
+    description: 'Label for loader button'
+  },
+  fetchPersonByNIDModalInfo: {
+    id: 'formFields.fetchPersonByNIDModalInfo',
+    defaultMessage: 'National ID',
+    description: 'Label for loader button'
   }
 })
 
@@ -221,6 +270,48 @@ export const fatherSection: IFormSection = {
         mutation: fieldToIdentifierTransformer('id'),
         query: identifierToFieldTransformer('id')
       }
+    },
+    {
+      name: 'fetchButton',
+      type: FETCH_BUTTON,
+      label: messages.fetchButtonLabel,
+      required: false,
+      initialValue: '',
+      queryMap: {
+        BIRTH_REGISTRATION_NUMBER: {
+          query: FETCH_REGISTRATION,
+          inputs: [
+            {
+              name: 'identifier',
+              valueField: 'iD'
+            }
+          ],
+          responseTransformer: transformRegistrationData,
+          modalInfoText: messages.FetchButtonModalInfo,
+          errorText: messages.FetchButtonModalErrorText
+        },
+        NATIONAL_ID: {
+          query: FETCH_PERSON,
+          inputs: [
+            {
+              name: 'identifier',
+              valueField: 'iD'
+            }
+          ],
+          responseTransformer: transformPersonData,
+          modalInfoText: messages.fetchPersonByNIDModalInfo,
+          errorText: messages.fetchPersonByNIDModalErrorText
+        }
+      },
+      querySelectorInput: {
+        name: 'identifierType',
+        valueField: 'iDType'
+      },
+      validate: [],
+      conditionals: [conditionals.deceasedIDSelected],
+      modalTitle: messages.FetchButtonModalTitle,
+      successTitle: messages.FetchButtonModalSuccessTitle,
+      errorTitle: messages.FetchButtonModalErrorTitle
     },
     {
       name: 'nationality',

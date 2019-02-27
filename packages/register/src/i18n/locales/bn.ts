@@ -856,14 +856,14 @@ export const BENGALI_STATE: ILanguage = {
     'formFields.applicantsCurrentAddressSameAsPermanent':
       'আবেদনকারীর স্থায়ী ঠিকানা এবং বর্তমান ঠিকানা কি একই?',
     'formFields.applicant.phone': 'ফোন নম্বর',
-    'formFields.fetchDeceasedModalTitle': 'পরীক্ষা করা হচ্ছে',
-    'formFields.fetchDeceasedModalSuccessTitle': 'আইডি বৈধ',
-    'formFields.fetchDeceasedModalErrorTitle': 'অকার্যকর আইডি',
-    'formFields.fetchDeceasedModalErrorText':
+    'formFields.FetchButtonModalTitle': 'পরীক্ষা করা হচ্ছে',
+    'formFields.FetchButtonModalSuccessTitle': 'আইডি বৈধ',
+    'formFields.FetchButtonModalErrorTitle': 'অকার্যকর আইডি',
+    'formFields.FetchButtonModalErrorText':
       'প্রদত্ত BRN এর জন্য কোনো রেজিস্ট্রেশন পাওয়া যায় নি ',
     'formFields.fetchButton.cancel': 'বাতিল',
-    'formFields.fetchDeceasedDetails': 'মৃত ব্যক্তির তথ্য উত্তোলন করুন',
-    'formFields.fetchDeceasedModalInfo': 'জন্ম নিবন্ধন নম্বর',
+    'formFields.fetchButtonLabel': 'মৃত ব্যক্তির তথ্য উত্তোলন করুন',
+    'formFields.FetchButtonModalInfo': 'জন্ম নিবন্ধন নম্বর',
     'register.confirmationScreen.title': `{event, select, declaration {তথ্য বিবরনী} registration {আবেদন} duplication {নকল আবেদন}
       certificate {সনদপত্র} offlineEvent {আবেদন }} {action, select, completed {সম্পন্ন} submitted {জমাদান} registered {নিবন্ধভুক্তকরন}
       rejected {প্রত্যাখ্যাত} approved {অনুমোদিত} offlineAction {সংযুক্তি স্থগিত}}`,
@@ -908,7 +908,7 @@ export const BENGALI_STATE: ILanguage = {
       declaration {একটি এসএমএসের মাধ্যমে সংবাদদাতা এই নম্বরটি পাবেন, নিশ্চিত করুন যে নম্বরটি আপনি পরবর্তী রেজিস্ট্রেশনের ধাপের জন্য সংরক্ষন করেছেন।}
       registration {সনদপত্রটি কীভাবে এবং কোথায় সংগ্রহ করতে হবে তার নির্দেশাবলীর সাথে সংবাদদাতা এসএমএসের মাধ্যমে পাবেন।}
       duplication{সনদপত্রটি কীভাবে এবং কোথায় সংগ্রহ করতে হবে তার নির্দেশাবলীর সাথে সংবাদদাতা এসএমএসের মাধ্যমে পাবেন।}
-      rejection{আবেদন সংবাদদাতাকে প্রত্যাখ্যানের  কারণ এবং  অনুসরণ নির্দেশ সম্পর্কে জানানো হবে।} 
+      rejection{আবেদন সংবাদদাতাকে প্রত্যাখ্যানের  কারণ এবং  অনুসরণ নির্দেশ সম্পর্কে জানানো হবে।}
       offline {আবেদনটি পর্যালোচনার জন্য পাঠানো হলে  সংবাদদাতাকে ট্র্যাকিং আইডি নাম্বারটি  জানানো হবে।}} `,
     'register.event.dob': 'জন্মদিবসের',
     'register.event.dod': 'মৃত্যুদিবসের',

@@ -864,14 +864,14 @@ export const ENGLISH_STATE: ILanguage = {
       'Is applicant’s permanent address the same as their current address?',
     'formFields.applicant.phone': 'Phone number',
 
-    'formFields.fetchDeceasedModalTitle': 'Checking',
-    'formFields.fetchDeceasedModalSuccessTitle': 'ID valid',
-    'formFields.fetchDeceasedModalErrorTitle': 'Invalid Id',
-    'formFields.fetchDeceasedModalErrorText':
+    'formFields.FetchButtonModalTitle': 'Checking',
+    'formFields.FetchButtonModalSuccessTitle': 'ID valid',
+    'formFields.FetchButtonModalErrorTitle': 'Invalid Id',
+    'formFields.FetchButtonModalErrorText':
       'No registration found for provided BRN',
     'formFields.fetchButton.cancel': 'Cancel',
-    'formFields.fetchDeceasedDetails': "Retrieve Deceased's Details",
-    'formFields.fetchDeceasedModalInfo': 'Birth Registration Number',
+    'formFields.fetchButtonLabel': "Retrieve Deceased's Details",
+    'formFields.FetchButtonModalInfo': 'Birth Registration Number',
     'formFields.fetchPersonByNIDModalInfo': 'National ID',
     'formFields.fetchPersonByNIDModalErrorText':
       'No person found for provided NID',

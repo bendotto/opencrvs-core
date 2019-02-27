@@ -75,28 +75,28 @@ const messages = defineMessages({
     defaultMessage: 'No ID available',
     description: 'Option for form field: Type of ID'
   },
-  fetchDeceasedDetails: {
-    id: 'formFields.fetchDeceasedDetails',
+  fetchButtonLabel: {
+    id: 'formFields.fetchButtonLabel',
     defaultMessage: "Retrieve Deceased's Details",
     description: 'Label for loader button'
   },
-  fetchDeceasedModalTitle: {
-    id: 'formFields.fetchDeceasedModalTitle',
+  FetchButtonModalTitle: {
+    id: 'formFields.FetchButtonModalTitle',
     defaultMessage: 'Checking',
     description: 'Label for fetch modal title'
   },
-  fetchDeceasedModalSuccessTitle: {
-    id: 'formFields.fetchDeceasedModalSuccessTitle',
+  FetchButtonModalSuccessTitle: {
+    id: 'formFields.FetchButtonModalSuccessTitle',
     defaultMessage: 'ID valid',
     description: 'Label for fetch modal success title'
   },
-  fetchDeceasedModalErrorTitle: {
-    id: 'formFields.fetchDeceasedModalErrorTitle',
+  FetchButtonModalErrorTitle: {
+    id: 'formFields.FetchButtonModalErrorTitle',
     defaultMessage: 'Invalid Id',
     description: 'Label for fetch modal error title'
   },
-  fetchDeceasedModalErrorText: {
-    id: 'formFields.fetchDeceasedModalErrorText',
+  FetchButtonModalErrorText: {
+    id: 'formFields.FetchButtonModalErrorText',
     defaultMessage: 'No registration found for provided BRN',
     description: 'Label for fetch modal error title'
   },
@@ -105,8 +105,8 @@ const messages = defineMessages({
     defaultMessage: 'No person found for provided NID',
     description: 'Label for fetch modal error title'
   },
-  fetchDeceasedModalInfo: {
-    id: 'formFields.fetchDeceasedModalInfo',
+  FetchButtonModalInfo: {
+    id: 'formFields.FetchButtonModalInfo',
     defaultMessage: 'Birth Registration Number',
     description: 'Label for loader button'
   },
@@ -253,7 +253,7 @@ export const deceasedSection: IFormSection = {
     {
       name: 'fetchButton',
       type: FETCH_BUTTON,
-      label: messages.fetchDeceasedDetails,
+      label: messages.fetchButtonLabel,
       required: false,
       initialValue: '',
       queryMap: {
@@ -266,8 +266,8 @@ export const deceasedSection: IFormSection = {
             }
           ],
           responseTransformer: transformRegistrationData,
-          modalInfoText: messages.fetchDeceasedModalInfo,
-          errorText: messages.fetchDeceasedModalErrorText
+          modalInfoText: messages.FetchButtonModalInfo,
+          errorText: messages.FetchButtonModalErrorText
         },
         NATIONAL_ID: {
           query: FETCH_PERSON,
@@ -288,9 +288,9 @@ export const deceasedSection: IFormSection = {
       },
       validate: [],
       conditionals: [conditionals.deceasedIDSelected],
-      modalTitle: messages.fetchDeceasedModalTitle,
-      successTitle: messages.fetchDeceasedModalSuccessTitle,
-      errorTitle: messages.fetchDeceasedModalErrorTitle
+      modalTitle: messages.FetchButtonModalTitle,
+      successTitle: messages.FetchButtonModalSuccessTitle,
+      errorTitle: messages.FetchButtonModalErrorTitle
     },
     {
       name: 'firstNames',
