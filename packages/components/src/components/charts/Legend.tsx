@@ -24,7 +24,6 @@ const Column = styled.div`
 `
 
 const LegendItemBase = styled.div`
-  font-family: ${({ theme }) => theme.fonts.lightFont};
   color: ${({ theme }) => theme.colors.copy};
   &::after {
     content: ':';
@@ -45,7 +44,6 @@ const EstimateLegendItem = styled(LegendItemBase)`
 `
 
 const DataLabel = styled.label`
-  font-family: ${({ theme }) => theme.fonts.lightFont};
   color: ${({ theme }) => theme.colors.copy};
   margin-top: 1em;
   margin-bottom: auto;
@@ -73,7 +71,7 @@ const FooterData = styled.div`
   flex-direction: column;
   flex: 1;
   display: flex;
-  font-family: ${({ theme }) => theme.fonts.lightFont};
+
   color: ${({ theme }) => theme.colors.copy};
 `
 const FooterDataLabel = styled.span`

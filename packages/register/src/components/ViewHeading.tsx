@@ -14,7 +14,6 @@ const ViewHeadingContainer = styled.div`
 `
 
 const Breadcrumb = styled.div`
-  font-family: ${({ theme }) => theme.fonts.lightFont};
   letter-spacing: 2.14px;
   font-size: 15px;
   text-transform: uppercase;
@@ -23,13 +22,11 @@ const Breadcrumb = styled.div`
 
 const ViewTitle = styled.h2`
   font-size: 32px;
-  font-family: ${({ theme }) => theme.fonts.lightFont};
   margin: 0;
   font-weight: 100;
 `
 
 const ViewDescription = styled.p`
-  font-family: ${({ theme }) => theme.fonts.lightFont};
   margin: 0;
   margin-top: 5px;
   font-size: 18px;

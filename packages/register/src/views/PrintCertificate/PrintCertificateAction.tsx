@@ -105,7 +105,7 @@ const StyledSpinner = styled(Spinner)`
 
 const ErrorText = styled.div`
   color: ${({ theme }) => theme.colors.error};
-  font-family: ${({ theme }) => theme.fonts.lightFont};
+
   text-align: center;
   margin-top: 100px;
 `
@@ -147,7 +147,6 @@ const StyledIconAction = styled(IconAction)`
     padding: 0px;
   }
   h3 {
-    font-family: ${({ theme }) => theme.fonts.boldFont};
     margin-left: 70px;
     color: ${({ theme }) => theme.colors.secondary};
     text-decoration: underline;
@@ -205,7 +204,6 @@ const EditRegistration = styled(SecondaryButton)`
 `
 
 const Info = styled.div`
-  font-family: ${({ theme }) => theme.fonts.regularFont};
   margin-bottom: 30px;
 `
 const B = styled.div`

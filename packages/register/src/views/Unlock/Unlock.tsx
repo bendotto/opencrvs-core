@@ -35,7 +35,6 @@ const messages = defineMessages({
 })
 
 const PageWrapper = styled.div`
-  font-family: ${({ theme }) => theme.fonts.boldFont};
   background: ${({ theme }) =>
     `linear-gradient(180deg, ${theme.colors.headerGradientDark} 0%, ${
       theme.colors.headerGradientLight

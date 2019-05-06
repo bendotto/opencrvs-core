@@ -132,12 +132,10 @@ const Container = styled.div`
 `
 
 const TitleBox = styled(Box)`
-  font-family: ${({ theme }) => theme.fonts.regularFont};
   font-size: 18px;
 `
 
 const Header = styled.span`
-  font-family: ${({ theme }) => theme.fonts.boldFont};
   display: flex;
   align-items: center;
 `
@@ -163,7 +161,6 @@ const BackButton = styled.a`
 
 const ErrorText = styled.div`
   color: ${({ theme }) => theme.colors.error};
-  font-family: ${({ theme }) => theme.fonts.lightFont};
   text-align: center;
   margin-top: 100px;
 `

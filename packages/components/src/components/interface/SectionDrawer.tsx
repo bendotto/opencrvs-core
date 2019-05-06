@@ -9,7 +9,6 @@ const SectionDrawerContainer = styled.div.attrs<{ expanded: boolean }>({})`
     expanded ? `0 0 12px 0 rgba(0, 0, 0, 0.11)` : ``};
 `
 const TitleContainer = styled.div.attrs<{ expandable: boolean }>({})`
-  font-family: ${({ theme }) => theme.fonts.regularFont};
   font-size: 18px;
   display: flex;
   align-items: center;
@@ -24,7 +23,7 @@ const Title = styled.div.attrs<{ visited: boolean; isExpanded: boolean }>({})`
 `
 const EditLink = styled.a`
   color: ${({ theme }) => theme.colors.accent};
-  font-family: ${({ theme }) => theme.fonts.regularFont};
+
   text-decoration: underline;
 `
 const ExpandedIndicator = styled.div.attrs<{ expanded: boolean }>({})`

@@ -17,7 +17,7 @@ import { IURLParams } from '../utils/authUtils'
 import { checkAuth } from '../profile/profileActions'
 import { showConfigurationErrorNotification } from '../notification/actions'
 
-const languageFromProps = ({ language }: IPageProps) => language
+// const languageFromProps = ({ language }: IPageProps) => language
 
 const StyledPage = styled.div.attrs<IPageProps>({})`
   background: ${({ theme }) => theme.colors.background};
@@ -34,56 +34,6 @@ const StyledPage = styled.div.attrs<IPageProps>({})`
   *:before,
   *:after {
     box-sizing: border-box;
-  }
-
-  @font-face {
-    font-family: ${({ theme }) => theme.fonts.lightFont};
-    src:
-      url('/fonts/notosans-extra-light-webfont-en.ttf')
-      format('truetype');
-    font-weight: 300;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: ${({ theme }) => theme.fonts.regularFont};
-    src:
-    url('/fonts/notosans-regular-webfont-en.ttf')
-      format('truetype');
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: ${({ theme }) => theme.fonts.boldFont};
-    src:
-      url('/fonts/notosans-regular-webfont-en.ttf')
-      format('truetype');
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: ${({ theme }) => theme.fonts.lightFont};
-    src:
-      url('/fonts/notosans-extra-light-webfont-${languageFromProps}.ttf')
-      format('truetype');
-    font-weight: 300;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: ${({ theme }) => theme.fonts.regularFont};
-    src:
-      url('/fonts/notosans-regular-webfont-${languageFromProps}.ttf')
-      format('truetype');
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: ${({ theme }) => theme.fonts.boldFont};
-    src:
-      url('/fonts/notosans-regular-webfont-${languageFromProps}.ttf')
-      format('truetype');
-    font-style: normal;
   }
 `
 

@@ -23,7 +23,6 @@ const TitleContainer = styled.div`
   width: 276px;
   color: ${({ theme }) => theme.colors.secondary};
   font-size: 18px;
-  font-family: ${({ theme }) => theme.fonts.regularFont};
 `
 const Title = styled.div`
   font-weight: bold;

@@ -56,14 +56,12 @@ const Wrapper = styled.div`
 const Label = styled.span`
   line-height: 29px;
   font-size: 16px;
-  font-family: ${({ theme }) => theme.fonts.regularFont};
 `
 
 const Text = styled.strong`
   line-height: 29px;
   font-size: 16px;
   margin-left: 10px;
-  font-family: ${({ theme }) => theme.fonts.regularFont};
 `
 
 const Divider = styled.div`

@@ -80,7 +80,6 @@ const Container = styled.div`
 `
 const StyledP = styled.p`
   color: ${({ theme }) => theme.colors.copy};
-  font-family: ${({ theme }) => theme.fonts.regularFont};
   font-size: 18px;
   font-weight: 500;
   line-height: 24px;
@@ -152,12 +151,10 @@ const BoxTextDiv = styled.div`
 `
 
 const TrackingHeader = styled.h3`
-  font-family: ${({ theme }) => theme.fonts.regularFont};
   font-size: 18px;
 `
 
 const TrackingNumber = styled.h1`
-  font-family: ${({ theme }) => theme.fonts.lightFont};
   font-size: 30px;
   margin-top: -15px;
 `

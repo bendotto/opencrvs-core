@@ -70,7 +70,6 @@ const ModalContent = styled.div`
   color: ${({ theme }) => theme.colors.copy};
   text-align: center;
   font-size: 14px;
-  font-family: ${({ theme }) => theme.fonts.regularFont};
   position: relative;
 `
 
@@ -79,14 +78,12 @@ const Heading = styled.div`
   text-align: center;
   font-size: 15px;
   font-weight: bold;
-  font-family: ${({ theme }) => theme.fonts.regularFont};
 `
 
 const Info = styled.div`
   color: ${({ theme }) => theme.colors.copy};
   text-align: center;
   font-size: 15px;
-  font-family: ${({ theme }) => theme.fonts.regularFont};
 `
 
 const StyledSpinner = styled(Spinner)`

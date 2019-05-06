@@ -192,7 +192,6 @@ const DetailTextContainer = styled.div`
 
 const DetailText = styled.div`
   flex: 1;
-  font-family: ${({ theme }) => theme.fonts.regularFont};
   color: ${({ theme }) => theme.colors.copy};
   font-size: 16px;
 `
@@ -204,7 +203,6 @@ const DetailTextSplitContainer = styled(DetailText)`
 `
 
 const Link = styled.a`
-  font-family: ${({ theme }) => theme.fonts.regularFont};
   color: ${({ theme }) => theme.colors.primary};
   font-size: 16px;
   text-decoration: underline;
@@ -229,7 +227,6 @@ const ListStatusContainer = styled.span`
 `
 
 const RejectApplication = styled.a`
-  font-family: ${({ theme }) => theme.fonts.regularFont};
   color: ${({ theme }) => theme.colors.danger};
   text-decoration: underline;
   cursor: pointer;

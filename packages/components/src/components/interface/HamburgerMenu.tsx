@@ -84,7 +84,6 @@ const MenuContainer = styled.div`
 
   .rc-menu-item,
   .rc-menu-submenu-title {
-    font-family: ${({ theme }) => theme.fonts.lightFont};
     cursor: pointer;
     padding: 18px 22px;
     min-height: 30px;
@@ -147,14 +146,14 @@ const StyledNestedMenuItem = styled(MenuItem)`
 `
 const SubMenuTitleWrapper = styled.span`
   color: ${({ theme }) => theme.colors.white};
-  font-family: ${({ theme }) => theme.fonts.lightFont};
+
   font-size: 16px;
   font-weight: normal;
 `
 
 const MenuTitleWrapper = styled.span`
   color: ${({ theme }) => theme.colors.white};
-  font-family: ${({ theme }) => theme.fonts.lightFont};
+
   font-size: 14px;
   text-transform: uppercase;
   font-weight: bold;
@@ -171,7 +170,6 @@ const IconClose = styled.div`
   font-size: 45px;
   margin-top: 0px;
   margin-right: 2px;
-  font-family: ${({ theme }) => theme.fonts.lightFont};
 `
 interface IMenuItem {
   title: string

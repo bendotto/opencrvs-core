@@ -10,7 +10,7 @@ const ButtonBase = styled.button`
   width: auto;
   padding: 0 35px;
   height: 48px;
-  font-family: ${({ theme }) => theme.fonts.boldFont};
+
   align-items: center;
   display: inline-flex;
   border: 0;

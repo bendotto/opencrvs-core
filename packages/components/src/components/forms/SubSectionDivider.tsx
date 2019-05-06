@@ -15,13 +15,11 @@ const SubSectionWrapper = styled.div`
 `
 
 const Title = styled.h2`
-  font-family: ${({ theme }) => theme.fonts.lightFont};
   color: ${({ theme }) => theme.colors.copy};
 `
 const Optional = styled.span.attrs<
   { disabled?: boolean } & React.LabelHTMLAttributes<HTMLLabelElement>
 >({})`
-  font-family: ${({ theme }) => theme.fonts.regularFont};
   font-size: 18px;
   color: ${({ disabled, theme }) =>
     disabled ? theme.colors.disabled : theme.colors.placeholder};

@@ -132,7 +132,6 @@ const messages = defineMessages({
 
 const DrawerContainer = styled.div`
   margin-bottom: 11px;
-  font-family: ${({ theme }) => theme.fonts.boldFont};
 `
 const SectionRow = styled.p`
   padding: 0 24px;
@@ -172,7 +171,6 @@ const RejectApplication = styled(IconAction)`
     border-radius: 2px;
   }
   h3 {
-    font-family: ${({ theme }) => theme.fonts.boldFont};
     margin-left: 70px;
     color: ${({ theme }) => theme.colors.secondary};
     text-decoration: underline;
@@ -206,7 +204,6 @@ const RegisterApplication = styled(PrimaryButton)`
   }
 `
 const RequiredFieldLink = styled(Button)`
-  font-family: ${({ theme }) => theme.fonts.regularFont};
   color: ${({ theme }) => theme.colors.danger};
   text-decoration: underline;
   padding: 0;
@@ -247,16 +244,14 @@ const DButtonContainer = styled(ButtonContainer)`
   background: transparent;
 `
 const DeleteApplication = styled.a`
-  font-family: ${({ theme }) => theme.fonts.regularFont};
   color: ${({ theme }) => theme.colors.danger};
-  text-decoration: underline;
+
   cursor: pointer;
   svg {
     margin-right: 15px;
   }
 `
 const SaveDraftText = styled.span`
-  font-family: ${({ theme }) => theme.fonts.boldFont};
   color: ${({ theme }) => theme.colors.secondary};
   font-size: 14px;
   text-decoration: underline;

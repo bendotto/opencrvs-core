@@ -27,7 +27,6 @@ const Container = styled.div`
 `
 
 const Link = styled.a`
-  font-family: ${({ theme }) => theme.fonts.regularFont};
   font-size: 16px;
   text-decoration: underline;
   cursor: pointer;
@@ -64,7 +63,6 @@ const DeleteContainer = styled.div`
 `
 
 const MetadataContainer = styled.div`
-  font-family: ${({ theme }) => theme.fonts.regularFont};
   font-size: 18px;
   color: ${({ theme }) => theme.colors.secondary};
 

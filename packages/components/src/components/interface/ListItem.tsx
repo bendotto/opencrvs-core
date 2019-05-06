@@ -82,7 +82,7 @@ const ListContentContainer = styled.div`
   flex: 1;
   align-items: center;
   padding: 24px;
-  font-family: ${({ theme }) => theme.fonts.regularFont};
+
   background-color: ${({ theme }) => theme.colors.white};
   color: ${({ theme }) => theme.colors.copy};
 `
@@ -112,18 +112,14 @@ const IconsStatus = styled.div`
   height: 32px;
 `
 const StyledLabel = styled.label`
-  font-family: ${({ theme }) => theme.fonts.boldFont};
   margin-right: 3px;
-`
-const StyledValue = styled.span`
-  font-family: ${({ theme }) => theme.fonts.regularFont};
 `
 
 function LabelValue({ label, value }: IInfo) {
   return (
     <div>
       <StyledLabel>{label}:</StyledLabel>
-      <StyledValue>{value}</StyledValue>
+      <span>{value}</span>
     </div>
   )
 }

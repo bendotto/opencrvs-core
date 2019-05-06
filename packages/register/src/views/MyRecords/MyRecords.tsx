@@ -28,15 +28,7 @@ const Container = styled.div`
 // const StyledSpinner = styled(Spinner)`
 //   margin: 50% auto;
 // `
-const StyledPrimaryButton = styled(PrimaryButton)`
-  font-family: ${({ theme }) => theme.fonts.boldFont};
-`
-// const ErrorText = styled.div`
-//   color: ${({ theme }) => theme.colors.error};
-//   font-family: ${({ theme }) => theme.fonts.lightFont};
-//   text-align: center;
-//   margin-top: 100px;
-// `
+
 const StatusIcon = styled.div`
   margin-top: 3px;
 `
@@ -267,9 +259,9 @@ class MyRecordsComponent extends React.Component<IFullProps, State> {
     const expansionActions: JSX.Element[] = []
 
     expansionActions.push(
-      <StyledPrimaryButton id={`reviewAndRegisterBtn_${item.tracking_id}`}>
+      <PrimaryButton id={`reviewAndRegisterBtn_${item.tracking_id}`}>
         {'Button'}
-      </StyledPrimaryButton>
+      </PrimaryButton>
     )
     return (
       <ListItem

@@ -13,7 +13,7 @@ const StyledBanner = styled.div`
   border-radius: 1px;
   display: flex;
   align-items: center;
-  font-family: ${({ theme }) => theme.fonts.lightFont};
+
   background-color: ${({ theme }) => theme.colors.accent};
   min-height: 109px;
   margin: 20px 0;
@@ -31,7 +31,7 @@ const StyledStatus = styled.div`
 `
 const StyledText = styled.div`
   color: ${({ theme }) => theme.colors.white};
-  font-family: ${({ theme }) => theme.fonts.lightFont};
+
   font-size: 28px;
   font-weight: 300;
   min-height: 42px;
@@ -41,7 +41,6 @@ const StyledNumber = styled.span`
   font-size: 20px;
   margin-left: 5px;
   color: ${({ theme }) => theme.colors.white};
-  font-family: ${({ theme }) => theme.fonts.lightFont};
 `
 
 export const Banner = ({ text, count, status }: IBannerProps) => {

@@ -44,7 +44,6 @@ const BackButton = styled(PrimaryButton)`
   }
 `
 const BackButtonText = styled.span`
-  font-family: ${({ theme }) => theme.fonts.boldFont};
   text-transform: uppercase;
   font-size: 14px;
   letter-spacing: 2px;
@@ -54,7 +53,6 @@ const BackButtonText = styled.span`
   }
 `
 const MenuTitle = styled.span`
-  font-family: ${({ theme }) => theme.fonts.lightFont};
   font-size: 25px;
   font-weight: 300;
   position: absolute;

@@ -5,7 +5,6 @@ import { PrimaryButton } from '@opencrvs/components/lib/buttons'
 import { CreatePin } from 'src/views/PIN/CreatePin'
 
 const SecurePageContainer = styled.div`
-  font-family: ${({ theme }) => theme.fonts.lightFont};
   background: ${({ theme }) =>
     `linear-gradient(180deg, ${theme.colors.headerGradientDark} 0%, ${
       theme.colors.headerGradientLight
@@ -27,9 +26,6 @@ const PinButton = styled(PrimaryButton)`
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.16);
   display: block;
 `
-const Bold = styled.b`
-  font-family: ${({ theme }) => theme.fonts.boldFont};
-`
 
 export class SecureAccount extends React.Component<{ onComplete: () => void }> {
   state = {
@@ -45,7 +41,7 @@ export class SecureAccount extends React.Component<{ onComplete: () => void }> {
             </Item>
 
             <Item margin="50px 0px">
-              <Bold>Secure your Account</Bold>
+              <strong>Secure your Account</strong>
               <p>
                 A personal identification number protects your account. Your pin
                 will be required before each use of the OpenCRVS app.

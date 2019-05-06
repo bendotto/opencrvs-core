@@ -64,7 +64,6 @@ import * as Sentry from '@sentry/browser'
 import * as debounce from 'lodash/debounce'
 
 const FormSectionTitle = styled.h2`
-  font-family: ${({ theme }) => theme.fonts.lightFont};
   color: ${({ theme }) => theme.colors.copy};
 `
 const FormActionSection = styled.div`
@@ -105,7 +104,6 @@ const BackButton = styled(PrimaryButton)`
 `
 
 const BackButtonText = styled.span`
-  font-family: ${({ theme }) => theme.fonts.boldFont};
   color: ${({ theme }) => theme.colors.primary};
   text-transform: uppercase;
   font-size: 14px;
@@ -120,7 +118,6 @@ const DraftButtonContainer = styled.div`
   align-items: center;
 `
 const DraftButtonText = styled.span`
-  font-family: ${({ theme }) => theme.fonts.boldFont};
   color: ${({ theme }) => theme.colors.secondary};
   font-size: 14px;
   text-decoration: underline;
@@ -132,7 +129,7 @@ const Notice = styled.div`
   box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.11);
   padding: 25px;
   color: ${({ theme }) => theme.colors.white};
-  font-family: ${({ theme }) => theme.fonts.regularFont};
+
   font-size: 18px;
   line-height: 24px;
   margin: 30px -25px;
@@ -235,7 +232,6 @@ const FormViewContainer = styled.div`
 const Optional = styled.span.attrs<
   { disabled?: boolean } & React.LabelHTMLAttributes<HTMLLabelElement>
 >({})`
-  font-family: ${({ theme }) => theme.fonts.regularFont};
   font-size: 18px;
   color: ${({ disabled, theme }) =>
     disabled ? theme.colors.disabled : theme.colors.placeholder};
@@ -265,7 +261,7 @@ const ConfirmBtn = styled(PrimaryButton)`
 
 const ErrorText = styled.div`
   color: ${({ theme }) => theme.colors.error};
-  font-family: ${({ theme }) => theme.fonts.lightFont};
+
   text-align: center;
   margin-top: 100px;
 `

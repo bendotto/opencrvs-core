@@ -23,7 +23,6 @@ const ActionContainer = styled(Button)`
 const ActionTitle = styled.h3.attrs<{ disabled?: boolean }>({})`
   color: ${({ disabled, theme }) =>
     disabled ? theme.colors.disabled : theme.colors.primary};
-  font-family: ${({ theme }) => theme.fonts.lightFont};
   font-size: 24px;
   margin: 0;
 `
@@ -31,13 +30,9 @@ const ActionTitle = styled.h3.attrs<{ disabled?: boolean }>({})`
 const ActionDescription = styled.p.attrs<{ disabled?: boolean }>({})`
   color: ${({ disabled, theme }) =>
     disabled ? theme.colors.disabled : theme.colors.secondary};
-  font-family: ${({ theme }) => theme.fonts.regularFont};
   font-size: 16px;
   margin: 0;
   margin-top: 3px;
-  strong {
-    font-family: ${({ theme }) => theme.fonts.boldFont};
-  }
 `
 
 export interface IActionProps extends IButtonProps {

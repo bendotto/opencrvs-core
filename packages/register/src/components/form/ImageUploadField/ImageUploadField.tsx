@@ -40,7 +40,6 @@ const FileViewer = styled.div`
 `
 const FileViewerLabel = styled.label`
   color: ${({ theme }) => theme.colors.primary};
-  font-family: ${({ theme }) => theme.fonts.regularFont};
 `
 const FileItemContainer = styled.div`
   margin-top: 12px;
@@ -163,15 +162,14 @@ class ImageUploadComponent extends React.Component<
           onClick={this.toggleNestedSection}
         />
 
-        {fileList &&
-          fileList.length > 0 && (
-            <FileViewer id="file_list_viewer">
-              <FileViewerLabel>
-                {intl.formatMessage(messages.uploadedList)}
-              </FileViewerLabel>
-              {fileList}
-            </FileViewer>
-          )}
+        {fileList && fileList.length > 0 && (
+          <FileViewer id="file_list_viewer">
+            <FileViewerLabel>
+              {intl.formatMessage(messages.uploadedList)}
+            </FileViewerLabel>
+            {fileList}
+          </FileViewer>
+        )}
 
         {this.state.showNestedOptionSection && (
           <ImageUploadOption

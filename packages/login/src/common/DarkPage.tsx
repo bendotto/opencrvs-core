@@ -52,7 +52,7 @@ background: ${({ theme }) =>
   }
 
   @font-face {
-    font-family: ${({ theme }) => theme.fonts.boldFont};
+    
     src:
       url('/fonts/notosans-regular-webfont-en.ttf')
       format('truetype');
@@ -77,7 +77,7 @@ background: ${({ theme }) =>
   }
 
   @font-face {
-    font-family: ${({ theme }) => theme.fonts.boldFont};
+    
     src:
       url('/fonts/notosans-regular-webfont-${languageFromProps}.ttf')
       format('truetype');

@@ -7,7 +7,6 @@ interface IProps {
 }
 
 const StyledStatus = styled.span`
-  font-family: ${({ theme }) => theme.fonts.boldFont};
   background-color: rgba(150, 150, 150, 0.1);
   border-radius: 17px;
   padding: 5px 10px 5px 7px;

@@ -295,7 +295,7 @@ const StyledSpinner = styled(Spinner)`
 `
 const ErrorText = styled.div`
   color: ${({ theme }) => theme.colors.error};
-  font-family: ${({ theme }) => theme.fonts.lightFont};
+
   text-align: center;
   margin-top: 100px;
 `

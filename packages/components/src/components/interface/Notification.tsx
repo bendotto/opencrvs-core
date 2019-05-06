@@ -11,7 +11,7 @@ interface IProps {
   id?: string
   show: boolean
   type?: NOTIFICATION_TYPE
-  callback?: ((event: React.MouseEvent<HTMLDivElement>) => void)
+  callback?: (event: React.MouseEvent<HTMLDivElement>) => void
   className?: string
 }
 
@@ -21,7 +21,7 @@ const easeIn = keyframes`
   to { bottom: 0; }
 `
 const NotificationContainer = styledNotification`
-  font-family: ${({ theme }) => theme.fonts.regularFont};
+  
   position: fixed;
   left: 0;
   right: 0;

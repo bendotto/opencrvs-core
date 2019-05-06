@@ -14,7 +14,7 @@ const Wrapper = styled.form`
   background: ${({ theme }) => theme.colors.white};
   border-radius: 2px;
   display: flex;
-  font-family: ${({ theme }) => theme.fonts.lightFont};
+
   padding: 10px;
   position: relative;
 `

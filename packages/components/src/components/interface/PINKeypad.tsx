@@ -43,7 +43,7 @@ const NumberContainer = styled.div`
 const Key = styled.span`
   color: ${({ theme }) => theme.colors.white};
   font-size: 34px;
-  font-family: ${({ theme }) => theme.fonts.boldFont};
+
   padding: 24px 48px;
   text-align: center;
 `

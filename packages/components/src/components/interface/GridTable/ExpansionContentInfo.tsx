@@ -21,7 +21,7 @@ const ExpansionContainer = styled.div`
   display: flex;
   flex-direction: row;
   color: ${({ theme }) => theme.colors.copy};
-  font-family: ${({ theme }) => theme.fonts.regularFont};
+
   &:last-child {
     margin-bottom: 0;
   }
@@ -47,11 +47,7 @@ const ValueContainer = styled.div`
   line-height: 1.3em;
 `
 const StyledLabel = styled.label`
-  font-family: ${({ theme }) => theme.fonts.boldFont};
   margin-right: 3px;
-`
-const StyledValue = styled.span`
-  font-family: ${({ theme }) => theme.fonts.regularFont};
 `
 const Separator = styled.div`
   height: 20px;
@@ -64,7 +60,6 @@ const DuplicateIndicatorContainer = styled.div`
   flex-wrap: wrap;
   margin-top: 10px;
   & span {
-    font-family: ${({ theme }) => theme.fonts.boldFont};
     margin-left: 10px;
   }
 `
@@ -122,7 +117,7 @@ function LabelValue({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <StyledLabel>{label}:</StyledLabel>
-      <StyledValue>{value}</StyledValue>
+      <span>{value}</span>
     </div>
   )
 }

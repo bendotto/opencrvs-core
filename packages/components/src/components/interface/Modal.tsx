@@ -31,7 +31,7 @@ const ModalContent = styled.div`
   color: ${({ theme }) => theme.colors.copy};
   text-align: center;
   font-size: 18px;
-  font-family: ${({ theme }) => theme.fonts.regularFont};
+
   position: relative;
 `
 
@@ -41,7 +41,6 @@ const Heading = styled.h3`
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 24px;
-  font-family: ${({ theme }) => theme.fonts.regularFont};
 `
 
 const Actions = styled.div`

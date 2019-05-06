@@ -86,7 +86,7 @@ const ExpansionSpinnerContainer = styled.div`
 `
 const ErrorText = styled.div`
   color: ${({ theme }) => theme.colors.error};
-  font-family: ${({ theme }) => theme.fonts.lightFont};
+
   text-align: center;
   margin-top: 100px;
 `
@@ -99,11 +99,9 @@ const Container = styled.div`
   }
 `
 const StyledLabel = styled.label`
-  font-family: ${({ theme }) => theme.fonts.boldFont};
   margin-right: 3px;
 `
 const StyledValue = styled.span`
-  font-family: ${({ theme }) => theme.fonts.regularFont};
   text-transform: capitalize !important;
 `
 const ValueContainer = styled.div`
@@ -178,18 +176,14 @@ const ExpansionContainer = styled.div`
   display: flex;
   flex-direction: row;
   color: ${({ theme }) => theme.colors.copy};
-  font-family: ${({ theme }) => theme.fonts.regularFont};
+
   margin-bottom: 8px;
-  &:last-child {
-    margin-bottom: 0;
-  }
+
+  margin-bottom: 0;
 `
 const ExpansionContentContainer = styled.div`
   flex: 1;
   margin-left: 10px;
-`
-const StyledPrimaryButton = styled(PrimaryButton)`
-  font-family: ${({ theme }) => theme.fonts.boldFont};
 `
 
 const StyledSecondaryButton = styled(SecondaryButton)`
@@ -607,12 +601,12 @@ export class SearchResultView extends React.Component<
         })
 
         expansionActions.push(
-          <StyledPrimaryButton
+          <PrimaryButton
             id={`printCertificate_${item.tracking_id}`}
             onClick={() => this.props.goToPrintCertificate(item.id, item.event)}
           >
             {this.props.intl.formatMessage(messages.printCertificateBtnText)}
-          </StyledPrimaryButton>
+          </PrimaryButton>
         )
       }
     }
@@ -636,7 +630,7 @@ export class SearchResultView extends React.Component<
         })
 
         expansionActions.push(
-          <StyledPrimaryButton
+          <PrimaryButton
             id={`reviewAndRegisterBtn_${item.tracking_id}`}
             onClick={() =>
               this.props.gotoTab(
@@ -648,7 +642,7 @@ export class SearchResultView extends React.Component<
             }
           >
             {this.props.intl.formatMessage(messages.reviewAndRegister)}
-          </StyledPrimaryButton>
+          </PrimaryButton>
         )
       }
     }
@@ -664,14 +658,14 @@ export class SearchResultView extends React.Component<
         handler: () => this.props.goToReviewDuplicate(item.id)
       })
       expansionActions.push(
-        <StyledPrimaryButton
+        <PrimaryButton
           id={`reviewDuplicatesBtn_${item.tracking_id}`}
           onClick={() => {
             this.props.goToReviewDuplicate(item.id)
           }}
         >
           {this.props.intl.formatMessage(messages.reviewDuplicates)}
-        </StyledPrimaryButton>
+        </PrimaryButton>
       )
     }
     if (applicationIsRegistered) {

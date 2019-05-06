@@ -302,7 +302,6 @@ const LabelContainer = styled.div`
   width: 100%;
 `
 const Label = styled.div`
-  font-family: ${({ theme }) => theme.fonts.boldFont};
   background-color: rgba(150, 150, 150, 0.1);
   border-radius: 17px;
   padding: 5px 10px 5px 7px;
@@ -332,7 +331,7 @@ const StyledSpinner = styled(Spinner)`
 `
 const ErrorText = styled.div`
   color: ${({ theme }) => theme.colors.error};
-  font-family: ${({ theme }) => theme.fonts.lightFont};
+
   text-align: center;
   margin-top: 100px;
 `
