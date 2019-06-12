@@ -32,3 +32,5 @@ export * from './SubPage'
 export * from './ViewData'
 export * from './ResponsiveModal'
 export * from './TopBar'
+
+export * from './SearchInputWithIcon'
