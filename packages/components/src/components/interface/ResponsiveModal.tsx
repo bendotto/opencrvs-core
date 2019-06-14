@@ -23,11 +23,11 @@ const ScreenBlocker = styled.div`
   background-color: ${({ theme }) => theme.colors.menuBackground};
   opacity: 0.8;
 `
-const ModalContent = styled.div`
+const ModalContent = styled.div.attrs<{ width?: number }>({})`
   ${({ theme }) => theme.fonts.bodyStyle};
   color: ${({ theme }) => theme.colors.copy};
   background-color: ${({ theme }) => theme.colors.white};
-  width: 448px;
+  width: ${({ width }) => (width ? width : 448)}px;
   display: flex;
   flex-direction: column;
   @media (max-width: ${({ theme }) => theme.grid.breakpoints.lg}px) {
@@ -88,13 +88,14 @@ interface IProps {
   id?: string
   title: string
   show: boolean
+  width?: number
   actions: JSX.Element[]
   handleClose?: () => void
 }
 
 export class ResponsiveModal extends React.Component<IProps> {
   render() {
-    const { title, show, handleClose, id, actions } = this.props
+    const { title, show, handleClose, id, actions, width } = this.props
 
     if (!show) {
       return null
@@ -103,7 +104,7 @@ export class ResponsiveModal extends React.Component<IProps> {
     return (
       <ModalContainer id={id}>
         <ScreenBlocker />
-        <ModalContent>
+        <ModalContent width={width}>
           <Header>
             <Title>{title}</Title>
             <Right>
