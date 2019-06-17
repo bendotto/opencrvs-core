@@ -67,6 +67,15 @@ const Body = styled.div.attrs<{ height?: number }>({})`
   @media (max-width: ${({ theme }) => theme.grid.breakpoints.lg}px) {
     flex-grow: 1;
   }
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.colors.scrollBarGrey};
+    border-radius: 10px;
+  }
 `
 const Footer = styled.div`
   ${({ theme }) => theme.fonts.buttonStyle};
