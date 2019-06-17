@@ -1049,6 +1049,8 @@ export const ENGLISH_STATE: ILanguage = {
     'register.home.header.helpTitle': 'Help',
     'register.home.header.logoutTitle': 'Logout',
     'register.sysAdminHome.OfficeSearchModal.title':
-      'Assigned registration office'
+      'Assigned registration office',
+    'register.sysAdminHome.OfficeSearchModal.cancel': 'Cancel',
+    'register.sysAdminHome.OfficeSearchModal.select': 'SELECT'
   }
 }

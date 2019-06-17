@@ -1044,6 +1044,8 @@ export const BENGALI_STATE: ILanguage = {
     'register.home.header.settingsTitle': 'সেটিংস',
     'register.home.header.helpTitle': 'সাহায্য',
     'register.home.header.logoutTitle': 'লগআউট',
-    'register.sysAdminHome.OfficeSearchModal.title': 'নিবন্ধন অফিস'
+    'register.sysAdminHome.OfficeSearchModal.title': 'নিবন্ধন অফিস',
+    'register.sysAdminHome.OfficeSearchModal.cancel': 'বাতিল',
+    'register.sysAdminHome.OfficeSearchModal.select': 'নির্বাচন '
   }
 }

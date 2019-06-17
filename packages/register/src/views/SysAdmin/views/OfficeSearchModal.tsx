@@ -11,7 +11,7 @@ import {
 import styled from 'styled-components'
 import { PrimaryButton, TertiaryButton } from '@opencrvs/components/lib/buttons'
 
-const ApplyButton = styled(PrimaryButton)`
+const SelectButton = styled(PrimaryButton)`
   height: 40px;
   & div {
     padding: 0 8px;
@@ -48,7 +48,6 @@ const ItemContainer = styled.div.attrs<{ selected?: boolean }>({})`
       ? theme.colors.chartAreaGradientEnd
       : theme.colors.white} !important;
 `
-
 interface IItemProps {
   width?: number
   isRight?: boolean
@@ -67,41 +66,48 @@ const messages = defineMessages({
     id: 'register.sysAdminHome.OfficeSearchModal.title',
     defaultMessage: 'Assigned registration office',
     description: 'The title'
+  },
+  cancel: {
+    id: 'register.sysAdminHome.OfficeSearchModal.cancel',
+    defaultMessage: 'Cancel',
+    description: 'The cancel title'
+  },
+  select: {
+    id: 'register.sysAdminHome.OfficeSearchModal.select',
+    defaultMessage: 'SELECT',
+    description: 'The select title'
   }
 })
 interface IProps {
   language: string
-  showModal: boolean
+  searchText: string
+  placeholder: string
+  onModalClose: () => void
+  onModalComplete: (location: ILocation) => void
 }
-
 interface IState {
-  searchParam: string
+  searchText: string
   selectedValue: string
 }
-
 interface ILocation {
-  locId: string
-  locName: string
-  location: string
+  id: string
+  name: string
+  detailedLocation: string
 }
 
 type IFullProps = IProps & InjectedIntlProps
-
 class OfficeSearchModalClass extends React.Component<IFullProps, IState> {
   constructor(props: IFullProps) {
     super(props)
     this.state = {
-      searchParam: '',
+      searchText: this.props.searchText ? this.props.searchText : '',
       selectedValue: ''
     }
-  }
-  handleClose = () => {
-    alert('closed')
   }
 
   handleSearch = (param: string) => {
     this.setState({
-      searchParam: param
+      searchText: param
     })
   }
 
@@ -112,49 +118,51 @@ class OfficeSearchModalClass extends React.Component<IFullProps, IState> {
   }
 
   render() {
-    const { intl, showModal } = this.props
+    const { intl } = this.props
     const locationArray: ILocation[] = [
       {
-        locId: '309842043',
-        locName: 'Tunbridge Wells Office',
-        location: 'Lamberhurst, Tunbridge Wells TN3 8JN'
+        id: '309842043',
+        name: 'Tunbridge Wells Office',
+        detailedLocation: 'Lamberhurst, Tunbridge Wells TN3 8JN'
       },
       {
-        locId: '309842042',
-        locName: 'Tunbridge Wells Office2',
-        location: 'Lamberhurst, Tunbridge Wells TN3 8JN'
+        id: '309842042',
+        name: 'Tunbridge Wells Office2',
+        detailedLocation: 'Lamberhurst, Tunbridge Wells TN3 8JN'
       },
       {
-        locId: '309842041',
-        locName: 'Tunbridge Wells Office3',
-        location: 'Lamberhurst, Tunbridge Wells TN3 8JN'
+        id: '309842041',
+        name: 'Tunbridge Wells Office3',
+        detailedLocation: 'Lamberhurst, Tunbridge Wells TN3 8JN'
       }
     ]
-    const selectedValue = this.state.selectedValue || locationArray[0].locName
+    const selectedValue = this.state.selectedValue || locationArray[0].name
+    let selectedLocation: ILocation = locationArray[0]
     const listItems = locationArray.map(
       (location: ILocation, index: number) => {
+        if (location.name === selectedValue) {
+          selectedLocation = location
+        }
         return (
-          <>
-            <ItemContainer
-              key={'item-container' + index}
-              selected={location.locName === selectedValue}
-            >
-              <Item width={325}>
-                <RadioButton
-                  id={'location' + index}
-                  name="location"
-                  label={location.locName}
-                  value={location.locName}
-                  selected={selectedValue}
-                  onChange={this.handleChange}
-                />
-              </Item>
-              <Item>{location.location}</Item>
-              <Item width={225} isRight={true}>
-                {location.locId}
-              </Item>
-            </ItemContainer>
-          </>
+          <ItemContainer
+            key={'item-container-' + index}
+            selected={location.name === selectedValue}
+          >
+            <Item width={325}>
+              <RadioButton
+                id={'location-' + index}
+                name="location"
+                label={location.name}
+                value={location.name}
+                selected={selectedValue}
+                onChange={this.handleChange}
+              />
+            </Item>
+            <Item>{location.detailedLocation}</Item>
+            <Item width={225} isRight={true}>
+              {location.id}
+            </Item>
+          </ItemContainer>
         )
       }
     )
@@ -164,21 +172,33 @@ class OfficeSearchModalClass extends React.Component<IFullProps, IState> {
         <ResponsiveModal
           id="office-search-modal"
           title={intl.formatMessage(messages.title)}
-          width={760}
-          height={350}
-          show={showModal}
-          handleClose={this.handleClose}
+          width={693}
+          height={280}
+          show={true}
+          handleClose={this.props.onModalClose}
           actions={[
-            <CancelButton key="cancel" id="modal_cancel">
-              {'cancel'}
+            <CancelButton
+              key="cancel"
+              id="modal_cancel"
+              onClick={this.props.onModalClose}
+            >
+              {intl.formatMessage(messages.cancel)}
             </CancelButton>,
-            <ApplyButton key="apply" id="apply_change">
-              {'apply'}
-            </ApplyButton>
+            <SelectButton
+              key="select"
+              id="modal_select"
+              onClick={() => this.props.onModalComplete(selectedLocation)}
+            >
+              {intl.formatMessage(messages.select)}
+            </SelectButton>
           ]}
         >
           <ChildContainer>
-            <SearchInputWithIcon searchHandler={this.handleSearch} />
+            <SearchInputWithIcon
+              placeHolderText={this.props.placeholder}
+              searchText={this.state.searchText}
+              searchHandler={this.handleSearch}
+            />
             <ListContainer>{listItems}</ListContainer>
           </ChildContainer>
         </ResponsiveModal>
