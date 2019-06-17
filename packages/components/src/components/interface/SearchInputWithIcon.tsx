@@ -4,30 +4,31 @@ import styled from 'styled-components'
 
 const Wrapper = styled.form`
   align-items: center;
-  background: ${({ theme }) => theme.colors.greyPearl};
+  background: ${({ theme }) => theme.colors.background};
   display: flex;
   padding-left: 5px;
   margin-bottom: 1px;
   position: relative;
-  border: 2px solid ${({ theme }) => theme.colors.blackStormy};
+  border: 2px solid ${({ theme }) => theme.colors.copy};
   border-radius: 2px;
-  max-width: 400px;
+  width: 320px;
 `
 const SearchTextInput = styled.input`
   border: none;
-  background: ${({ theme }) => theme.colors.greyPearl};
-  margin: 1px 5px;
+  background: ${({ theme }) => theme.colors.background};
+  margin: 2px 5px;
   ${({ theme }) => theme.fonts.bigBodyStyle};
   flex-grow: 1;
   &:focus {
     outline: none;
   }
 `
-
 interface IState {
   searchParam: string
 }
 interface IProps {
+  searchText?: string
+  placeHolderText: string
   searchHandler: (searchText: string) => void
 }
 export class SearchInputWithIcon extends React.Component<IProps, IState> {
@@ -35,7 +36,7 @@ export class SearchInputWithIcon extends React.Component<IProps, IState> {
     super(props)
 
     this.state = {
-      searchParam: ''
+      searchParam: this.props.searchText ? this.props.searchText : ''
     }
   }
 
@@ -56,6 +57,7 @@ export class SearchInputWithIcon extends React.Component<IProps, IState> {
         <SearchTextInput
           id="searchInputText"
           type="text"
+          placeholder={this.props.placeHolderText}
           onChange={this.onChangeHandler}
           value={this.state.searchParam}
         />
