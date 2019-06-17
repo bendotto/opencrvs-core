@@ -20,14 +20,14 @@ const Check = styled.span`
   display: flex;
   justify-content: center;
   border: 2px solid ${({ theme }) => theme.colors.copy};
-  height: 25px;
-  width: 25px;
+  height: 28px;
+  width: 28px;
   border-radius: 50%;
   align-items: center;
   & > span {
     display: flex;
-    height: 13px;
-    width: 13px;
+    height: 16px;
+    width: 16px;
     border-radius: 50%;
     background: ${({ theme }) => theme.colors.white};
     align-self: center;

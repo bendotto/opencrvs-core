@@ -23,6 +23,7 @@ const ScreenBlocker = styled.div`
   background-color: ${({ theme }) => theme.colors.menuBackground};
   opacity: 0.8;
 `
+
 const ModalContent = styled.div.attrs<{ width?: number }>({})`
   ${({ theme }) => theme.fonts.bodyStyle};
   color: ${({ theme }) => theme.colors.copy};
@@ -55,8 +56,10 @@ const Right = styled.span`
   cursor: pointer;
 `
 
-const Body = styled.div`
+const Body = styled.div.attrs<{ height?: number }>({})`
   ${({ theme }) => theme.fonts.bodyStyle};
+  height: ${({ height }) => (height ? height : 250)}px;
+  overflow-y: auto;
   padding: 0 24px 16px;
   padding-right: 64px;
   display: flex;
@@ -89,13 +92,14 @@ interface IProps {
   title: string
   show: boolean
   width?: number
+  height?: number
   actions: JSX.Element[]
   handleClose?: () => void
 }
 
 export class ResponsiveModal extends React.Component<IProps> {
   render() {
-    const { title, show, handleClose, id, actions, width } = this.props
+    const { title, show, handleClose, id, actions, width, height } = this.props
 
     if (!show) {
       return null
@@ -111,7 +115,7 @@ export class ResponsiveModal extends React.Component<IProps> {
               <Cross onClick={handleClose} />
             </Right>
           </Header>
-          <Body>{this.props.children}</Body>
+          <Body height={height}>{this.props.children}</Body>
           <Footer>
             {actions.map((action, i) => (
               <Action key={i}>{action}</Action>
