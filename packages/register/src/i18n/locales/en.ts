@@ -1051,6 +1051,7 @@ export const ENGLISH_STATE: ILanguage = {
     'register.sysAdminHome.OfficeSearchModal.title':
       'Assigned registration office',
     'register.sysAdminHome.OfficeSearchModal.cancel': 'Cancel',
-    'register.sysAdminHome.OfficeSearchModal.select': 'SELECT'
+    'register.sysAdminHome.OfficeSearchModal.select': 'SELECT',
+    'register.sysAdminHome.OfficeSearchModal.locationId': 'Id: {locationId}'
   }
 }

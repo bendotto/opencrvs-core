@@ -8,8 +8,9 @@ import {
   SearchInputWithIcon,
   RadioButton
 } from '@opencrvs/components/lib/interface'
-import styled from 'styled-components'
+import styled, { withTheme } from 'styled-components'
 import { PrimaryButton, TertiaryButton } from '@opencrvs/components/lib/buttons'
+import { ITheme } from '@opencrvs/components/lib/theme'
 
 const SelectButton = styled(PrimaryButton)`
   height: 40px;
@@ -39,8 +40,8 @@ const ListContainer = styled.div`
   }
 `
 const ItemContainer = styled.div.attrs<{ selected?: boolean }>({})`
-  width: 650px;
-  min-height: 80px;
+  width: 870px;
+  min-height: 96px;
   display: flex;
   justify-content: space-between;
   background: ${({ selected, theme }) =>
@@ -51,6 +52,7 @@ const ItemContainer = styled.div.attrs<{ selected?: boolean }>({})`
 interface IItemProps {
   width?: number
   isRight?: boolean
+  color?: string
 }
 
 const Item = styled.div.attrs<IItemProps>({})`
@@ -59,6 +61,7 @@ const Item = styled.div.attrs<IItemProps>({})`
   padding: 5px 10px;
   justify-content: ${({ isRight }) => (isRight ? 'flex-end' : 'flex-start')};
   align-items: flex-start;
+  ${({ color }) => color && `color: ${color};`}
 `
 
 const messages = defineMessages({
@@ -76,9 +79,15 @@ const messages = defineMessages({
     id: 'register.sysAdminHome.OfficeSearchModal.select',
     defaultMessage: 'SELECT',
     description: 'The select title'
+  },
+  locationId: {
+    id: 'register.sysAdminHome.OfficeSearchModal.locationId',
+    defaultMessage: 'Id: {locationId}',
+    description: 'The location Id column'
   }
 })
 interface IProps {
+  theme: ITheme
   language: string
   searchText: string
   placeholder: string
@@ -158,9 +167,15 @@ class OfficeSearchModalClass extends React.Component<IFullProps, IState> {
                 onChange={this.handleChange}
               />
             </Item>
-            <Item>{location.detailedLocation}</Item>
-            <Item width={225} isRight={true}>
-              {location.id}
+            <Item width={250}>{location.detailedLocation}</Item>
+            <Item
+              width={295}
+              isRight={true}
+              color={this.props.theme.colors.black}
+            >
+              {intl.formatMessage(messages.locationId, {
+                locationId: location.id
+              })}
             </Item>
           </ItemContainer>
         )
@@ -172,8 +187,8 @@ class OfficeSearchModalClass extends React.Component<IFullProps, IState> {
         <ResponsiveModal
           id="office-search-modal"
           title={intl.formatMessage(messages.title)}
-          width={693}
-          height={280}
+          width={918}
+          contentHeight={280}
           show={true}
           handleClose={this.props.onModalClose}
           actions={[
@@ -214,5 +229,5 @@ const mapStateToProps = (store: IStoreState) => {
 }
 
 export const OfficeSearchModal = connect(mapStateToProps)(
-  injectIntl(OfficeSearchModalClass)
+  withTheme(injectIntl(OfficeSearchModalClass))
 )

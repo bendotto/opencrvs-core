@@ -101,14 +101,22 @@ interface IProps {
   title: string
   show: boolean
   width?: number
-  height?: number
+  contentHeight?: number
   actions: JSX.Element[]
   handleClose?: () => void
 }
 
 export class ResponsiveModal extends React.Component<IProps> {
   render() {
-    const { title, show, handleClose, id, actions, width, height } = this.props
+    const {
+      title,
+      show,
+      handleClose,
+      id,
+      actions,
+      width,
+      contentHeight
+    } = this.props
 
     if (!show) {
       return null
@@ -124,7 +132,7 @@ export class ResponsiveModal extends React.Component<IProps> {
               <Cross onClick={handleClose} />
             </Right>
           </Header>
-          <Body height={height}>{this.props.children}</Body>
+          <Body height={contentHeight}>{this.props.children}</Body>
           <Footer>
             {actions.map((action, i) => (
               <Action key={i}>{action}</Action>
