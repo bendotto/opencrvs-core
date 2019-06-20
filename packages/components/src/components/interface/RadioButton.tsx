@@ -9,25 +9,39 @@ const Wrapper = styled.div`
   align-items: center;
 `
 
-const Label = styled.label`
+const Label = styled.label.attrs<{ size?: string }>({})`
   color: ${({ theme }) => theme.colors.copy};
-  ${({ theme }) => theme.fonts.bodyBoldStyle};
   cursor: pointer;
-  margin-left: 8px;
+  ${({ size, theme }) =>
+    size === 'large'
+      ? `
+    ${theme.fonts.bigBodyStyle};
+    margin-left: 16px`
+      : `
+    ${theme.fonts.bodyBoldStyle};
+    margin-left: 8px;`}
 `
 
-const Check = styled.span`
+const Check = styled.span.attrs<{ size?: string }>({})`
   display: flex;
   justify-content: center;
   border: 2px solid ${({ theme }) => theme.colors.copy};
-  height: 28px;
-  width: 28px;
+  ${({ size }) =>
+    size === 'large'
+      ? `height: 40px;
+  width: 40px;`
+      : `height: 28px;
+  width: 28px;`}
   border-radius: 50%;
   align-items: center;
   & > span {
     display: flex;
-    height: 16px;
-    width: 16px;
+    ${({ size }) =>
+      size === 'large'
+        ? `height: 20px;
+    width: 20px;`
+        : ` height: 16px;
+    width: 16px;`}
     border-radius: 50%;
     background: ${({ theme }) => theme.colors.white};
     align-self: center;
@@ -40,6 +54,8 @@ const Input = styled.input`
   position: absolute;
   opacity: 0;
   z-index: 2;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
   /* stylelint-disable */
   &:checked ~ ${Check} > span {
@@ -56,6 +72,7 @@ interface IRadioButton {
   label: string
   value: Value
   selected?: string
+  size?: string
   onChange: (value: Value) => void
 }
 
@@ -64,11 +81,11 @@ export class RadioButton extends React.Component<IRadioButton> {
     this.props.onChange(this.props.value)
   }
   render() {
-    const { id, name, selected, label, value } = this.props
+    const { id, name, selected, label, value, size } = this.props
     return (
       <Wrapper>
         <Input
-          {...this.props}
+          id={id}
           role="radio"
           checked={value === selected}
           type="radio"
@@ -76,10 +93,12 @@ export class RadioButton extends React.Component<IRadioButton> {
           value={value.toString()}
           onChange={this.onChange}
         />
-        <Check>
+        <Check size={size}>
           <span />
         </Check>
-        <Label htmlFor={id}>{label}</Label>
+        <Label size={size} htmlFor={id}>
+          {label}
+        </Label>
       </Wrapper>
     )
   }

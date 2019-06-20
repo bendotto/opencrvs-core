@@ -1,4 +1,4 @@
-import { ILanguage } from '../reducer'
+import { ILanguage } from '@register/i18n/reducer'
 
 export const BENGALI_STATE: ILanguage = {
   lang: 'bn',
@@ -586,8 +586,14 @@ export const BENGALI_STATE: ILanguage = {
     'register.selectInformant.selfInformantDescription':
       '<strong>প্রয়োজনীয়</strong>: ব্যক্তি এবং তথ্য প্রদানকারীর বিবরণ।' +
       '<br /><strong>ঐচ্ছিক</strong>: মা / বাবা বিস্তারিত বিবরণ',
-    'register.selectVitalEvent.registerNewEventTitle':
-      'একটি নতুন গুরুত্বপূর্ণ ইভেন্ট ঘোষণা',
+    'register.selectVitalEvent.registerNewEventTitle': 'নতুন আবেদন',
+    'register.selectVitalEvent.registerNewEventHeading':
+      'আপনি কি ধরনের ইভেন্ট তৈরি করতে চান',
+    'register.selectVitalEvent.birth': 'জন্ম',
+    'register.selectVitalEvent.death': 'মৃত্যু',
+    'register.selectVitalEvent.continueButton': 'পরবর্তী',
+    'register.selectVitalEvent.errorMessage':
+      'দয়া করে একটি ইভেন্ট নির্বাচন করুন',
     'register.home.buttons.registerNewEvent': 'নতুন ঘোষণা',
     'register.home.buttons.mydraft': 'আমার খসড়া',
     'register.home.buttons.pendingSubimissions': 'অসম্পূর্ণ জমাগুলি',
@@ -1007,6 +1013,16 @@ export const BENGALI_STATE: ILanguage = {
     'register.registrarHome.notificationToast.processingText':
       '{num} টি আবেদন প্রক্রিয়াধীন...',
     'register.registrarHome.notificationToast.outboxText': 'আউটবক্স({num})',
+    'register.registrarHome.outbox.statusWaitingToRegister':
+      'নিবন্ধনের অপেক্ষায়',
+    'register.registrarHome.outbox.statusWaitingToSubmit': 'নিবন্ধনের অপেক্ষায়',
+    'register.registrarHome.outbox.statusWaitingToReject':
+      'প্রত্যাখ্যানের অপেক্ষায়',
+    'register.registrarHome.outbox.statusRegistering': 'নিবন্ধিত হচ্ছে...',
+    'register.registrarHome.outbox.statusRejecting': 'প্রত্যাক্ষিত হচ্ছে...',
+    'register.registrarHome.outbox.statusSubmitting': 'পাঠানো হচ্ছে...',
+    'register.registrarHome.outbox.waitingToRetry':
+      'পুনরায় চেষ্টা করার জন্য অপেক্ষা হচ্ছে',
     'settings.title': 'সেটিংস',
     'profile.title': 'প্রোফাইল',
     'security.title': 'নিরাপত্তা',
@@ -1047,6 +1063,20 @@ export const BENGALI_STATE: ILanguage = {
     'register.sysAdminHome.OfficeSearchModal.title': 'নিবন্ধন অফিস',
     'register.sysAdminHome.OfficeSearchModal.cancel': 'বাতিল',
     'register.sysAdminHome.OfficeSearchModal.select': 'নির্বাচন ',
-    'register.sysAdminHome.OfficeSearchModal.locationId': 'আইডি: {locationId}'
+    'register.sysAdminHome.OfficeSearchModal.locationId': 'আইডি: {locationId}',
+    'user.form.name': 'ব্যবহারকারী',
+    'user.title.create': 'নতুন ব্যবহারকারী তৈরি',
+    'user.section.userDetails': 'ব্যক্তিগত তথ্য',
+    'user.section.accountDetails': 'অ্যাকাউন্ট তথ্য',
+    'user.section.assignedRegisterOffice': 'নির্ধারিত নিবন্ধ অফিস',
+    'label.firstNameBN': 'বাংলা নামের প্রথম অংশ',
+    'label.lastNameBN': 'বাংলা নামের শেষাংশ',
+    'label.firstNameEN': 'ইংরেজি নামের প্রথম অংশ',
+    'label.lastNameEN': 'ইংরেজি নামের শেষাংশ',
+    'label.NID': 'জাতীয় পরিচয় নম্বর',
+    'label.username': 'ব্যবহারকারীর নাম',
+    'label.userDevice': 'ডিভাইস',
+    'label.registrationOffice': 'নিবন্ধন অফিস',
+    'button.continue': 'অগ্রসর হোন'
   }
 }

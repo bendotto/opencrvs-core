@@ -6,22 +6,23 @@ import {
   getItem,
   flushPromises,
   setItem
-} from 'src/tests/util'
-import { SELECT_VITAL_EVENT } from 'src/navigation/routes'
+} from '@register/tests/util'
+import { SELECT_VITAL_EVENT } from '@register/navigation/routes'
 import { ReactWrapper } from 'enzyme'
 import { History } from 'history'
 import { Store } from 'redux'
-import { getOfflineDataSuccess } from 'src/offline/actions'
-import * as fetch from 'jest-fetch-mock'
-import { storage } from 'src/storage'
-import * as CommonUtils from 'src/utils/commonUtils'
+import { getOfflineDataSuccess } from '@register/offline/actions'
+import { storage } from '@register/storage'
+import * as CommonUtils from '@register/utils/commonUtils'
+import * as fetchAny from 'jest-fetch-mock'
 
+const fetch = fetchAny as any
 storage.getItem = jest.fn()
 storage.setItem = jest.fn()
 jest.spyOn(CommonUtils, 'isMobileDevice').mockReturnValue(true)
 
 beforeEach(() => {
-  history.replaceState({}, '', '/')
+  window.history.replaceState({}, '', '/')
   assign.mockClear()
 })
 
@@ -67,16 +68,22 @@ describe('when user is selecting the vital event', () => {
       app.update()
     })
     it('lists the options', () => {
-      expect(app.find('button#select_birth_event')).toHaveLength(1)
+      expect(app.find('#select_vital_event_view')).toHaveLength(2)
     })
     describe('when selects "Birth"', () => {
       beforeEach(() => {
         app
           .find('#select_birth_event')
           .hostNodes()
+          .simulate('change')
+
+        app
+          .find('#continue')
+          .hostNodes()
           .simulate('click')
       })
       it('takes user to the informant selection view', () => {
+        console.log(app.debug())
         expect(app.find('#select_informant_view').hostNodes()).toHaveLength(1)
       })
     })
@@ -85,6 +92,10 @@ describe('when user is selecting the vital event', () => {
       beforeEach(() => {
         app
           .find('#select_death_event')
+          .hostNodes()
+          .simulate('change')
+        app
+          .find('#continue')
           .hostNodes()
           .simulate('click')
       })

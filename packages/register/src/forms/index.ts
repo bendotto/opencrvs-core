@@ -1,5 +1,5 @@
-import { Validation, ValidationInitializer } from '../utils/validate'
-import { FormattedMessage } from 'react-intl'
+import { Validation, ValidationInitializer } from '@register/utils/validate'
+import { FormattedMessage, defineMessages } from 'react-intl'
 import {
   ISelectOption as SelectComponentOption,
   IRadioOption as RadioComponentOption,
@@ -8,6 +8,8 @@ import {
 } from '@opencrvs/components/lib/forms'
 import { ApolloQueryResult } from 'apollo-client'
 import { GQLQuery } from '@opencrvs/gateway/src/graphql/schema.d'
+
+import { IDynamicValues } from '@opencrvs/register/src/navigation'
 
 export const TEXT = 'TEXT'
 export const TEL = 'TEL'
@@ -18,6 +20,7 @@ export const CHECKBOX_GROUP = 'CHECKBOX_GROUP'
 export const DATE = 'DATE'
 export const TEXTAREA = 'TEXTAREA'
 export const SUBSECTION = 'SUBSECTION'
+export const FIELD_GROUP_TITLE = 'FIELD_GROUP_TITLE'
 export const LIST = 'LIST'
 export const PARAGRAPH = 'PARAGRAPH'
 export const DOCUMENTS = 'DOCUMENTS'
@@ -31,10 +34,9 @@ export const PDF_DOCUMENT_VIEWER = 'PDF_DOCUMENT_VIEWER'
 export const DYNAMIC_LIST = 'DYNAMIC_LIST'
 export const FETCH_BUTTON = 'FETCH_BUTTON'
 
-import { defineMessages } from 'react-intl'
-import { IDynamicValues } from '@opencrvs/register/src/navigation'
-
-export const messages = defineMessages({
+export const messages: {
+  [key: string]: ReactIntl.FormattedMessage.MessageDescriptor
+} = defineMessages({
   otherOption: {
     id: 'formFields.otherOption',
     defaultMessage: 'Other',
@@ -129,7 +131,7 @@ export type IFormFieldValue =
   | IFileValue[]
   | { [key: string]: string }
 
-export type IFileValue = {
+export interface IFileValue {
   optionValues: IFormFieldValue[]
   type: string
   data: string
@@ -220,6 +222,9 @@ export interface ITextareaFormField extends IFormFieldBase {
 export interface ISubsectionFormField extends IFormFieldBase {
   type: typeof SUBSECTION
 }
+export interface IFieldGroupTitleField extends IFormFieldBase {
+  type: typeof FIELD_GROUP_TITLE
+}
 export interface IDocumentsFormField extends IFormFieldBase {
   type: typeof DOCUMENTS
 }
@@ -287,6 +292,7 @@ export type IFormField =
   | IDateFormField
   | ITextareaFormField
   | ISubsectionFormField
+  | IFieldGroupTitleField
   | IDocumentsFormField
   | IListFormField
   | IParagraphFormField
@@ -455,6 +461,9 @@ export interface Ii18nTextareaFormField extends Ii18nFormFieldBase {
 export interface Ii18nSubsectionFormField extends Ii18nFormFieldBase {
   type: typeof SUBSECTION
 }
+export interface Ii18nFieldGroupTitleField extends Ii18nFormFieldBase {
+  type: typeof FIELD_GROUP_TITLE
+}
 export interface Ii18nDocumentsFormField extends Ii18nFormFieldBase {
   type: typeof DOCUMENTS
 }
@@ -507,6 +516,7 @@ export type Ii18nFormField =
   | Ii18nDateFormField
   | Ii18nTextareaFormField
   | Ii18nSubsectionFormField
+  | Ii18nFieldGroupTitleField
   | Ii18nDocumentsFormField
   | Ii18nListFormField
   | Ii18nParagraphFormField

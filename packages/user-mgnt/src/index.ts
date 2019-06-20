@@ -9,12 +9,12 @@ import {
   CERT_PUBLIC_KEY_PATH,
   CHECK_INVALID_TOKEN,
   AUTH_URL
-} from 'src/constants'
-import getPlugins from 'src/config/plugins'
-import * as database from 'src/database'
+} from '@user-mgnt/constants'
+import getPlugins from '@user-mgnt/config/plugins'
+import * as database from '@user-mgnt/database'
 import { readFileSync } from 'fs'
 import { validateFunc } from '@opencrvs/commons'
-import { getRoutes } from 'src/config/routes'
+import { getRoutes } from '@user-mgnt/config/routes'
 
 const publicCert = readFileSync(CERT_PUBLIC_KEY_PATH)
 
@@ -42,7 +42,6 @@ export async function createServer() {
 
   server.auth.default('jwt')
 
-  // curl -H 'Content-Type: application/json' -d '{"mobile": "27855555555", "password": "test"}' http://localhost:3030/verifyPassword
   const routes = getRoutes()
   server.route(routes)
 

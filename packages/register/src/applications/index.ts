@@ -1,9 +1,9 @@
-import { IFormData, Event } from '../forms'
-import { GO_TO_TAB, Action as NavigationAction } from 'src/navigation'
-import { storage } from 'src/storage'
-import { loop, Cmd, LoopReducer, Loop } from 'redux-loop'
+import { Cmd, loop, Loop, LoopReducer } from 'redux-loop'
+import { storage } from '@register/storage'
 import { v4 as uuid } from 'uuid'
-import { IUserDetails } from 'src/utils/userUtils'
+import { Event, IFormData, IFormFieldValue } from '@register/forms'
+import { GO_TO_PAGE, Action as NavigationAction } from '@register/navigation'
+import { IUserDetails } from '@register/utils/userUtils'
 
 const SET_INITIAL_APPLICATION = 'APPLICATION/SET_INITIAL_APPLICATION'
 const STORE_APPLICATION = 'APPLICATION/STORE_APPLICATION'
@@ -18,10 +18,19 @@ export enum SUBMISSION_STATUS {
   READY_TO_SUBMIT = 'READY_TO_SUBMIT',
   SUBMITTING = 'SUBMITTING',
   SUBMITTED = 'SUBMITTED',
+  READY_TO_REGISTER = 'READY_TO_REGISTER',
+  REGISTERING = 'REGISTERING',
+  REGISTERED = 'REGISTERED',
+  READY_TO_REJECT = 'READY_TO_REJECT',
+  REJECTING = 'REJECTING',
+  REJECTED = 'REJECTED',
   FAILED = 'FAILED',
   FAILED_NETWORK = 'FAILED_NETWORK'
 }
 
+export interface IPayload {
+  [key: string]: IFormFieldValue
+}
 export interface IApplication {
   id: string
   data: IFormData
@@ -32,9 +41,11 @@ export interface IApplication {
   event: Event
   registrationStatus?: string
   submissionStatus?: string
+  action?: string
   trackingId?: string
   compositionId?: string
   registrationNumber?: string
+  payload?: IPayload
 }
 
 interface IStoreApplicationAction {
@@ -166,106 +177,12 @@ function writeApplication(
   return { type: WRITE_APPLICATION, payload: { application } }
 }
 
-export const applicationsReducer: LoopReducer<IApplicationsState, Action> = (
-  state: IApplicationsState = initialState,
-  action: Action
-): IApplicationsState | Loop<IApplicationsState, Action> => {
-  switch (action.type) {
-    case GO_TO_TAB: {
-      const application = state.applications.find(
-        ({ id }) => id === action.payload.applicationId
-      )
-
-      if (!application || application.data[action.payload.tabId]) {
-        return state
-      }
-      const modifiedApplication = {
-        ...application,
-        data: {
-          ...application.data,
-          [action.payload.tabId]: {}
-        }
-      }
-      return loop(state, Cmd.action(modifyApplication(modifiedApplication)))
-    }
-    case STORE_APPLICATION:
-      const stateAfterStoringApplication = {
-        ...state,
-        applications: state.applications
-          ? state.applications.concat(action.payload.application)
-          : [action.payload.application]
-      }
-      return loop(
-        stateAfterStoringApplication,
-        Cmd.action(writeApplication(stateAfterStoringApplication))
-      )
-    case DELETE_APPLICATION:
-      const deleteIndex = state.applications
-        ? state.applications.findIndex(
-            application => application.id === action.payload.application.id
-          )
-        : -1
-      if (deleteIndex >= 0) {
-        state.applications.splice(deleteIndex, 1)
-      }
-      const stateAfterApplicationDeletion = {
-        ...state,
-        drafts: state.applications || []
-      }
-      return loop(
-        stateAfterApplicationDeletion,
-        Cmd.action(writeApplication(stateAfterApplicationDeletion))
-      )
-    case MODIFY_APPLICATION:
-      const newApplications: IApplication[] = state.applications || []
-      const currentApplicationIndex = newApplications.findIndex(
-        application => application.id === action.payload.application.id
-      )
-      newApplications[currentApplicationIndex] = action.payload.application
-      const stateAfterApplicationModification = {
-        ...state,
-        applications: newApplications
-      }
-      return loop(
-        stateAfterApplicationModification,
-        Cmd.action(writeApplication(stateAfterApplicationModification))
-      )
-    case WRITE_APPLICATION:
-      if (state.initialApplicationsLoaded && state.applications) {
-        writeApplicationByUser(action.payload.application)
-      }
-      return state
-    case SET_INITIAL_APPLICATION:
-      return loop(
-        {
-          ...state
-        },
-        Cmd.run<
-          | IGetStorageApplicationsSuccessAction
-          | IGetStorageApplicationsFailedAction
-        >(getApplicationsOfCurrentUser, {
-          successActionCreator: getStorageApplicationsSuccess,
-          failActionCreator: getStorageApplicationsFailed,
-          args: []
-        })
-      )
-    case GET_APPLICATIONS_SUCCESS:
-      if (action.payload) {
-        const userData = JSON.parse(action.payload) as IUserData
-        return {
-          ...state,
-          userID: userData.userID,
-          applications: userData.applications,
-          initialApplicationsLoaded: true
-        }
-      }
-      return {
-        ...state,
-        initialApplicationsLoaded: true
-      }
-    default:
-      return state
+export async function getCurrentUserID(): Promise<string> {
+  const userDetails = await storage.getItem('USER_DETAILS')
+  if (!userDetails) {
+    return ''
   }
+  return (JSON.parse(userDetails) as IUserDetails).userMgntUserID || ''
 }
 
 export async function getApplicationsOfCurrentUser(): Promise<string> {
@@ -323,10 +240,104 @@ export async function writeApplicationByUser(
   storage.setItem('USER_DATA', JSON.stringify(allUserData))
 }
 
-export async function getCurrentUserID(): Promise<string> {
-  const userDetails = await storage.getItem('USER_DETAILS')
-  if (!userDetails) {
-    return ''
+export const applicationsReducer: LoopReducer<IApplicationsState, Action> = (
+  state: IApplicationsState = initialState,
+  action: Action
+): IApplicationsState | Loop<IApplicationsState, Action> => {
+  switch (action.type) {
+    case GO_TO_PAGE: {
+      const application = state.applications.find(
+        ({ id }) => id === action.payload.applicationId
+      )
+
+      if (!application || application.data[action.payload.pageId]) {
+        return state
+      }
+      const modifiedApplication = {
+        ...application,
+        data: {
+          ...application.data,
+          [action.payload.pageId]: {}
+        }
+      }
+      return loop(state, Cmd.action(modifyApplication(modifiedApplication)))
+    }
+    case STORE_APPLICATION:
+      const stateAfterStoringApplication = {
+        ...state,
+        applications: state.applications
+          ? state.applications.concat(action.payload.application)
+          : [action.payload.application]
+      }
+      return loop(
+        stateAfterStoringApplication,
+        Cmd.action(writeApplication(stateAfterStoringApplication))
+      )
+    case DELETE_APPLICATION:
+      const deleteIndex = state.applications
+        ? state.applications.findIndex(
+            application => application.id === action.payload.application.id
+          )
+        : -1
+      if (deleteIndex >= 0) {
+        state.applications.splice(deleteIndex, 1)
+      }
+      const stateAfterApplicationDeletion = {
+        ...state,
+        drafts: state.applications || []
+      }
+      return loop(
+        stateAfterApplicationDeletion,
+        Cmd.action(writeApplication(stateAfterApplicationDeletion))
+      )
+    case MODIFY_APPLICATION:
+      const newApplications: IApplication[] = state.applications || []
+      const currentApplicationIndex = newApplications.findIndex(
+        application => application.id === action.payload.application.id
+      )
+      newApplications[currentApplicationIndex] = action.payload.application
+      const stateAfterApplicationModification = {
+        ...state,
+        applications: newApplications
+      }
+      return loop(
+        stateAfterApplicationModification,
+        Cmd.action(writeApplication(stateAfterApplicationModification))
+      )
+    case WRITE_APPLICATION:
+      if (state.initialApplicationsLoaded && state.applications) {
+        writeApplicationByUser(action.payload.application)
+      }
+      return state
+    case SET_INITIAL_APPLICATION:
+      return loop(
+        {
+          ...state
+        },
+        Cmd.run<
+          IGetStorageApplicationsFailedAction,
+          IGetStorageApplicationsSuccessAction
+        >(getApplicationsOfCurrentUser, {
+          successActionCreator: getStorageApplicationsSuccess,
+          failActionCreator: getStorageApplicationsFailed,
+          args: []
+        })
+      )
+    case GET_APPLICATIONS_SUCCESS:
+      if (action.payload) {
+        const userData = JSON.parse(action.payload) as IUserData
+        return {
+          ...state,
+          userID: userData.userID,
+          applications: userData.applications,
+          initialApplicationsLoaded: true
+        }
+      }
+      return {
+        ...state,
+        initialApplicationsLoaded: true
+      }
+    default:
+      return state
   }
-  return (JSON.parse(userDetails) as IUserDetails).userMgntUserID || ''
 }

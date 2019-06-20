@@ -1,4 +1,4 @@
-import { ILanguage } from '../reducer'
+import { ILanguage } from '@register/i18n/reducer'
 
 export const ENGLISH_STATE: ILanguage = {
   lang: 'en',
@@ -586,8 +586,13 @@ export const ENGLISH_STATE: ILanguage = {
     'register.selectInformant.selfInformantDescription':
       '<strong>Required</strong>: Details of the <strong>individual</strong> and <strong>informant</strong>.' +
       '<br /><strong>Optional</strong>: Details of the <strong>mother/father</strong>',
-    'register.selectVitalEvent.registerNewEventTitle':
-      'New vital event application',
+    'register.selectVitalEvent.registerNewEventTitle': 'New application',
+    'register.selectVitalEvent.registerNewEventHeading':
+      'What type of event do you want to declare?',
+    'register.selectVitalEvent.birth': 'Birth',
+    'register.selectVitalEvent.death': 'Death',
+    'register.selectVitalEvent.continueButton': 'Continue',
+    'register.selectVitalEvent.errorMessage': 'Please select the type of event',
     'register.home.buttons.mydraft': 'My draft',
     'register.home.buttons.registerNewEvent': 'New application',
     'register.home.buttons.pendingSubimissions': 'Pending submissions',
@@ -1007,6 +1012,14 @@ export const ENGLISH_STATE: ILanguage = {
     'register.registrarHome.notificationToast.processingText':
       '{num} application processing...',
     'register.registrarHome.notificationToast.outboxText': 'Outbox({num})',
+    'register.registrarHome.outbox.statusWaitingToRegister':
+      'Waiting to register',
+    'register.registrarHome.outbox.statusWaitingToSubmit': 'Waiting to submit',
+    'register.registrarHome.outbox.statusWaitingToReject': 'Waiting to reject',
+    'register.registrarHome.outbox.statusRegistering': 'Registering...',
+    'register.registrarHome.outbox.statusRejecting': 'Rejecting...',
+    'register.registrarHome.outbox.statusSubmitting': 'Submitting...',
+    'register.registrarHome.outbox.waitingToRetry': 'Waiting to retry',
     'settings.title': 'Settings',
     'profile.title': 'Profile',
     'security.title': 'Security',
@@ -1052,6 +1065,20 @@ export const ENGLISH_STATE: ILanguage = {
       'Assigned registration office',
     'register.sysAdminHome.OfficeSearchModal.cancel': 'Cancel',
     'register.sysAdminHome.OfficeSearchModal.select': 'SELECT',
-    'register.sysAdminHome.OfficeSearchModal.locationId': 'Id: {locationId}'
+    'register.sysAdminHome.OfficeSearchModal.locationId': 'Id: {locationId}',
+    'user.form.name': 'User',
+    'user.title.create': 'Create new user',
+    'user.section.userDetails': 'User details',
+    'user.section.accountDetails': 'Account details',
+    'user.section.assignedRegisterOffice': 'Assigned Register Office',
+    'label.firstNameBN': 'Bangla first name',
+    'label.lastNameBN': 'Bangla last name',
+    'label.firstNameEN': 'English first name',
+    'label.lastNameEN': 'English last name',
+    'label.NID': 'NID',
+    'label.username': 'Username',
+    'label.userDevice': 'Device',
+    'label.registrationOffice': 'Registration Office',
+    'button.continue': 'Continue'
   }
 }

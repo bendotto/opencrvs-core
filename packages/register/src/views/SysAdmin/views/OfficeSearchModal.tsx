@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { InjectedIntlProps, injectIntl, defineMessages } from 'react-intl'
 import { connect } from 'react-redux'
-import { IStoreState } from 'src/store'
-import { getLanguage } from 'src/i18n/selectors'
+import { IStoreState } from '@register/store'
+import { getLanguage } from '@register/i18n/selectors'
 import {
   ResponsiveModal,
   SearchInputWithIcon,
@@ -120,9 +120,9 @@ class OfficeSearchModalClass extends React.Component<IFullProps, IState> {
     })
   }
 
-  handleChange = (value: string) => {
+  handleChange = (value: string | number | boolean) => {
     this.setState({
-      selectedValue: value
+      selectedValue: value as string
     })
   }
 

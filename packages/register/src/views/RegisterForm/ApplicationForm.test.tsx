@@ -10,28 +10,30 @@ import {
   getFileFromBase64String,
   validImageB64String,
   inValidImageB64String
-} from 'src/tests/util'
-import { DRAFT_BIRTH_PARENT_FORM } from 'src/navigation/routes'
+} from '@register/tests/util'
+import { DRAFT_BIRTH_PARENT_FORM } from '@register/navigation/routes'
 import {
   storeApplication,
   createApplication,
   IApplication
-} from 'src/applications'
+} from '@register/applications'
 import { ReactWrapper } from 'enzyme'
 import { History } from 'history'
 import { Store } from 'redux'
-import { getOfflineDataSuccess } from 'src/offline/actions'
-import * as fetch from 'jest-fetch-mock'
-import { storage } from 'src/storage'
-import { Event } from 'src/forms'
-import * as CommonUtils from 'src/utils/commonUtils'
+import { getOfflineDataSuccess } from '@register/offline/actions'
+import { storage } from '@register/storage'
+import { Event } from '@register/forms'
+import * as CommonUtils from '@register/utils/commonUtils'
+import * as fetchAny from 'jest-fetch-mock'
+
+const fetch = fetchAny as any
 
 storage.getItem = jest.fn()
 storage.setItem = jest.fn()
 jest.spyOn(CommonUtils, 'isMobileDevice').mockReturnValue(true)
 
 beforeEach(() => {
-  history.replaceState({}, '', '/')
+  window.history.replaceState({}, '', '/')
   assign.mockClear()
 })
 
@@ -128,7 +130,7 @@ describe('when user has starts a new application', () => {
       })
     })
 
-    describe('when user enters childBirthDate and clicks to documents tab', () => {
+    describe('when user enters childBirthDate and clicks to documents page', () => {
       beforeEach(async () => {
         Date.now = jest.fn(() => 1549607679507) // 08-02-2019
         app
@@ -153,10 +155,28 @@ describe('when user has starts a new application', () => {
         app.update()
       })
 
-      describe('when user goes to documents tab', () => {
+      describe('when user goes to documents page', () => {
         beforeEach(async () => {
           app
-            .find('#tab_documents')
+            .find('#next_section')
+            .hostNodes()
+            .simulate('click')
+          await flushPromises()
+          app.update()
+          app
+            .find('#next_section')
+            .hostNodes()
+            .simulate('click')
+          await flushPromises()
+          app.update()
+          app
+            .find('#next_section')
+            .hostNodes()
+            .simulate('click')
+          await flushPromises()
+          app.update()
+          app
+            .find('#next_section')
             .hostNodes()
             .simulate('click')
           await flushPromises()
@@ -259,13 +279,12 @@ describe('when user has starts a new application', () => {
         )
       })
     })
-    describe('when user clicks the "mother" tab', () => {
+    describe('when user clicks the "mother" page', () => {
       beforeEach(async () => {
         app
-          .find('#tab_mother')
+          .find('#next_section')
           .hostNodes()
           .simulate('click')
-
         await flushPromises()
         app.update()
       })
@@ -328,13 +347,18 @@ describe('when user has starts a new application', () => {
         )
       })
     })
-    describe('when user clicks the "father" tab', () => {
+    describe('when user clicks the "father" page', () => {
       beforeEach(async () => {
         app
-          .find('#tab_father')
+          .find('#next_section')
           .hostNodes()
           .simulate('click')
-
+        await flushPromises()
+        app.update()
+        app
+          .find('#next_section')
+          .hostNodes()
+          .simulate('click')
         await flushPromises()
         app.update()
       })
@@ -344,23 +368,40 @@ describe('when user has starts a new application', () => {
         )
       })
     })
-    describe('when user is in document tab', () => {
+    describe('when user is in document page', () => {
       beforeEach(async () => {
         app
-          .find('#tab_documents')
+          .find('#next_section')
           .hostNodes()
           .simulate('click')
-
+        await flushPromises()
+        app.update()
+        app
+          .find('#next_section')
+          .hostNodes()
+          .simulate('click')
+        await flushPromises()
+        app.update()
+        app
+          .find('#next_section')
+          .hostNodes()
+          .simulate('click')
+        await flushPromises()
+        app.update()
+        app
+          .find('#next_section')
+          .hostNodes()
+          .simulate('click')
         await flushPromises()
         app.update()
       })
       it('image upload field is rendered', () => {
-        expect(app.find('#image_uploader').hostNodes()).toHaveLength(1)
+        expect(app.find('#imageUploader').hostNodes()).toHaveLength(1)
       })
       describe('when user clicks image upload field', () => {
         beforeEach(async () => {
           app
-            .find('#image_uploader')
+            .find('#imageUploader')
             .hostNodes()
             .simulate('click')
 

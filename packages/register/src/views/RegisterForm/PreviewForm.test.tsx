@@ -6,28 +6,31 @@ import {
   getItem,
   flushPromises,
   setItem
-} from 'src/tests/util'
+} from '@register/tests/util'
 import {
   DRAFT_BIRTH_PARENT_FORM,
-  REVIEW_EVENT_PARENT_FORM_TAB,
+  REVIEW_EVENT_PARENT_FORM_PAGE,
   HOME
-} from 'src/navigation/routes'
+} from '@register/navigation/routes'
 import {
   storeApplication,
   IApplication,
   SUBMISSION_STATUS
-} from 'src/applications'
+} from '@register/applications'
 import { ReactWrapper } from 'enzyme'
 import { History } from 'history'
 import { Store } from 'redux'
-import { getOfflineDataSuccess } from 'src/offline/actions'
-import * as fetch from 'jest-fetch-mock'
-import { storage } from 'src/storage'
-import { Event } from 'src/forms'
+import { getOfflineDataSuccess } from '@register/offline/actions'
+import { storage } from '@register/storage'
+import { Event } from '@register/forms'
 import { v4 as uuid } from 'uuid'
 import * as ReactApollo from 'react-apollo'
 import { checkAuth } from '@opencrvs/register/src/profile/profileActions'
-import * as CommonUtils from 'src/utils/commonUtils'
+import * as CommonUtils from '@register/utils/commonUtils'
+
+import * as fetchAny from 'jest-fetch-mock'
+
+const fetch = fetchAny as any
 
 interface IPersonDetails {
   [key: string]: any
@@ -38,7 +41,7 @@ storage.setItem = jest.fn()
 jest.spyOn(CommonUtils, 'isMobileDevice').mockReturnValue(true)
 
 beforeEach(() => {
-  history.replaceState({}, '', '/')
+  window.history.replaceState({}, '', '/')
   assign.mockClear()
 })
 
@@ -150,7 +153,7 @@ describe('when user is previewing the form data', () => {
         father: fatherDetails,
         mother: motherDetails,
         registration: registrationDetails,
-        documents: { image_uploader: '' }
+        documents: { imageUploader: '' }
       }
 
       customDraft = {
@@ -187,10 +190,33 @@ describe('when user is previewing the form data', () => {
     describe('when user clicks the "submit" button', () => {
       beforeEach(async () => {
         app
-          .find('#tab_preview')
+          .find('#next_section')
           .hostNodes()
           .simulate('click')
-
+        await flushPromises()
+        app.update()
+        app
+          .find('#next_section')
+          .hostNodes()
+          .simulate('click')
+        await flushPromises()
+        app.update()
+        app
+          .find('#next_section')
+          .hostNodes()
+          .simulate('click')
+        await flushPromises()
+        app.update()
+        app
+          .find('#next_section')
+          .hostNodes()
+          .simulate('click')
+        await flushPromises()
+        app.update()
+        app
+          .find('#next_section')
+          .hostNodes()
+          .simulate('click')
         await flushPromises()
         app.update()
       })
@@ -380,7 +406,7 @@ describe('when user is previewing the form data', () => {
         mother: motherDetails,
         registration: registrationDetails,
         documents: {
-          image_uploader: [
+          imageUploader: [
             {
               data: 'base64-data',
               type: 'image/jpeg',
@@ -395,12 +421,12 @@ describe('when user is previewing the form data', () => {
       customDraft = { id: uuid(), data, review: true, event: Event.BIRTH }
       store.dispatch(storeApplication(customDraft))
       history.replace(
-        REVIEW_EVENT_PARENT_FORM_TAB.replace(
+        REVIEW_EVENT_PARENT_FORM_PAGE.replace(
           ':applicationId',
           customDraft.id.toString()
         )
           .replace(':event', 'birth')
-          .replace(':tabId', 'review')
+          .replace(':pageId', 'review')
       )
       app.update()
       app
@@ -419,8 +445,12 @@ describe('when user is previewing the form data', () => {
       app.update()
     })
 
-    it('review tab should show up', () => {
-      expect(app.find('#tab_review').hostNodes()).toHaveLength(1)
+    it('review page should show up', () => {
+      const reviewTitle = app
+        .find('#view_title')
+        .hostNodes()
+        .text()
+      expect(reviewTitle).toEqual('Birth Registration Review')
     })
     it('successfully submits the review form', async () => {
       jest.setMock('react-apollo', { default: ReactApollo })
@@ -485,7 +515,7 @@ describe('when user is previewing the form data', () => {
 
       expect(app.find('#register_cancel').hostNodes()).toHaveLength(0)
     })
-    it('rejecting application redirects to reject confirmation screen', async () => {
+    it('rejecting application redirects to home screen', async () => {
       jest.setMock('react-apollo', { default: ReactApollo })
       app
         .find('#next_button_child')
@@ -522,6 +552,7 @@ describe('when user is previewing the form data', () => {
           }
         })
 
+      store.dispatch = jest.fn()
       app
         .find('#submit_reject_form')
         .hostNodes()
@@ -530,12 +561,13 @@ describe('when user is previewing the form data', () => {
       await flushPromises()
       app.update()
 
-      expect(
-        app
-          .find('#submission_text')
-          .hostNodes()
-          .text()
-      ).toEqual('birth application has been rejected.')
+      expect(store.dispatch).toBeCalled()
+      // expect(
+      //   app
+      //     .find('#submission_text')
+      //     .hostNodes()
+      //     .text()
+      // ).toEqual('birth application has been rejected.')
     })
   })
   describe('when user is in the death review section', () => {
@@ -658,7 +690,7 @@ describe('when user is previewing the form data', () => {
         causeOfDeath: causeOfDeathDetails,
         registration: registrationDetails,
         documents: {
-          image_uploader: [
+          imageUploader: [
             {
               data: 'base64-data',
               type: 'image/jpeg',
@@ -673,12 +705,12 @@ describe('when user is previewing the form data', () => {
       customDraft = { id: uuid(), data, review: true, event: Event.DEATH }
       store.dispatch(storeApplication(customDraft))
       history.replace(
-        REVIEW_EVENT_PARENT_FORM_TAB.replace(
+        REVIEW_EVENT_PARENT_FORM_PAGE.replace(
           ':applicationId',
           customDraft.id.toString()
         )
           .replace(':event', 'death')
-          .replace(':tabId', 'review')
+          .replace(':pageId', 'review')
       )
       app.update()
       app
@@ -697,8 +729,12 @@ describe('when user is previewing the form data', () => {
       app.update()
     })
 
-    it('review tab should show up', () => {
-      expect(app.find('#tab_review').hostNodes()).toHaveLength(1)
+    it('review page should show up', () => {
+      const reviewTitle = app
+        .find('#view_title')
+        .hostNodes()
+        .text()
+      expect(reviewTitle).toEqual('Death Registration Review')
     })
     it('successfully submits the review form', async () => {
       jest.setMock('react-apollo', { default: ReactApollo })
@@ -767,20 +803,18 @@ describe('when user is previewing the form data', () => {
           }
         })
 
+      store.dispatch = jest.fn()
       app
         .find('#submit_reject_form')
         .hostNodes()
         .simulate('click')
 
+      await new Promise(resolve => {
+        setTimeout(resolve, 500)
+      })
       await flushPromises()
       app.update()
-
-      expect(
-        app
-          .find('#submission_text')
-          .hostNodes()
-          .text()
-      ).toEqual('death application has been rejected.')
+      expect(store.dispatch).toBeCalled()
     })
   })
 })
