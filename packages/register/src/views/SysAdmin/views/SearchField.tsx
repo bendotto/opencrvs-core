@@ -89,14 +89,12 @@ const messages = defineMessages({
 interface IProps {
   theme: ITheme
   language: string
-  searchText: string
-  placeholder: string
-  onModalClose: () => void
-  onModalComplete: (location: ILocation) => void
+  onModalComplete: (value: string) => void
 }
 interface IState {
   searchText: string
   selectedValue: string
+  showModal: boolean
 }
 interface ILocation {
   id: string
@@ -105,12 +103,13 @@ interface ILocation {
 }
 
 type IFullProps = IProps & InjectedIntlProps
-class OfficeSearchModalClass extends React.Component<IFullProps, IState> {
+class SearchFieldClass extends React.Component<IFullProps, IState> {
   constructor(props: IFullProps) {
     super(props)
     this.state = {
-      searchText: this.props.searchText ? this.props.searchText : '',
-      selectedValue: ''
+      searchText: '',
+      selectedValue: '',
+      showModal: false
     }
   }
 
@@ -124,6 +123,22 @@ class OfficeSearchModalClass extends React.Component<IFullProps, IState> {
     this.setState({
       selectedValue: value as string
     })
+  }
+
+  toggleOfficeSearchModal = (param?: string) => {
+    this.setState({
+      searchText: param || '',
+      showModal: !this.state.showModal
+    })
+  }
+
+  onModalClose = () => {
+    this.toggleOfficeSearchModal()
+  }
+
+  onModalComplete = (officeInput: ILocation) => {
+    this.props.onModalComplete(officeInput.id)
+    this.toggleOfficeSearchModal()
   }
 
   render() {
@@ -173,9 +188,10 @@ class OfficeSearchModalClass extends React.Component<IFullProps, IState> {
               isRight={true}
               color={this.props.theme.colors.black}
             >
-              {intl.formatMessage(messages.locationId, {
-                locationId: location.id
-              })}
+              {location.name === selectedValue &&
+                intl.formatMessage(messages.locationId, {
+                  locationId: location.id
+                })}
             </Item>
           </ItemContainer>
         )
@@ -184,39 +200,48 @@ class OfficeSearchModalClass extends React.Component<IFullProps, IState> {
 
     return (
       <>
-        <ResponsiveModal
-          id="office-search-modal"
-          title={intl.formatMessage(messages.title)}
-          width={918}
-          contentHeight={280}
-          show={true}
-          handleClose={this.props.onModalClose}
-          actions={[
-            <CancelButton
-              key="cancel"
-              id="modal_cancel"
-              onClick={this.props.onModalClose}
-            >
-              {intl.formatMessage(messages.cancel)}
-            </CancelButton>,
-            <SelectButton
-              key="select"
-              id="modal_select"
-              onClick={() => this.props.onModalComplete(selectedLocation)}
-            >
-              {intl.formatMessage(messages.select)}
-            </SelectButton>
-          ]}
-        >
-          <ChildContainer>
-            <SearchInputWithIcon
-              placeHolderText={this.props.placeholder}
-              searchText={this.state.searchText}
-              searchHandler={this.handleSearch}
-            />
-            <ListContainer>{listItems}</ListContainer>
-          </ChildContainer>
-        </ResponsiveModal>
+        {!this.state.showModal && (
+          <SearchInputWithIcon
+            placeHolderText="search"
+            searchText={this.state.searchText}
+            searchHandler={this.toggleOfficeSearchModal}
+          />
+        )}
+        {this.state.showModal && (
+          <ResponsiveModal
+            id="office-search-modal"
+            title={intl.formatMessage(messages.title)}
+            width={918}
+            contentHeight={280}
+            show={true}
+            handleClose={this.onModalClose}
+            actions={[
+              <CancelButton
+                key="cancel"
+                id="modal_cancel"
+                onClick={this.onModalClose}
+              >
+                {intl.formatMessage(messages.cancel)}
+              </CancelButton>,
+              <SelectButton
+                key="select"
+                id="modal_select"
+                onClick={() => this.onModalComplete(selectedLocation)}
+              >
+                {intl.formatMessage(messages.select)}
+              </SelectButton>
+            ]}
+          >
+            <ChildContainer>
+              <SearchInputWithIcon
+                placeHolderText="search"
+                searchText={this.state.searchText}
+                searchHandler={this.handleSearch}
+              />
+              <ListContainer>{listItems}</ListContainer>
+            </ChildContainer>
+          </ResponsiveModal>
+        )}
       </>
     )
   }
@@ -228,6 +253,6 @@ const mapStateToProps = (store: IStoreState) => {
   }
 }
 
-export const OfficeSearchModal = connect(mapStateToProps)(
-  withTheme(injectIntl(OfficeSearchModalClass))
+export const SearchField = connect(mapStateToProps)(
+  withTheme(injectIntl(SearchFieldClass))
 )
