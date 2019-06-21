@@ -1079,6 +1079,8 @@ export const ENGLISH_STATE: ILanguage = {
     'label.username': 'Username',
     'label.userDevice': 'Device',
     'label.registrationOffice': 'Registration Office',
-    'button.continue': 'Continue'
+    'button.continue': 'Continue',
+    'register.sysAdminHome.OfficeSearchModal.editButton':
+      'Change assigned office'
   }
 }

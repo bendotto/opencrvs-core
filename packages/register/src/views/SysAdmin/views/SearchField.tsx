@@ -9,8 +9,13 @@ import {
   RadioButton
 } from '@opencrvs/components/lib/interface'
 import styled, { withTheme } from 'styled-components'
-import { PrimaryButton, TertiaryButton } from '@opencrvs/components/lib/buttons'
+import {
+  PrimaryButton,
+  TertiaryButton,
+  LinkButton
+} from '@opencrvs/components/lib/buttons'
 import { ITheme } from '@opencrvs/components/lib/theme'
+import { TextInput, InputLabel } from '@opencrvs/components/lib/forms'
 
 const SelectButton = styled(PrimaryButton)`
   height: 40px;
@@ -63,7 +68,14 @@ const Item = styled.div.attrs<IItemProps>({})`
   align-items: flex-start;
   ${({ color }) => color && `color: ${color};`}
 `
-
+const InputSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  .item + .item {
+    margin-top: 12px;
+  }
+`
 const messages = defineMessages({
   title: {
     id: 'register.sysAdminHome.OfficeSearchModal.title',
@@ -84,17 +96,26 @@ const messages = defineMessages({
     id: 'register.sysAdminHome.OfficeSearchModal.locationId',
     defaultMessage: 'Id: {locationId}',
     description: 'The location Id column'
+  },
+  editButton: {
+    id: 'register.sysAdminHome.OfficeSearchModal.editButton',
+    defaultMessage: 'Change assigned office',
+    description: 'Edit button text'
   }
 })
 interface IProps {
   theme: ITheme
   language: string
+  fieldValue: string
+  fieldLabel: string
   onModalComplete: (value: string) => void
 }
 interface IState {
   searchText: string
   selectedValue: string
   showModal: boolean
+  isSearchField: boolean
+  fieldValue: string
 }
 interface ILocation {
   id: string
@@ -109,7 +130,9 @@ class SearchFieldClass extends React.Component<IFullProps, IState> {
     this.state = {
       searchText: '',
       selectedValue: '',
-      showModal: false
+      showModal: false,
+      isSearchField: this.props.fieldValue ? false : true,
+      fieldValue: this.props.fieldValue || ''
     }
   }
 
@@ -125,20 +148,32 @@ class SearchFieldClass extends React.Component<IFullProps, IState> {
     })
   }
 
-  toggleOfficeSearchModal = (param?: string) => {
+  toggleSearchModal = (param?: string) => {
     this.setState({
       searchText: param || '',
-      showModal: !this.state.showModal
+      showModal: !this.state.showModal,
+      isSearchField: true
     })
   }
 
   onModalClose = () => {
-    this.toggleOfficeSearchModal()
+    this.toggleSearchModal()
   }
 
   onModalComplete = (officeInput: ILocation) => {
     this.props.onModalComplete(officeInput.id)
-    this.toggleOfficeSearchModal()
+    this.setState({
+      searchText: '',
+      showModal: !this.state.showModal,
+      isSearchField: false,
+      fieldValue: officeInput.name
+    })
+  }
+
+  handleClick = () => {
+    this.setState({
+      isSearchField: true
+    })
   }
 
   render() {
@@ -201,10 +236,29 @@ class SearchFieldClass extends React.Component<IFullProps, IState> {
     return (
       <>
         {!this.state.showModal && (
+          <InputLabel>{this.props.fieldLabel}</InputLabel>
+        )}
+        {!this.state.showModal && !this.state.isSearchField && (
+          <InputSection>
+            <TextInput
+              value={this.state.fieldValue}
+              disabled
+              className="item"
+            />
+            <LinkButton
+              id="edit-button"
+              className="item"
+              onClick={this.handleClick}
+            >
+              {intl.formatMessage(messages.editButton)}
+            </LinkButton>
+          </InputSection>
+        )}
+        {!this.state.showModal && this.state.isSearchField && (
           <SearchInputWithIcon
             placeHolderText="search"
             searchText={this.state.searchText}
-            searchHandler={this.toggleOfficeSearchModal}
+            searchHandler={this.toggleSearchModal}
           />
         )}
         {this.state.showModal && (

@@ -1077,6 +1077,8 @@ export const BENGALI_STATE: ILanguage = {
     'label.username': 'ব্যবহারকারীর নাম',
     'label.userDevice': 'ডিভাইস',
     'label.registrationOffice': 'নিবন্ধন অফিস',
-    'button.continue': 'অগ্রসর হোন'
+    'button.continue': 'অগ্রসর হোন',
+    'register.sysAdminHome.OfficeSearchModal.editButton':
+      'নিবন্ধন অফিস হালনাগাদ করুন'
   }
 }

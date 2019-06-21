@@ -11,7 +11,7 @@ const Wrapper = styled.form`
   position: relative;
   border: 2px solid ${({ theme }) => theme.colors.copy};
   border-radius: 2px;
-  width: 320px;
+  width: 515px;
 `
 const SearchTextInput = styled.input`
   border: none;
