@@ -719,6 +719,15 @@ export class SearchResultView extends React.Component<ISearchResultProps> {
   render() {
     const { intl, match } = this.props
     const { searchText, searchType } = match.params
+    console.log('-------------------------')
+    console.log({
+      locationIds: [this.getLocalLocationId()],
+      sort: SEARCH_RESULT_SORT,
+      trackingId: searchType === TRACKING_ID_TEXT ? searchText : '',
+      registrationNumber: searchType === BRN_DRN_TEXT ? searchText : '',
+      contactNumber: searchType === PHONE_TEXT ? searchText : ''
+    })
+    console.log('-------------------------')
     return (
       <>
         <Header

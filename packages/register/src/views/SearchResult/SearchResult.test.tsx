@@ -72,6 +72,7 @@ describe('SearchResult tests', () => {
   })
 
   it('renders all items returned from graphql query', async () => {
+    console.log('-------------------------inside')
     const graphqlMock = [
       {
         request: {
@@ -245,7 +246,7 @@ describe('SearchResult tests', () => {
 
     // wait for mocked data to load mockedProvider
     await new Promise(resolve => {
-      setTimeout(resolve, 500)
+      setTimeout(resolve, 1000)
     })
     testComponent.component.update()
     const data = testComponent.component.find(DataTable).prop('data')
