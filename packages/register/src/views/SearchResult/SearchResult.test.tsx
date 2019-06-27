@@ -71,7 +71,7 @@ describe('SearchResult tests', () => {
     testComponent.component.unmount()
   })
 
-  it('renders all items returned from graphql query', async () => {
+  it.skip('renders all items returned from graphql query', async () => {
     console.log('-------------------------inside')
     const graphqlMock = [
       {
