@@ -7,6 +7,7 @@ import {
 import { storage } from '@opencrvs/register/src/storage'
 
 export const USER_DETAILS = 'USER_DETAILS'
+export const USER_DATA = 'USER_DATA'
 
 export interface IIdentifier {
   system: string
