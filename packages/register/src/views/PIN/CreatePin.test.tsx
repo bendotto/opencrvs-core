@@ -4,10 +4,9 @@ import { CreatePin } from '@register/views/PIN/CreatePin'
 import { createStore } from '@register/store'
 import { storage } from '@opencrvs/register/src/storage'
 import { ReactWrapper } from 'enzyme'
+import { USER_DATA } from '@register/utils/userUtils'
 
-storage.setItem = jest.fn()
-
-describe('Create PIN view', async () => {
+describe('Create PIN view', () => {
   let c: ReactWrapper
 
   beforeEach(() => {
@@ -119,6 +118,25 @@ describe('Create PIN view', async () => {
   })
 
   it('stores the hashed PIN in storage if PINs match', async () => {
+    const indexedDB: { [key: string]: string } = {
+      USER_DATA: JSON.stringify([
+        {
+          userID: 'shakib75',
+          userPIN: '1212',
+          applications: []
+        }
+      ]),
+      USER_DETAILS: JSON.stringify({ userMgntUserID: 'shakib75' })
+    }
+
+    storage.setItem = jest.fn(
+      async (key: string, value: string): Promise<string> =>
+        new Promise(() => (indexedDB[key] = value))
+    )
+    storage.getItem = jest.fn(
+      async (key: string): Promise<string> => indexedDB[key]
+    )
+
     c.find('span#keypad-1').simulate('click')
     c.find('span#keypad-1').simulate('click')
     c.find('span#keypad-1').simulate('click')
@@ -145,6 +163,6 @@ describe('Create PIN view', async () => {
 
     c.update()
 
-    expect(storage.setItem).toBeCalledWith('pin', expect.any(String))
+    expect(storage.setItem).toBeCalledWith(USER_DATA, expect.any(String))
   })
 })
