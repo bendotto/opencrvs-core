@@ -6,7 +6,7 @@ import { redirectToAuthentication } from '@register/profile/profileActions'
 import { connect } from 'react-redux'
 import { IStoreState } from '@register/store'
 import { getUserDetails } from '@register/profile/profileSelectors'
-import { IUserDetails } from '@register/utils/userUtils'
+import { IUserDetails, USER_DATA } from '@register/utils/userUtils'
 import { GQLHumanName } from '@opencrvs/gateway/src/graphql/schema'
 import { defineMessages, injectIntl, InjectedIntlProps } from 'react-intl'
 import { storage } from '@register/storage'
@@ -19,6 +19,7 @@ import { SCREEN_LOCK } from '@register/components/ProtectedPage'
 import { ErrorMessage } from '@opencrvs/components/lib/forms'
 import { pinOps } from '@register/views/Unlock/ComparePINs'
 import * as ReactDOM from 'react-dom'
+import { getCurrentUserID, IUserData } from '@register/applications'
 
 const messages: {
   [key: string]: ReactIntl.FormattedMessage.MessageDescriptor
@@ -122,10 +123,18 @@ class UnlockView extends React.Component<IFullProps, IFullState> {
   }
 
   async loadUserPin() {
-    const userPin = (await storage.getItem(SECURITY_PIN_INDEX)) || ''
-    this.setState(() => ({
+    // const userPin = (await storage.getItem(SECURITY_PIN_INDEX)) || ''
+    const currentUserID = await getCurrentUserID()
+    const allUserData = JSON.parse(
+      await storage.getItem(USER_DATA)
+    ) as IUserData[]
+    const currentUserData = allUserData.find(
+      user => user.userID === currentUserID
+    ) || { userPIN: '' }
+    const userPin = currentUserData.userPIN || ''
+    this.setState({
       userPin
-    }))
+    })
   }
 
   showName() {

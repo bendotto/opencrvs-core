@@ -1,7 +1,11 @@
 import { Event, IFormData, IFormFieldValue } from '@register/forms'
 import { Action as NavigationAction, GO_TO_PAGE } from '@register/navigation'
 import { storage } from '@register/storage'
-import { IUserDetails } from '@register/utils/userUtils'
+import {
+  IUserDetails,
+  USER_DATA,
+  USER_DETAILS
+} from '@register/utils/userUtils'
 import { Cmd, loop, Loop, LoopReducer } from 'redux-loop'
 import { v4 as uuid } from 'uuid'
 
@@ -99,6 +103,7 @@ export type Action =
 
 export interface IUserData {
   userID: string
+  userPIN?: string
   applications: IApplication[]
 }
 
@@ -178,16 +183,13 @@ export function writeApplication(
 }
 
 export async function getCurrentUserID(): Promise<string> {
-  const userDetails = await storage.getItem('USER_DETAILS')
-  if (!userDetails) {
-    return ''
-  }
-  return (JSON.parse(userDetails) as IUserDetails).userMgntUserID || ''
+  const userDetails = await storage.getItem(USER_DETAILS)
+  return (userDetails && JSON.parse(userDetails).userMgntUserID) || ''
 }
 
 export async function getApplicationsOfCurrentUser(): Promise<string> {
   // returns a 'stringified' IUserData
-  const storageTable = await storage.getItem('USER_DATA')
+  const storageTable = await storage.getItem(USER_DATA)
   if (!storageTable) {
     return '{}'
   }
@@ -220,7 +222,7 @@ export async function writeApplicationByUser(
   application: IApplication
 ): Promise<string> {
   const uID = userId || (await getCurrentUserID())
-  const userData = await storage.getItem('USER_DATA')
+  const userData = await storage.getItem(USER_DATA)
   if (!userData) {
     // No storage option found
     storage.configStorage('OpenCRVS')
@@ -248,7 +250,7 @@ export async function writeApplicationByUser(
     }
     allUserData.push(currentUserData)
   }
-  storage.setItem('USER_DATA', JSON.stringify(allUserData))
+  storage.setItem(USER_DATA, JSON.stringify(allUserData))
 
   return JSON.stringify(currentUserData)
 }
@@ -258,7 +260,7 @@ export async function deleteApplicationByUser(
   application: IApplication
 ): Promise<string> {
   const uID = userId || (await getCurrentUserID())
-  const userData = await storage.getItem('USER_DATA')
+  const userData = await storage.getItem(USER_DATA)
   if (!userData) {
     // No storage option found
     storage.configStorage('OpenCRVS')
@@ -275,7 +277,7 @@ export async function deleteApplicationByUser(
   if (deletedApplicationId >= 0) {
     currentUserData &&
       currentUserData.applications.splice(deletedApplicationId, 1)
-    storage.setItem('USER_DATA', JSON.stringify(allUserData))
+    storage.setItem(USER_DATA, JSON.stringify(allUserData))
   }
 
   return JSON.stringify(currentUserData)

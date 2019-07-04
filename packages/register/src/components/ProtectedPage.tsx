@@ -6,8 +6,9 @@ import { storage } from '@register/storage'
 import { withRouter, RouteComponentProps } from 'react-router'
 import { isMobileDevice } from '@register/utils/commonUtils'
 import IdleTimer from 'react-idle-timer'
-import { USER_DETAILS } from '@register/utils/userUtils'
+import { USER_DETAILS, USER_DATA } from '@register/utils/userUtils'
 import { ProtectedAccount } from '@register/components/ProtectedAccount'
+import { getCurrentUserID, IUserData } from '@register/applications'
 export const SCREEN_LOCK = 'screenLock'
 
 interface IProtectPageState {
@@ -72,7 +73,19 @@ class ProtectedPageComponent extends React.Component<
   }
   /* eventually we will take this pin from current user-details */
   async getPIN() {
-    return await storage.getItem('pin')
+    const currentUserID = await getCurrentUserID()
+    const userData = await storage.getItem(USER_DATA)
+    if (!userData) {
+      return ''
+    }
+    const allUserData = JSON.parse(userData) as IUserData[]
+    if (!allUserData || !allUserData.length) {
+      return ''
+    }
+    const currentUserData = allUserData.find(
+      user => user.userID === currentUserID
+    )
+    return (currentUserData && currentUserData.userPIN) || ''
   }
 
   onIdle() {
