@@ -4,7 +4,10 @@ import { RouteComponentProps } from 'react-router'
 import { IApplication, SUBMISSION_STATUS } from '@register/applications'
 import {
   goToPage as goToPageAction,
-  goToHome as goToHomeAction
+  goToHome as goToHomeAction,
+  goToInProgressTab as goToInProgressTabAction,
+  goToUpdatesTab as goToUpdatesTabAction,
+  goToReviewTab as goToReviewTabAction
 } from '@register/navigation'
 import { getUserDetails } from '@register/profile/profileSelectors'
 import { IStoreState } from '@register/store'
@@ -112,6 +115,9 @@ interface IDetailProps {
   userDetails: IUserDetails | null
   goToPage: typeof goToPageAction
   goToHome: typeof goToHomeAction
+  goToInProgressTab: typeof goToInProgressTabAction
+  goToUpdatesTab: typeof goToUpdatesTabAction
+  goToReviewTab: typeof goToReviewTabAction
 }
 
 interface IStatus {
@@ -581,11 +587,29 @@ class DetailView extends React.Component<IDetailProps & InjectedIntlProps> {
   }
 
   renderSubPage(historyData: IHistoryData) {
+    const status = (this.props.draft &&
+      this.props.draft.submissionStatus) as string
+    let action: any
+    switch (status) {
+      case SUBMISSION_STATUS[SUBMISSION_STATUS.DRAFT]:
+        action = this.props.goToInProgressTab
+        break
+      case SUBMISSION_STATUS[SUBMISSION_STATUS.REJECTED]:
+        action = this.props.goToUpdatesTab
+        break
+      case SUBMISSION_STATUS[SUBMISSION_STATUS.SUBMITTING]:
+      case SUBMISSION_STATUS[SUBMISSION_STATUS.SUBMITTED]:
+        action = this.props.goToReviewTab
+        break
+      default:
+        action = this.props.goToHome
+        break
+    }
     return (
       <SubPage
         title={historyData.title}
         emptyTitle={this.props.intl.formatMessage(messages.emptyTitle)}
-        goBack={this.props.goToHome}
+        goBack={action}
       >
         {this.renderHistory(historyData.history)}
         {historyData.action}
@@ -667,6 +691,9 @@ export const Details = connect(
   mapStateToProps,
   {
     goToPage: goToPageAction,
-    goToHome: goToHomeAction
+    goToHome: goToHomeAction,
+    goToInProgressTab: goToInProgressTabAction,
+    goToUpdatesTab: goToUpdatesTabAction,
+    goToReviewTab: goToReviewTabAction
   }
 )(injectIntl(withTheme(DetailView)))

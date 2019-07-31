@@ -132,6 +132,27 @@ export function goToInProgressTab() {
   return push(formatUrl(path, { tabId: 'progress', selectorId: 'you' }))
 }
 
+export function goToReviewTab() {
+  const path = getCurrentUserScope().includes('declare')
+    ? FIELD_AGENT_HOME_TAB
+    : REGISTRAR_HOME_TAB
+  return push(formatUrl(path, { tabId: 'review', selectorId: 'you' }))
+}
+
+export function goToUpdatesTab() {
+  const path = getCurrentUserScope().includes('declare')
+    ? FIELD_AGENT_HOME_TAB
+    : REGISTRAR_HOME_TAB
+  return push(formatUrl(path, { tabId: 'updates', selectorId: 'you' }))
+}
+
+export function goToPrintTab() {
+  const path = getCurrentUserScope().includes('declare')
+    ? FIELD_AGENT_HOME_TAB
+    : REGISTRAR_HOME_TAB
+  return push(formatUrl(path, { tabId: 'print', selectorId: 'you' }))
+}
+
 export function goToPerformance() {
   window.location.assign(`${window.config.PERFORMANCE_URL}?token=${getToken()}`)
 }
