@@ -104,6 +104,26 @@ describe('verify collector tests', () => {
         ).toHaveLength(1)
       })
 
+      it('clicking on send button on modal takes user to payment if there is fee', () => {
+        Date.now = jest.fn(() => 969732000000)
+
+        testComponent
+          .find('#idVerifier')
+          .find('#verifyNegative')
+          .hostNodes()
+          .simulate('click')
+
+        testComponent.update()
+
+        testComponent
+          .find('#withoutVerificationPrompt')
+          .find('#send')
+          .hostNodes()
+          .simulate('click')
+
+        expect(history.location.pathname).toContain('payment')
+      })
+
       it('clicking on cancel button hides the modal', () => {
         testComponent
           .find('#idVerifier')

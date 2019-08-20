@@ -1,7 +1,11 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { ActionPageLight } from '@opencrvs/components/lib/interface'
-import { goBack, goToReviewCertificate } from '@register/navigation'
+import {
+  goBack,
+  goToReviewCertificate,
+  goToPrintCertificatePayment
+} from '@register/navigation'
 import { IDVerifier } from '@register/views/PrintCertificate/IDVerifier'
 import { Event, IFormData } from '@register/forms'
 import { RouteComponentProps } from 'react-router'
@@ -24,6 +28,7 @@ interface IDispatchProps {
   goBack: typeof goBack
   modifyApplication: typeof modifyApplication
   goToReviewCertificate: typeof goToReviewCertificate
+  goToPrintCertificatePayment: typeof goToPrintCertificatePayment
 }
 
 type IOwnProps = RouteComponentProps<IMatchParams> & InjectedIntlProps
@@ -37,6 +42,11 @@ class VerifyCollectorComponent extends React.Component<IFullProps> {
 
     if (isFreeOfCost(event, eventDate)) {
       this.props.goToReviewCertificate(
+        this.props.match.params.registrationId,
+        event
+      )
+    } else {
+      this.props.goToPrintCertificatePayment(
         this.props.match.params.registrationId,
         event
       )
@@ -97,5 +107,10 @@ const mapStateToProps = (
 
 export const VerifyCollector = connect(
   mapStateToProps,
-  { goBack, modifyApplication, goToReviewCertificate }
+  {
+    goBack,
+    modifyApplication,
+    goToReviewCertificate,
+    goToPrintCertificatePayment
+  }
 )(injectIntl(VerifyCollectorComponent))
