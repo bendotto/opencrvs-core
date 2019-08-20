@@ -65,7 +65,7 @@ function ParentDetailsComponent({
       <Label>{intl.formatMessage(messages.firstName)}:</Label>
       <Text>{information.name[0] ? information.name[0].firstNames : ''}</Text>
       <Divider />
-      <Label>{intl.formatMessage(messages.familyName)}:</Label>
+      <Label>{intl.formatMessage(messages.lastName)}:</Label>
       <Text>{information.name[0] ? information.name[0].familyName : ''}</Text>
       <br />
       <Label>{intl.formatMessage(messages.firstNameInEng)}:</Label>
