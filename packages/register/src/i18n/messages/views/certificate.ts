@@ -9,7 +9,7 @@ interface ICertificateMessages {
   certificateReceiptSubHeader: ReactIntl.FormattedMessage.MessageDescriptor
   collectPayment: ReactIntl.FormattedMessage.MessageDescriptor
   dateOfBirth: ReactIntl.FormattedMessage.MessageDescriptor
-  familyName: ReactIntl.FormattedMessage.MessageDescriptor
+  lastName: ReactIntl.FormattedMessage.MessageDescriptor
   familyNameInEng: ReactIntl.FormattedMessage.MessageDescriptor
   father: ReactIntl.FormattedMessage.MessageDescriptor
   firstName: ReactIntl.FormattedMessage.MessageDescriptor
@@ -95,14 +95,14 @@ const messagesToDefine: ICertificateMessages = {
     id: 'print.certificate.collectPayment'
   },
   dateOfBirth: {
-    defaultMessage: 'Date of Birth',
+    defaultMessage: 'Date of birth',
     description: 'Parent Date of Birth',
     id: 'certificate.parent.details.label.dateOfBirth'
   },
-  familyName: {
-    defaultMessage: 'Family Name',
-    description: 'Parent family name',
-    id: 'certificate.parent.details.label.familyName'
+  lastName: {
+    defaultMessage: 'Last name',
+    description: 'Parent last name',
+    id: 'certificate.parent.details.label.lastName'
   },
   familyNameInEng: {
     defaultMessage: 'Family Name(in english)',
@@ -116,7 +116,7 @@ const messagesToDefine: ICertificateMessages = {
     id: 'print.certificate.collector.father'
   },
   firstName: {
-    defaultMessage: 'First Name(s)',
+    defaultMessage: 'First name(s)',
     description: 'Parent first names',
     id: 'certificate.parent.details.label.firstName'
   },

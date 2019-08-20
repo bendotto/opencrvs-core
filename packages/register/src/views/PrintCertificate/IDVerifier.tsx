@@ -95,7 +95,7 @@ class IDVerifierComponent extends React.Component<
       locale === 'en'
         ? info.firstNamesEng || info.applicantFirstNamesEng
         : info.firstNames || info.applicantFirstNames
-    const familyName =
+    const lastName =
       locale === 'en'
         ? info.familyNameEng || info.applicantFamilyNameEng
         : info.familyName || info.applicantFamilyName
@@ -107,7 +107,7 @@ class IDVerifierComponent extends React.Component<
       iD,
       iDType,
       firstNames,
-      familyName,
+      lastName,
       birthDate,
       nationality
     }
@@ -119,7 +119,7 @@ class IDVerifierComponent extends React.Component<
       iD,
       iDType,
       firstNames,
-      familyName,
+      lastName,
       birthDate,
       nationality
     } = this.getGenericCollectorInfo(collectorInformation)
@@ -142,8 +142,8 @@ class IDVerifierComponent extends React.Component<
         )}
 
         <LabelValuePair
-          label={intl.formatMessage(certificateMessages.familyName)}
-          value={String(familyName)}
+          label={intl.formatMessage(certificateMessages.lastName)}
+          value={String(lastName)}
         />
 
         {birthDate && (
