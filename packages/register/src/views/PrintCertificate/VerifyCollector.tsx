@@ -1,14 +1,15 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { ActionPageLight } from '@opencrvs/components/lib/interface'
-import { goBack } from '@register/navigation'
+import { goBack, goToReviewCertificate } from '@register/navigation'
 import { IDVerifier } from '@register/views/PrintCertificate/IDVerifier'
-import { Event } from '@register/forms'
+import { Event, IFormData } from '@register/forms'
 import { RouteComponentProps } from 'react-router'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { IStoreState } from '@register/store'
 import { IApplication, modifyApplication } from '@register/applications'
 import { messages } from '@register/i18n/messages/views/certificate'
+import { isFreeOfCost } from './calculatePrice'
 
 interface IMatchParams {
   registrationId: string
@@ -22,6 +23,7 @@ interface IStateProps {
 interface IDispatchProps {
   goBack: typeof goBack
   modifyApplication: typeof modifyApplication
+  goToReviewCertificate: typeof goToReviewCertificate
 }
 
 type IOwnProps = RouteComponentProps<IMatchParams> & InjectedIntlProps
@@ -29,20 +31,25 @@ type IOwnProps = RouteComponentProps<IMatchParams> & InjectedIntlProps
 type IFullProps = IStateProps & IDispatchProps & IOwnProps
 
 class VerifyCollectorComponent extends React.Component<IFullProps> {
-  handleVerification = (verified: boolean) => {
-    const updatedApplicationData = {
-      ...this.props.application.data,
-      certificateCollector: {
-        verified
-      }
-    }
+  handleVerification = () => {
+    const event = this.props.application.event
+    const eventDate = this.getEventDate(this.props.application.data, event)
 
-    const applicationWithVerificationStatus = {
-      ...this.props.application,
-      data: updatedApplicationData
+    if (isFreeOfCost(event, eventDate)) {
+      this.props.goToReviewCertificate(
+        this.props.match.params.registrationId,
+        event
+      )
     }
+  }
 
-    this.props.modifyApplication(applicationWithVerificationStatus)
+  getEventDate(data: IFormData, event: Event) {
+    switch (event) {
+      case Event.BIRTH:
+        return data.child.childBirthDate as string
+      case Event.DEATH:
+        return data.deathEvent.deathDate as string
+    }
   }
 
   render() {
@@ -60,15 +67,11 @@ class VerifyCollectorComponent extends React.Component<IFullProps> {
           actionProps={{
             positiveAction: {
               label: intl.formatMessage(messages.idCheckVerify),
-              handler: () => {
-                this.handleVerification(true)
-              }
+              handler: this.handleVerification
             },
             negativeAction: {
               label: intl.formatMessage(messages.idCheckWithoutVerify),
-              handler: () => {
-                this.handleVerification(false)
-              }
+              handler: this.handleVerification
             }
           }}
         />
@@ -94,5 +97,5 @@ const mapStateToProps = (
 
 export const VerifyCollector = connect(
   mapStateToProps,
-  { goBack, modifyApplication }
+  { goBack, modifyApplication, goToReviewCertificate }
 )(injectIntl(VerifyCollectorComponent))

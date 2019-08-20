@@ -12,7 +12,7 @@ interface IRange {
 
 interface IDayRange {
   rangeData: { [key in Event]?: IRange[] }
-  getValue: (event: string, days: number) => IRange['value']
+  getValue: (event: Event, days: number) => IRange['value']
 }
 
 const ranges: IRange[] = [
@@ -44,7 +44,6 @@ export const dayRange: IDayRange = {
     [Event.BIRTH]: ranges,
     [Event.DEATH]: ranges
   },
-  // @ts-ignore
   getValue
 }
 
@@ -80,4 +79,10 @@ export function calculatePrice(event: Event, eventDate: string) {
   const result = dayRange.getValue(event, days)
 
   return result.toFixed(2)
+}
+
+export function isFreeOfCost(event: Event, eventDate: string): boolean {
+  const days = calculateDays(eventDate)
+  const result = dayRange.getValue(event, days)
+  return result === 0
 }

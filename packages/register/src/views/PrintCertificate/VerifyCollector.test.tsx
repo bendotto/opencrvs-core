@@ -78,17 +78,16 @@ describe('verify collector tests', () => {
         expect(testComponent.find('#idVerifier').hostNodes()).toHaveLength(1)
       })
 
-      it('clicking on yes button marks collector verified', () => {
+      it('clicking on yes button takes user to review certificate if there is no fee', () => {
+        Date.now = jest.fn(() => 243885600000)
+
         testComponent
           .find('#idVerifier')
           .find('#verifyPositive')
           .hostNodes()
           .simulate('click')
 
-        expect(
-          store.getState().applicationsState.applications[0].data
-            .certificateCollector.verified
-        ).toBe(true)
+        expect(history.location.pathname).toContain('review')
       })
 
       it('clicking on no button shows up modal', () => {
@@ -103,27 +102,6 @@ describe('verify collector tests', () => {
         expect(
           testComponent.find('#withoutVerificationPrompt').hostNodes()
         ).toHaveLength(1)
-      })
-
-      it('clicking on send button on modal marks collector unverified', () => {
-        testComponent
-          .find('#idVerifier')
-          .find('#verifyNegative')
-          .hostNodes()
-          .simulate('click')
-
-        testComponent.update()
-
-        testComponent
-          .find('#withoutVerificationPrompt')
-          .find('#send')
-          .hostNodes()
-          .simulate('click')
-
-        expect(
-          store.getState().applicationsState.applications[0].data
-            .certificateCollector.verified
-        ).toBe(false)
       })
 
       it('clicking on cancel button hides the modal', () => {
