@@ -114,6 +114,7 @@ interface IFormMessages {
   docTypeBR: MessageDescriptor
   docTypeChildAgeProof: MessageDescriptor
   docTypeChildBirthProof: MessageDescriptor
+  docTypeChildUnderFiveCard: MessageDescriptor
   docTypeCopyOfBurialReceipt: MessageDescriptor
   docTypeDeathCertificate: MessageDescriptor
   docTypeDoctorCertificate: MessageDescriptor
@@ -867,6 +868,11 @@ const messagesToDefine: IFormMessages = {
     defaultMessage: 'Proof of place and date of birth',
     description: 'Label for select option Child Birth Proof',
     id: 'form.field.label.docTypeChildBirthProof'
+  },
+  docTypeChildUnderFiveCard: {
+    defaultMessage: 'Under five card',
+    description: 'Label for select option Under five card',
+    id: 'form.field.label.docTypeChildUnderFiveCard'
   },
   docTypeCopyOfBurialReceipt: {
     defaultMessage: 'Certified copy of burial receipt',
