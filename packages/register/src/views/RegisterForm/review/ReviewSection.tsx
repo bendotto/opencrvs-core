@@ -64,7 +64,9 @@ import {
   Event,
   Section,
   BirthSection,
-  DeathSection
+  DeathSection,
+  RADIO_GROUP,
+  IRadioOption
 } from '@register/forms'
 import { formatLongDate } from '@register/utils/date-formatting'
 import { messages, dynamicMessages } from '@register/i18n/messages/views/review'
@@ -194,9 +196,9 @@ const getDocumentSections = (registerForm: IForm): IFormSection[] => {
   )
 }
 
-function renderSelectLabel(
+function renderSelectOrRadioLabel(
   value: IFormFieldValue,
-  options: ISelectOption[],
+  options: ISelectOption[] | IRadioOption[],
   intl: InjectedIntl
 ) {
   const selectedOption = options.find(option => option.value === value)
@@ -258,8 +260,11 @@ const renderValue = (
   const value: IFormFieldValue = draft.data[section.id]
     ? draft.data[section.id][field.name]
     : ''
-  if (field.type === SELECT_WITH_OPTIONS && field.options) {
-    return renderSelectLabel(value, field.options, intl)
+  if (
+    (field.type === SELECT_WITH_OPTIONS || field.type === RADIO_GROUP) &&
+    field.options
+  ) {
+    return renderSelectOrRadioLabel(value, field.options, intl)
   }
   if (field.type === SELECT_WITH_DYNAMIC_OPTIONS && field.dynamicOptions) {
     const draftData = draft.data[section.id]
