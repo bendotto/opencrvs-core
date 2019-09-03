@@ -1,8 +1,11 @@
 import { PrimaryButton, TertiaryButton } from '@opencrvs/components/lib/buttons'
 import { Print } from '@opencrvs/components/lib/icons'
 import { ActionPageLight } from '@opencrvs/components/lib/interface'
-import { IApplication, modifyApplication } from '@register/applications'
-import { Event, ICertificate } from '@register/forms'
+import {
+  IPrintableApplication,
+  modifyApplication
+} from '@register/applications'
+import { Event } from '@register/forms'
 import { buttonMessages } from '@register/i18n/messages'
 import { messages } from '@register/i18n/messages/views/certificate'
 import {
@@ -13,8 +16,9 @@ import { getUserDetails } from '@register/profile/profileSelectors'
 import { IStoreState } from '@register/store'
 import { ITheme } from '@register/styledComponents'
 import { IUserDetails } from '@register/utils/userUtils'
+import { printMoneyReceipt } from '@register/views/PrintCertificate/PDFUtils'
 import * as React from 'react'
-import { InjectedIntlProps, injectIntl } from 'react-intl'
+import { WrappedComponentProps as IntlShapeProps, injectIntl } from 'react-intl'
 import { connect } from 'react-redux'
 import { RouteComponentProps } from 'react-router'
 import styled, { withTheme } from 'styled-components'
@@ -69,7 +73,7 @@ interface IProps {
   event: Event
   registrationId: string
   language: string
-  application: IApplication
+  application: IPrintableApplication
   theme: ITheme
   modifyApplication: typeof modifyApplication
   goToReviewCertificate: typeof goToReviewCertificateAction
@@ -77,16 +81,16 @@ interface IProps {
   userDetails: IUserDetails | null
 }
 
-type IFullProps = IProps & InjectedIntlProps
+type IFullProps = IProps & IntlShapeProps
 
 class PaymentComponent extends React.Component<IFullProps> {
   continue = (paymentAmount: string) => {
     const { application } = this.props
     const certificates =
-      (application &&
-        (application.data.registration.certificates as ICertificate[])) ||
-      null
-    const certificate: ICertificate = (certificates && certificates[0]) || {}
+      application && application.data.registration.certificates
+
+    const certificate = (certificates && certificates[0]) || {}
+
     this.props.modifyApplication({
       ...application,
       data: {
@@ -97,10 +101,10 @@ class PaymentComponent extends React.Component<IFullProps> {
             {
               ...certificate,
               payments: {
-                type: 'MANUAL',
+                type: 'MANUAL' as const,
                 total: paymentAmount,
                 amount: paymentAmount,
-                outcome: 'COMPLETED',
+                outcome: 'COMPLETED' as const,
                 date: Date.now()
               }
             }
@@ -147,7 +151,13 @@ class PaymentComponent extends React.Component<IFullProps> {
               id="print-receipt"
               icon={() => <Print />}
               align={0}
-              onClick={() => {}}
+              onClick={() =>
+                printMoneyReceipt(
+                  this.props.intl,
+                  this.props.application,
+                  this.props.userDetails
+                )
+              }
             >
               {intl.formatMessage(messages.printReceipt)}
             </TertiaryButton>
@@ -184,7 +194,7 @@ function mapStatetoProps(
   const event = getEvent(eventType)
   const application = state.applicationsState.applications.find(
     app => app.id === registrationId && app.event === event
-  )
+  ) as IPrintableApplication | undefined
 
   if (!application) {
     throw new Error(`Application "${registrationId}" missing!`)

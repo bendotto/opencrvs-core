@@ -1,5 +1,9 @@
 import * as React from 'react'
-import { InjectedIntlProps, injectIntl, InjectedIntl } from 'react-intl'
+import {
+  WrappedComponentProps as IntlShapeProps,
+  injectIntl,
+  IntlShape
+} from 'react-intl'
 import { connect } from 'react-redux'
 import { RouteComponentProps, withRouter } from 'react-router'
 import {
@@ -88,7 +92,7 @@ enum ContactPoint {
 }
 
 const setContactPointFields = (
-  intl: InjectedIntl,
+  intl: IntlShape,
   event: string
 ): IInformantField[] => {
   if (event === Event.BIRTH) {
@@ -210,7 +214,7 @@ interface IProps {
   goToDeathRegistration: typeof goToDeathRegistration
 }
 
-type IFullProps = InjectedIntlProps &
+type IFullProps = IntlShapeProps &
   RouteComponentProps<IMatchProps> &
   IProps &
   IStateProps
@@ -258,12 +262,8 @@ class SelectContactPointView extends React.Component<IFullProps, IState> {
   }
 
   handlePhoneNoChange = (value: string) => {
-    let invalidPhoneNo = false
-    if (phoneNumberFormat(value)) {
-      invalidPhoneNo = true
-    }
     this.setState({
-      isPhoneNoError: invalidPhoneNo ? true : false,
+      isPhoneNoError: phoneNumberFormat(value) ? true : false,
       phoneNumber: value,
       touched: true,
       isError: false
@@ -351,6 +351,9 @@ class SelectContactPointView extends React.Component<IFullProps, IState> {
   }
 
   renderPhoneNumberField = (id: string): JSX.Element => {
+    const error =
+      this.state.isPhoneNoError && phoneNumberFormat(this.state.phoneNumber)
+
     return (
       <InputField
         id="phone_number"
@@ -358,9 +361,7 @@ class SelectContactPointView extends React.Component<IFullProps, IState> {
         label={this.props.intl.formatMessage(formMessages.phoneNumber)}
         touched={this.state.touched}
         error={
-          this.state.isPhoneNoError
-            ? this.props.intl.formatMessage(messages.phoneNumberNotValid)
-            : ''
+          error ? this.props.intl.formatMessage(error.message, error.props) : ''
         }
         hideAsterisk={true}
       >

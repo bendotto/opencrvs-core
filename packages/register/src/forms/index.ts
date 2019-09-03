@@ -1,5 +1,5 @@
 import { ValidationInitializer } from '@register/utils/validate'
-import { FormattedMessage } from 'react-intl'
+import { MessageDescriptor } from 'react-intl'
 import {
   ISelectOption as SelectComponentOption,
   IRadioOption as RadioComponentOption,
@@ -18,6 +18,7 @@ import * as labels from './mappings/label'
 import * as types from './mappings/type'
 import * as responseTransformers from './mappings/response-transformers'
 import * as validators from '@opencrvs/register/src/utils/validate'
+import { ICertificate } from '@register/applications'
 
 export const TEXT = 'TEXT'
 export const TEL = 'TEL'
@@ -62,15 +63,15 @@ export enum Action {
 
 export interface ISelectOption {
   value: SelectComponentOption['value']
-  label: FormattedMessage.MessageDescriptor
+  label: MessageDescriptor
 }
 export interface IRadioOption {
   value: RadioComponentOption['value']
-  label: FormattedMessage.MessageDescriptor
+  label: MessageDescriptor
 }
 export interface ICheckboxOption {
   value: CheckboxComponentOption['value']
-  label: FormattedMessage.MessageDescriptor
+  label: MessageDescriptor
 }
 
 export interface IDynamicOptions {
@@ -82,7 +83,7 @@ export interface IDynamicOptions {
 export interface IDynamicItems {
   dependency: string
   valueMapper: IDynamicValueMapper
-  items: { [key: string]: FormattedMessage.MessageDescriptor[] }
+  items: { [key: string]: MessageDescriptor[] }
 }
 
 export interface IDynamicFormFieldValidators {
@@ -90,9 +91,7 @@ export interface IDynamicFormFieldValidators {
   dependencies: string[]
 }
 
-export type IDynamicFormFieldLabelMapper = (
-  key: string
-) => FormattedMessage.MessageDescriptor
+export type IDynamicFormFieldLabelMapper = (key: string) => MessageDescriptor
 
 export type IDynamicValueMapper = (key: string) => string
 
@@ -148,10 +147,17 @@ export type IFormFieldValue =
   | string[]
   | number
   | boolean
-  | IFileValue[]
-  | { [key: string]: string }
+  | Date
+  | ICertificate
+  | IFileValue
   | IAttachmentValue
-  | ICertificate[]
+  | FieldValueArray
+  | FieldValueMap
+
+interface FieldValueArray extends Array<IFormFieldValue> {}
+interface FieldValueMap {
+  [key: string]: IFormFieldValue
+}
 
 export interface IFileValue {
   optionValues: IFormFieldValue[]
@@ -243,13 +249,25 @@ type SerializedFormFieldWithDynamicDefinitions = UnionOmit<
 > & {
   dynamicDefinitions: ISerializedDynamicFormFieldDefinitions
 }
+type SerializedSelectFormFieldWithOptions = Omit<
+  ISelectFormFieldWithOptions,
+  'options'
+> & {
+  options: ISelectOption[] | { resource: string }
+}
 
 type ILoaderButtonWithSerializedQueryMap = Omit<ILoaderButton, 'queryMap'> & {
   queryMap: ISerializedQueryMap
 }
 
 export type SerializedFormField = UnionOmit<
-  | Exclude<IFormField, IFormFieldWithDynamicDefinitions | ILoaderButton>
+  | Exclude<
+      IFormField,
+      | IFormFieldWithDynamicDefinitions
+      | ILoaderButton
+      | ISelectFormFieldWithOptions
+    >
+  | SerializedSelectFormFieldWithOptions
   | SerializedFormFieldWithDynamicDefinitions
   | ILoaderButtonWithSerializedQueryMap,
   'validate' | 'mapping'
@@ -260,11 +278,18 @@ export type SerializedFormField = UnionOmit<
     query?: IQueryDescriptor
   }
 }
+export interface IAttachment {
+  data: string
+  optionValues: string[]
+  type: string
+  title?: string
+  description?: string
+}
 
 export interface IFormFieldBase {
   name: string
   type: IFormField['type']
-  label: FormattedMessage.MessageDescriptor
+  label: MessageDescriptor
   validate: validators.Validation[]
   required?: boolean
   prefix?: string
@@ -273,8 +298,8 @@ export interface IFormFieldBase {
   initialValue?: IFormFieldValue
   extraValue?: IFormFieldValue
   conditionals?: IConditional[]
-  description?: FormattedMessage.MessageDescriptor
-  placeholder?: FormattedMessage.MessageDescriptor
+  description?: MessageDescriptor
+  placeholder?: MessageDescriptor
   mapping?: IFormFieldMapping
   hideAsterisk?: boolean
   hideHeader?: boolean
@@ -300,7 +325,7 @@ export interface IRadioGroupFormField extends IFormFieldBase {
   type: typeof RADIO_GROUP
   options: IRadioOption[]
   size?: RadioSize
-  notice?: FormattedMessage.MessageDescriptor
+  notice?: MessageDescriptor
 }
 
 export interface IInformativeRadioGroupFormField extends IFormFieldBase {
@@ -327,7 +352,7 @@ export interface ICheckboxGroupFormField extends IFormFieldBase {
 }
 export interface IDateFormField extends IFormFieldBase {
   type: typeof DATE
-  notice?: FormattedMessage.MessageDescriptor
+  notice?: MessageDescriptor
   ignorePlaceHolder?: boolean
 }
 export interface ITextareaFormField extends IFormFieldBase {
@@ -344,7 +369,7 @@ export interface IDocumentsFormField extends IFormFieldBase {
 }
 export interface IListFormField extends IFormFieldBase {
   type: typeof LIST
-  items: FormattedMessage.MessageDescriptor[]
+  items: MessageDescriptor[]
 }
 
 export interface IDynamicListFormField extends IFormFieldBase {
@@ -387,8 +412,8 @@ export interface IQuery {
   query: any
   inputs: IFieldInput[]
   variables?: IDynamicValues
-  modalInfoText: FormattedMessage.MessageDescriptor
-  errorText: FormattedMessage.MessageDescriptor
+  modalInfoText: MessageDescriptor
+  errorText: MessageDescriptor
   responseTransformer: (response: ApolloQueryResult<GQLQuery>) => void
 }
 
@@ -407,9 +432,9 @@ export interface ILoaderButton extends IFormFieldBase {
   queryData?: IQuery
   querySelectorInput: IFieldInput
   onFetch?: (response: any) => void
-  modalTitle: FormattedMessage.MessageDescriptor
-  successTitle: FormattedMessage.MessageDescriptor
-  errorTitle: FormattedMessage.MessageDescriptor
+  modalTitle: MessageDescriptor
+  successTitle: MessageDescriptor
+  errorTitle: MessageDescriptor
 }
 
 export type IFormField =
@@ -654,12 +679,12 @@ export type Section =
 export interface IFormSection {
   id: Section
   viewType: ViewType
-  name: FormattedMessage.MessageDescriptor
-  title: FormattedMessage.MessageDescriptor
+  name: MessageDescriptor
+  title: MessageDescriptor
   groups: IFormSectionGroup[]
   disabled?: boolean
   optional?: boolean
-  notice?: FormattedMessage.MessageDescriptor
+  notice?: MessageDescriptor
   mapping?: IFormSectionMapping
   hasDocumentSection?: boolean
 }
@@ -679,12 +704,12 @@ export type ISerializedFormSection = Omit<
 
 export interface IFormSectionGroup {
   id: string
-  title?: FormattedMessage.MessageDescriptor
+  title?: MessageDescriptor
   fields: IFormField[]
   disabled?: boolean
   ignoreSingleFieldView?: boolean
   conditionals?: IConditional[]
-  error?: FormattedMessage.MessageDescriptor
+  error?: MessageDescriptor
 }
 
 export interface IForm {
@@ -786,7 +811,7 @@ export interface Ii18nDocumentsFormField extends Ii18nFormFieldBase {
 }
 export interface Ii18nListFormField extends Ii18nFormFieldBase {
   type: typeof LIST
-  items: FormattedMessage.MessageDescriptor[]
+  items: MessageDescriptor[]
 }
 export interface Ii18nParagraphFormField extends Ii18nFormFieldBase {
   type: typeof PARAGRAPH
@@ -883,14 +908,6 @@ type Payment = {
 export interface ICertificate {
   collector?: IFormSectionData
   hasShowedVerifiedDocument?: boolean
-  payments?: Payment
+  payments?: Payment[]
   data?: string
-}
-
-export interface IAttachment {
-  data: string
-  optionValues: string[]
-  type: string
-  title?: string
-  description?: string
 }

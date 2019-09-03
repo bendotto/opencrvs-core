@@ -1,4 +1,4 @@
-import { FormattedMessage, MessageValue } from 'react-intl'
+import { MessageDescriptor } from 'react-intl'
 import { validationMessages as messages } from '@register/i18n/messages'
 import { IFormFieldValue, IFormData } from '@opencrvs/register/src/forms'
 import {
@@ -18,8 +18,8 @@ import {
 } from '@register/forms/identity'
 
 export interface IValidationResult {
-  message: FormattedMessage.MessageDescriptor
-  props?: { [key: string]: MessageValue }
+  message: MessageDescriptor
+  props?: { [key: string]: any }
 }
 
 export type RangeValidation = (
@@ -33,8 +33,7 @@ export type MaxLengthValidation = (
 
 export type Validation = (
   value: IFormFieldValue,
-  drafts?: IFormData,
-  maruf?: number
+  drafts?: IFormData
 ) => IValidationResult | undefined
 
 export type ValidationInitializer = (...value: any[]) => Validation
@@ -60,6 +59,12 @@ const mobilePhonePatternTable: { [key: string]: IMobilePhonePattern } = {
     example: '01741234567',
     start: '01',
     num: '11'
+  },
+  zmb: {
+    pattern: /^09(5|6|7){1}[0-9]{7}$/,
+    example: '0970545855',
+    start: '09[5|6|7]',
+    num: '10'
   }
 }
 

@@ -12,8 +12,8 @@ const { store } = createStore()
 
 describe('Create new user page tests', () => {
   let component: ReactWrapper
-  beforeEach(() => {
-    const testComponent = createTestComponent(
+  beforeEach(async () => {
+    const testComponent = await createTestComponent(
       // @ts-ignore
       <UserForm
         section={deserializeFormSection(userSection)}
@@ -175,7 +175,5 @@ describe('Create new user page tests', () => {
     component.update()
 
     expect(component.find('#office-search-modal').hostNodes().length).toBe(1)
-
-    component.unmount()
   })
 })

@@ -7,10 +7,8 @@ import { MockedProvider } from 'react-apollo/test-utils'
 import { ApolloLink, Observable } from 'apollo-link'
 import { IStoreState, createStore, AppStore } from '@register/store'
 import { InMemoryCache } from 'apollo-cache-inmemory'
-import en from 'react-intl/locale-data/en'
 import { mount, configure, shallow, ReactWrapper } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import { addLocaleData, IntlProvider, intlShape } from 'react-intl'
 import { App } from '@register/App'
 import { getSchema } from '@register/tests/graphql-schema-mock'
 import { ThemeProvider } from '@register/styledComponents'
@@ -25,10 +23,7 @@ import { ISerializedForm, Event } from '@register/forms'
 import { Store, AnyAction } from 'redux'
 import { getRegisterForm } from '@register/forms/register/application-selectors'
 import { getReviewForm } from '@register/forms/register/review-selectors'
-import {
-  getOfflineData,
-  getOfflineDataLoaded
-} from '@register/offline/selectors'
+import { IntlShape } from 'react-intl'
 
 export const registerScopeToken =
   'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJyZWdpc3RlciIsImNlcnRpZnkiLCJkZW1vIl0sImlhdCI6MTU0MjY4ODc3MCwiZXhwIjoxNTQzMjkzNTcwLCJhdWQiOlsib3BlbmNydnM6YXV0aC11c2VyIiwib3BlbmNydnM6dXNlci1tZ250LXVzZXIiLCJvcGVuY3J2czpoZWFydGgtdXNlciIsIm9wZW5jcnZzOmdhdGV3YXktdXNlciIsIm9wZW5jcnZzOm5vdGlmaWNhdGlvbi11c2VyIiwib3BlbmNydnM6d29ya2Zsb3ctdXNlciJdLCJpc3MiOiJvcGVuY3J2czphdXRoLXNlcnZpY2UiLCJzdWIiOiI1YmVhYWY2MDg0ZmRjNDc5MTA3ZjI5OGMifQ.ElQd99Lu7WFX3L_0RecU_Q7-WZClztdNpepo7deNHqzro-Cog4WLN7RW3ZS5PuQtMaiOq1tCb-Fm3h7t4l4KDJgvC11OyT7jD6R2s2OleoRVm3Mcw5LPYuUVHt64lR_moex0x_bCqS72iZmjrjS-fNlnWK5zHfYAjF2PWKceMTGk6wnI9N49f6VwwkinJcwJi6ylsjVkylNbutQZO0qTc7HRP-cBfAzNcKD37FqTRNpVSvHdzQSNcs7oiv3kInDN5aNa2536XSd3H-RiKR9hm9eID9bSIJgFIGzkWRd5jnoYxT70G0t03_mTVnDnqPXDtyI-lmerx24Ost0rQLUNIg'
@@ -38,6 +33,10 @@ export const validToken =
   'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1MzMxOTUyMjgsImV4cCI6MTU0MzE5NTIyNywiYXVkIjpbImdhdGV3YXkiXSwic3ViIjoiMSJ9.G4KzkaIsW8fTkkF-O8DI0qESKeBI332UFlTXRis3vJ6daisu06W5cZsgYhmxhx_n0Q27cBYt2OSOnjgR72KGA5IAAfMbAJifCul8ib57R4VJN8I90RWqtvA0qGjV-sPndnQdmXzCJx-RTumzvr_vKPgNDmHzLFNYpQxcmQHA-N8li-QHMTzBHU4s9y8_5JOCkudeoTMOd_1021EDAQbrhonji5V1EOSY2woV5nMHhmq166I1L0K_29ngmCqQZYi1t6QBonsIowlXJvKmjOH5vXHdCCJIFnmwHmII4BK-ivcXeiVOEM_ibfxMWkAeTRHDshOiErBFeEvqd6VWzKvbKAH0UY-Rvnbh4FbprmO4u4_6Yd2y2HnbweSo-v76dVNcvUS0GFLFdVBt0xTay-mIeDy8CKyzNDOWhmNUvtVi9mhbXYfzzEkwvi9cWwT1M8ZrsWsvsqqQbkRCyBmey_ysvVb5akuabenpPsTAjiR8-XU2mdceTKqJTwbMU5gz-8fgulbTB_9TNJXqQlH7tyYXMWHUY3uiVHWg2xgjRiGaXGTiDgZd01smYsxhVnPAddQOhqZYCrAgVcT1GBFVvhO7CC-rhtNlLl21YThNNZNpJHsCgg31WA9gMQ_2qAJmw2135fAyylO8q7ozRUvx46EezZiPzhCkPMeELzLhQMEIqjo'
 export const sysadminToken =
   'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJzeXNhZG1pbiIsImRlbW8iXSwiaWF0IjoxNTU5MTk5MTE3LCJleHAiOjE1NTk4MDM5MTcsImF1ZCI6WyJvcGVuY3J2czphdXRoLXVzZXIiLCJvcGVuY3J2czp1c2VyLW1nbnQtdXNlciIsIm9wZW5jcnZzOmhlYXJ0aC11c2VyIiwib3BlbmNydnM6Z2F0ZXdheS11c2VyIiwib3BlbmNydnM6bm90aWZpY2F0aW9uLXVzZXIiLCJvcGVuY3J2czp3b3JrZmxvdy11c2VyIiwib3BlbmNydnM6c2VhcmNoLXVzZXIiLCJvcGVuY3J2czptZXRyaWNzLXVzZXIiLCJvcGVuY3J2czpyZXNvdXJjZXMtdXNlciJdLCJpc3MiOiJvcGVuY3J2czphdXRoLXNlcnZpY2UiLCJzdWIiOiI1Y2VlNmM1MzU0NWRjMTYwYTIyODQyYjQifQ.Typ3XPwbfofrvWrYuWWHBEIuhzUypsSlTpPZUionO1SxTcAGbm0msn0chpdMw6AJtV0JbC0u-7lpmzpbpHjeQ98emt29pez1EteP8ZapQQmivT55DnwB0_YRg4BdlBGC561aOf6btnFtQsMULhJ8DkPNWUaa-a5_8gPEZmpUVExUw1yslGNCsGwPoNkEEcpXZ8dc-QWXWOFz7eEvKUAXTiLzOQFt4ea7BjU0fVBgMpLr5JmK42OAU3k6xvJHLNM3b8OlPm3fsmsfqZY7_n7L7y7ia5lKFAuFf33pii1_VtG-NZKhu8OecioOpb8ShIqHseU0sDFl58tIf7o1uMS9DQ'
+export const validImageB64String =
+  'iVBORw0KGgoAAAANSUhEUgAAAAgAAAACCAYAAABllJ3tAAAABHNCSVQICAgIfAhkiAAAABl0RVh0U29mdHdhcmUAZ25vbWUtc2NyZWVuc2hvdO8Dvz4AAAAXSURBVAiZY1RWVv7PgAcw4ZNkYGBgAABYyAFsic1CfAAAAABJRU5ErkJggg=='
+export const inValidImageB64String =
+  'wee7dfaKGgoAAAANSUhEUgAAAAgAAAACCAYAAABllJ3tAAAABHNCSVQICAgIfAhkiAAAABl0RVh0U29mdHdhcmUAZ25vbWUtc2NyZWVuc2hvdO8Dvz4AAAAXSURBVAiZY1RWVv7PgAcw4ZNkYGBgAABYyAFsic1CfAAAAABJRU5ErkJggg=='
 
 export const validateScopeToken = jwt.sign(
   { scope: ['validate'] },
@@ -78,8 +77,6 @@ function createGraphQLClient() {
   })
 }
 
-addLocaleData([...en])
-
 export function getInitialState(): IStoreState {
   const { store: mockStore } = createStore()
 
@@ -88,30 +85,26 @@ export function getInitialState(): IStoreState {
   return mockStore.getState()
 }
 
-export function createTestApp() {
+export function waitForReady(app: ReactWrapper) {
+  return waitForElement(app, '#readyApplication')
+}
+
+export async function createTestApp(
+  config = { waitUntilResourcesLoaded: true }
+) {
   const { store, history } = createStore()
   const app = mount(
     <App store={store} history={history} client={createGraphQLClient()} />
   )
 
+  if (config.waitUntilResourcesLoaded) {
+    await waitForReady(app)
+  }
   return { history, app, store }
 }
 
 interface ITestView {
-  intl: ReactIntl.InjectedIntl
-}
-
-const intlProvider = new IntlProvider(
-  {
-    locale: 'en',
-    messages: {}
-  },
-  {}
-)
-export const { intl } = intlProvider.getChildContext()
-
-function nodeWithIntlProp(node: React.ReactElement<ITestView>) {
-  return React.cloneElement(node, { intl })
+  intl: IntlShape
 }
 
 export function createShallowRenderedComponent(
@@ -1902,7 +1895,10 @@ export const userDetails = {
         }
       ]
     }
-  ]
+  ],
+  signature: {
+    data: `data:image/png;base64,${validImageB64String}`
+  }
 }
 
 export const mockUserResponseWithName = {
@@ -1991,7 +1987,10 @@ export const mockUserResponse = {
         status: 'active',
         __typename: 'Location'
       },
-      __typename: 'User'
+      __typename: 'User',
+      signature: {
+        data: `data:image/png;base64,${validImageB64String}`
+      }
     }
   }
 }
@@ -2144,7 +2143,23 @@ export const mockApplicationData = {
   registration: {
     whoseContactDetails: 'MOTHER',
     presentAtBirthRegistration: 'BOTH_PARENTS',
-    registrationPhone: '01557394986'
+    registrationPhone: '01557394986',
+    registrationNumber: '201908122365BDSS0SE1',
+    regStatus: {
+      type: 'REGISTERED',
+      officeName: 'MokhtarPur',
+      officeAlias: 'মখতারপুর',
+      officeAddressLevel3: 'Gazipur',
+      officeAddressLevel4: 'Dhaka'
+    },
+    certificates: [
+      {
+        collector: {
+          type: 'MOTHER'
+        },
+        hasShowedVerifiedDocument: true
+      }
+    ]
   }
 }
 
@@ -2242,17 +2257,88 @@ export const mockDeathApplicationData = {
         description: 'National ID (front)'
       }
     ]
+  },
+  registration: {
+    registrationPhone: '01557394986',
+    registrationNumber: '201908122365DDSS0SE1',
+    regStatus: {
+      type: 'REGISTERED',
+      officeName: 'MokhtarPur',
+      officeAlias: 'মখতারপুর',
+      officeAddressLevel3: 'Gazipur',
+      officeAddressLevel4: 'Dhaka'
+    },
+    certificates: [
+      {
+        collector: {
+          type: 'MOTHER'
+        },
+        hasShowedVerifiedDocument: true
+      }
+    ]
   }
 }
 
-export const mockOfflineData = {
-  forms: {
-    registerForm: JSON.parse(
-      require('fs')
-        .readFileSync('../resources/src/bgd/features/forms/register.json')
-        .toString()
-    ) as { birth: ISerializedForm; death: ISerializedForm }
+export const mockBirthRegistrationSectionData = {
+  whoseContactDetails: 'MOTHER',
+  presentAtBirthRegistration: 'BOTH_PARENTS',
+  registrationPhone: '01557394986',
+  trackingId: 'BDSS0SE',
+  registrationNumber: '201908122365BDSS0SE1',
+  regStatus: {
+    type: 'REGISTERED',
+    officeName: 'MokhtarPur',
+    officeAlias: 'মখতারপুর',
+    officeAddressLevel3: 'Gazipur',
+    officeAddressLevel4: 'Dhaka'
   },
+  certificates: [
+    {
+      collector: {
+        type: 'OTHER',
+        relationship: 'Uncle',
+        firstName: 'Mushraful',
+        lastName: 'Hoque',
+        iDType: 'PASSPORT',
+        iD: '123456789'
+      },
+      hasShowedVerifiedDocument: true
+    }
+  ]
+}
+
+export const mockDeathRegistrationSectionData = {
+  whoseContactDetails: 'MOTHER',
+  presentAtBirthRegistration: 'BOTH_PARENTS',
+  registrationPhone: '01557394986',
+  trackingId: 'DDSS0SE',
+  registrationNumber: '201908122365DDSS0SE1',
+  regStatus: {
+    type: 'REGISTERED',
+    officeName: 'MokhtarPur',
+    officeAlias: 'মখতারপুর',
+    officeAddressLevel3: 'Gazipur',
+    officeAddressLevel4: 'Dhaka'
+  },
+  certificates: [
+    {
+      collector: {
+        type: 'OTHER',
+        relationship: 'Uncle',
+        firstName: 'Mushraful',
+        lastName: 'Hoque',
+        iDType: 'PASSPORT',
+        iD: '123456789'
+      },
+      hasShowedVerifiedDocument: true
+    }
+  ]
+}
+
+export const mockOfflineData = {
+  forms: JSON.parse(
+    readFileSync('../resources/src/bgd/features/forms/register.json').toString()
+  ) as { registerForm: { birth: ISerializedForm; death: ISerializedForm } },
   facilities: {
     '627fc0cc-e0e2-4c09-804d-38a9fa1807ee': {
       id: '627fc0cc-e0e2-4c09-804d-38a9fa1807ee',
@@ -2480,15 +2566,26 @@ export const mockOfflineData = {
     }
   },
   languages: JSON.parse(
-    require('fs')
-      .readFileSync(
-        '../resources/src/bgd/features/languages/generated/register.json'
-      )
-      .toString()
+    readFileSync(
+      '../resources/src/bgd/features/languages/generated/register.json'
+    ).toString()
   ).data
 }
 
-export function createTestComponent(
+export async function createTestStore() {
+  const { store, history } = createStore()
+  await store.dispatch(
+    offlineDataReady({
+      languages: mockOfflineData.languages,
+      forms: mockOfflineData.forms,
+      locations: mockOfflineData.locations,
+      facilities: mockOfflineData.facilities
+    })
+  )
+  return { store, history }
+}
+
+export async function createTestComponent(
   node: React.ReactElement<ITestView>,
   store: AppStore,
   graphqlMocks: any = null
@@ -2500,7 +2597,7 @@ export function createTestComponent(
    * Feels odd the whole boilerplate has to be recreated
    */
 
-  store.dispatch(
+  await store.dispatch(
     offlineDataReady({
       languages: mockOfflineData.languages,
       forms: mockOfflineData.forms,
@@ -2513,21 +2610,15 @@ export function createTestComponent(
     <MockedProvider mocks={graphqlMocks} addTypename={false}>
       <Provider store={store}>
         <I18nContainer>
-          <ThemeProvider
-            theme={getTheme(window.config.COUNTRY, getDefaultLanguage())}
-          >
-            {nodeWithIntlProp(node)}
+          <ThemeProvider theme={getTheme(getDefaultLanguage())}>
+            {node}
           </ThemeProvider>
         </I18nContainer>
       </Provider>
-    </MockedProvider>,
-    {
-      context: { intl },
-      childContextTypes: { intl: intlShape }
-    }
+    </MockedProvider>
   )
 
-  return { component, store }
+  return { component: component.update(), store }
 }
 
 export const mockDeathApplicationDataWithoutFirstNames = {
@@ -2629,12 +2720,6 @@ export const mockDeathApplicationDataWithoutFirstNames = {
   }
 }
 
-export const validImageB64String =
-  'iVBORw0KGgoAAAANSUhEUgAAAAgAAAACCAYAAABllJ3tAAAABHNCSVQICAgIfAhkiAAAABl0RVh0U29mdHdhcmUAZ25vbWUtc2NyZWVuc2hvdO8Dvz4AAAAXSURBVAiZY1RWVv7PgAcw4ZNkYGBgAABYyAFsic1CfAAAAABJRU5ErkJggg=='
-
-export const inValidImageB64String =
-  'wee7dfaKGgoAAAANSUhEUgAAAAgAAAACCAYAAABllJ3tAAAABHNCSVQICAgIfAhkiAAAABl0RVh0U29mdHdhcmUAZ25vbWUtc2NyZWVuc2hvdO8Dvz4AAAAXSURBVAiZY1RWVv7PgAcw4ZNkYGBgAABYyAFsic1CfAAAAABJRU5ErkJggg=='
-
 export const getFileFromBase64String = (
   base64String: string,
   name: string,
@@ -2691,10 +2776,6 @@ export async function goToMotherSection(component: ReactWrapper) {
   await waitForElement(component, '#form_section_id_mother-view-group')
 }
 
-export function waitForReady(app: ReactWrapper) {
-  return waitForElement(app, '#readyApplication')
-}
-
 export async function getRegisterFormFromStore(
   store: Store<IStoreState, AnyAction>,
   event: Event
@@ -2711,4 +2792,20 @@ export async function getReviewFormFromStore(
   await store.dispatch(setOfflineData(userDetails))
   const state = store.getState()
   return getReviewForm(state)![event]
+}
+
+export async function setPinCode(component: ReactWrapper) {
+  component
+    .find('#createPinBtn')
+    .hostNodes()
+    .simulate('click')
+
+  for (let i = 1; i <= 8; i++) {
+    component
+      .find(`#keypad-${i % 2}`)
+      .hostNodes()
+      .simulate('click')
+  }
+  await flushPromises()
+  component.update()
 }

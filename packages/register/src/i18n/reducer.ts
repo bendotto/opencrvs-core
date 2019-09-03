@@ -49,9 +49,11 @@ export const initLanguages = () => {
   return initLanguages
 }
 
+const DEFAULT_MESSAGES = { default: 'default' }
+
 export const initialState: IntlState = {
   language: getDefaultLanguage(),
-  messages: { default: 'default' },
+  messages: DEFAULT_MESSAGES,
   languages: initLanguages()
 }
 

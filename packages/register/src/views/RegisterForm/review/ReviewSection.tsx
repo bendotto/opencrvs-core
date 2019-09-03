@@ -43,7 +43,11 @@ import {
   IOfflineData
 } from '@register/offline/reducer'
 import { getLanguage } from '@register/i18n/selectors'
-import { InjectedIntlProps, injectIntl, InjectedIntl } from 'react-intl'
+import {
+  WrappedComponentProps as IntlShapeProps,
+  injectIntl,
+  IntlShape
+} from 'react-intl'
 import { LinkButton } from '@opencrvs/components/lib/buttons'
 import {
   IForm,
@@ -64,7 +68,6 @@ import {
   Event,
   Section,
   BirthSection,
-  DeathSection,
   RADIO_GROUP,
   IRadioOption
 } from '@register/forms'
@@ -73,7 +76,8 @@ import { messages, dynamicMessages } from '@register/i18n/messages/views/review'
 import { buttonMessages } from '@register/i18n/messages'
 import { REJECTED, BIRTH } from '@register/utils/constants'
 import { ReviewHeader } from './ReviewHeader'
-import { SEAL_BD_GOVT } from '@register/views/PrintCertificate/generatePDF'
+// TODO: we need to move this to resource package as well
+import { SEAL_BD_GOVT } from '@opencrvs/register/src/pdfRenderer/templates/logo'
 import { getDraftApplicantFullName } from '@register/utils/draftUtils'
 import { ReviewAction } from '@register/components/form/ReviewActionComponent'
 import { findDOMNode } from 'react-dom'
@@ -82,11 +86,11 @@ import { FullBodyContent } from '@opencrvs/components/lib/layout'
 import {
   birthSectionMapping,
   birthSectionTitle
-} from '@register/forms/register/fieldDefinitions/birth/mappings/mutation/documents-mappings'
+} from '@register/forms/register/fieldMappings/birth/mutation/documents-mappings'
 import {
   deathSectionMapping,
   deathSectionTitle
-} from '@register/forms/register/fieldDefinitions/death/mappings/mutation/documents-mappings'
+} from '@register/forms/register/fieldMappings/death/mutation/documents-mappings'
 import { getDefaultLanguage } from '@register/i18n/utils'
 import { IValidationResult } from '@register/utils/validate'
 
@@ -181,7 +185,7 @@ type State = {
   editClickFieldName: string
   activeSection: Section | null
 }
-type FullProps = IProps & InjectedIntlProps
+type FullProps = IProps & IntlShapeProps
 
 const getViewableSection = (registerForm: IForm): IFormSection[] => {
   return registerForm.sections.filter(
@@ -199,7 +203,7 @@ const getDocumentSections = (registerForm: IForm): IFormSection[] => {
 function renderSelectOrRadioLabel(
   value: IFormFieldValue,
   options: ISelectOption[] | IRadioOption[],
-  intl: InjectedIntl
+  intl: IntlShape
 ) {
   const selectedOption = options.find(option => option.value === value)
   return selectedOption ? intl.formatMessage(selectedOption.label) : value
@@ -209,7 +213,7 @@ export function renderSelectDynamicLabel(
   value: IFormFieldValue,
   options: IDynamicOptions,
   draftData: IFormSectionData,
-  intl: InjectedIntl,
+  intl: IntlShape,
   resources: IOfflineData,
   language: string
 ) {
@@ -253,7 +257,7 @@ const renderValue = (
   draft: IApplication,
   section: IFormSection,
   field: IFormField,
-  intl: InjectedIntl,
+  intl: IntlShape,
   offlineResources: IOfflineData,
   language: string
 ) => {
@@ -411,10 +415,12 @@ class ReviewSectionComp extends React.Component<FullProps, State> {
     let uploadedDocuments: IFileValue[] = []
 
     for (let index in draft.data[draftItemName]) {
-      if (isArray(draft.data[draftItemName][index]))
-        uploadedDocuments = uploadedDocuments.concat(draft.data[draftItemName][
+      if (isArray(draft.data[draftItemName][index])) {
+        const newDocuments = (draft.data[draftItemName][
           index
-        ] as IFileValue[])
+        ] as unknown) as IFileValue[]
+        uploadedDocuments = uploadedDocuments.concat(newDocuments)
+      }
     }
 
     uploadedDocuments = uploadedDocuments.filter(document => {
@@ -425,7 +431,7 @@ class ReviewSectionComp extends React.Component<FullProps, State> {
         sectionMapping[activeSection as keyof typeof sectionMapping] || []
 
       if (
-        allowedDocumentType.indexOf(document.optionValues[0].toString()) > -1
+        allowedDocumentType.indexOf(document.optionValues[0]!.toString()) > -1
       ) {
         const title = sectionTitle[activeSection as keyof typeof sectionMapping]
         const label = title + ' ' + document.optionValues[1]
