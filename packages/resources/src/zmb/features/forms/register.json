@@ -773,7 +773,7 @@
                   "label": {
                     "defaultMessage": "Town",
                     "description": "Title for the address line 4",
-                    "id": "form.field.label.addressLine4"
+                    "id": "form.field.label.addressLine4CityOption"
                   },
                   "required": true,
                   "initialValue": "",
@@ -874,7 +874,7 @@
                   "label": {
                     "defaultMessage": "Street / Plot Number",
                     "description": "Title for the address line 1",
-                    "id": "form.field.label.addressLine1"
+                    "id": "form.field.label.addressLine1CityOption"
                   },
                   "required": false,
                   "initialValue": "",
@@ -1648,7 +1648,7 @@
                   "name": "motherPlaceOfBirth",
                   "type": "SUBSECTION",
                   "label": {
-                    "defaultMessage": "What was her village of origin?",
+                    "defaultMessage": "What is her village of origin?",
                     "description": "Title for mother place of birth",
                     "id": "form.field.label.motherPlaceOfBirth"
                   },
@@ -1770,7 +1770,7 @@
                   "label": {
                     "defaultMessage": "What is her residential address?",
                     "description": "Title for the permanent address fields",
-                    "id": "form.field.label.permanentAddress"
+                    "id": "form.field.label.motherPermanentAddress"
                   },
                   "initialValue": "",
                   "validate": []
@@ -2014,7 +2014,7 @@
                   "label": {
                     "defaultMessage": "Town",
                     "description": "Title for the address line 4",
-                    "id": "form.field.label.addressLine4"
+                    "id": "form.field.label.addressLine4CityOption"
                   },
                   "required": true,
                   "initialValue": "",
@@ -2107,7 +2107,7 @@
                   "label": {
                     "defaultMessage": "Street / Plot Number",
                     "description": "Title for the address line 1",
-                    "id": "form.field.label.addressLine1"
+                    "id": "form.field.label.addressLine1CityOption"
                   },
                   "required": false,
                   "initialValue": "",
@@ -2535,7 +2535,7 @@
                   "label": {
                     "defaultMessage": "Town",
                     "description": "Title for the address line 4",
-                    "id": "form.field.label.addressLine4"
+                    "id": "form.field.label.addressLine4CityOption"
                   },
                   "required": true,
                   "initialValue": "",
@@ -2628,7 +2628,7 @@
                   "label": {
                     "defaultMessage": "Street / Plot Number",
                     "description": "Title for the address line 1",
-                    "id": "form.field.label.addressLine1"
+                    "id": "form.field.label.addressLine1CityOption"
                   },
                   "required": false,
                   "initialValue": "",
@@ -3697,9 +3697,9 @@
                   "name": "permanentAddress",
                   "type": "SUBSECTION",
                   "label": {
-                    "defaultMessage": "What was their residential address?",
+                    "defaultMessage": "What is his residential address?",
                     "description": "Title for the permanent address fields",
-                    "id": "form.field.label.permanentAddress"
+                    "id": "form.field.label.fatherPermanentAddress"
                   },
                   "initialValue": "",
                   "validate": [],
@@ -3995,7 +3995,7 @@
                   "label": {
                     "defaultMessage": "Town",
                     "description": "Title for the address line 4",
-                    "id": "form.field.label.addressLine4"
+                    "id": "form.field.label.addressLine4CityOption"
                   },
                   "required": true,
                   "initialValue": "",
@@ -4104,7 +4104,7 @@
                   "label": {
                     "defaultMessage": "Street / Plot Number",
                     "description": "Title for the address line 1",
-                    "id": "form.field.label.addressLine1"
+                    "id": "form.field.label.addressLine1CityOption"
                   },
                   "required": false,
                   "initialValue": "",
