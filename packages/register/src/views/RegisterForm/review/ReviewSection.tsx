@@ -69,15 +69,14 @@ import {
   Section,
   BirthSection,
   RADIO_GROUP,
-  IRadioOption
+  IRadioOption,
+  SEARCH_FIELD
 } from '@register/forms'
 import { formatLongDate } from '@register/utils/date-formatting'
-import { messages, dynamicMessages } from '@register/i18n/messages/views/review'
+import { messages } from '@register/i18n/messages/views/review'
 import { buttonMessages } from '@register/i18n/messages'
 import { REJECTED, BIRTH } from '@register/utils/constants'
 import { ReviewHeader } from './ReviewHeader'
-// TODO: we need to move this to resource package as well
-import { SEAL_BD_GOVT } from '@opencrvs/register/src/pdfRenderer/templates/logo'
 import { getDraftApplicantFullName } from '@register/utils/draftUtils'
 import { ReviewAction } from '@register/components/form/ReviewActionComponent'
 import { findDOMNode } from 'react-dom'
@@ -93,6 +92,7 @@ import {
 } from '@register/forms/register/fieldMappings/death/mutation/documents-mappings'
 import { getDefaultLanguage } from '@register/i18n/utils'
 import { IValidationResult } from '@register/utils/validate'
+import { IDynamicValues } from '@opencrvs/components/lib/common-types'
 
 const RequiredField = styled.span`
   color: ${({ theme }) => theme.colors.error};
@@ -284,6 +284,10 @@ const renderValue = (
 
   if (field.type === DATE && value && typeof value === 'string') {
     return formatLongDate(value)
+  }
+
+  if (field.type === SEARCH_FIELD) {
+    return (value as IDynamicValues).label
   }
 
   if (typeof value === 'string') {
@@ -577,6 +581,7 @@ class ReviewSectionComp extends React.Component<FullProps, State> {
       pageRoute,
       registrationSection,
       documentsSection,
+      offlineResources,
       draft: { event }
     } = this.props
 
@@ -610,17 +615,14 @@ class ReviewSectionComp extends React.Component<FullProps, State> {
     const applicantName = getDraftApplicantFullName(draft, intl.locale)
     const isDraft =
       this.props.draft.submissionStatus === SUBMISSION_STATUS.DRAFT
-
     return (
       <FullBodyContent>
         <Row>
           <StyledColumn>
             <ReviewHeader
               id="review_header"
-              logoSource={SEAL_BD_GOVT}
-              title={intl.formatMessage(
-                dynamicMessages[`${window.config.COUNTRY}GovtName`]
-              )}
+              logoSource={offlineResources.assets.logo}
+              title={intl.formatMessage(messages.govtName)}
               subject={
                 applicantName
                   ? intl.formatMessage(messages.headerSubjectWithName, {
