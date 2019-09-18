@@ -1,7 +1,12 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { RouteComponentProps } from 'react-router'
-import { IApplication, SUBMISSION_STATUS } from '@register/applications'
+import {
+  IApplication,
+  SUBMISSION_STATUS,
+  storeApplication,
+  createPreviewApplication
+} from '@register/applications'
 import {
   goToPage as goToPageAction,
   goBack as goBackAction,
@@ -32,10 +37,11 @@ import {
   GQLQuery,
   GQLPerson,
   GQLRegStatus,
-  GQLComment
+  GQLComment,
+  GQLEventRegistration
 } from '@opencrvs/gateway/src/graphql/schema.d'
 import { PrimaryButton } from '@opencrvs/components/lib/buttons'
-import { Event } from '@opencrvs/register/src/forms'
+import { Event, IForm } from '@opencrvs/register/src/forms'
 import {
   DRAFT_BIRTH_PARENT_FORM_PAGE,
   DRAFT_DEATH_FORM_PAGE,
@@ -59,6 +65,8 @@ import {
   REGISTERED
 } from '@register/utils/constants'
 import { Scope } from '@register/utils/authUtils'
+import { getRegisterForm } from '@register/forms/register/application-selectors'
+import { gqlToDraftTransformer } from '@register/transformer'
 
 const HistoryWrapper = styled.div`
   padding: 10px 0px;
@@ -115,16 +123,23 @@ enum DraftStatus {
   FAILED = 'FAILED'
 }
 
+interface IForms {
+  birth: IForm
+  death: IForm
+}
+
 interface IDetailProps {
   theme: ITheme
   language: string
   applicationId: string
+  registerForms: IForms
   draft: IApplication | null
   userDetails: IUserDetails | null
   goToPage: typeof goToPageAction
   goBack: typeof goBackAction
   goToPrintCertificate: typeof goToPrintCertificateAction
   scope: Scope | null
+  storeApplication: typeof storeApplication
 }
 
 interface IStatus {
@@ -358,16 +373,25 @@ class DetailView extends React.Component<IDetailProps & IntlShapeProps> {
   }
 
   getActionForStateAndScope = (
-    event: string | undefined,
+    event: string,
     id: string | undefined,
     applicationState: DraftStatus | GQLRegStatus | null
   ) => {
+    const pageRoute =
+      (event.toLowerCase() === Event.BIRTH && DRAFT_BIRTH_PARENT_FORM_PAGE) ||
+      DRAFT_DEATH_FORM_PAGE
+
     if (
       applicationState === REJECTED &&
       !this.userHasRegisterOrValidateScope()
     ) {
       return (
-        <ActionButton id="reject_update" disabled>
+        <ActionButton
+          id="reject_update"
+          onClick={() =>
+            this.props.goToPage(pageRoute, id as string, 'preview', event)
+          }
+        >
           {this.props.intl.formatMessage(messages.update)}
         </ActionButton>
       )
@@ -412,6 +436,32 @@ class DetailView extends React.Component<IDetailProps & IntlShapeProps> {
     } else {
       return undefined
     }
+  }
+
+  getEventType = (event: string) => {
+    return (event.toLowerCase() === Event.BIRTH && Event.BIRTH) || Event.DEATH
+  }
+
+  createAndStoreApplication = (
+    id: string,
+    event: Event,
+    data: GQLEventRegistration,
+    status: string
+  ) => {
+    console.log(status)
+    const transformedData = gqlToDraftTransformer(
+      this.props.registerForms[event],
+      data
+    )
+
+    const application = createPreviewApplication(
+      id,
+      transformedData,
+      event,
+      status
+    )
+
+    this.props.storeApplication(application)
   }
 
   generateGqlHistorData = (data: GQLQuery): IHistoryData => {
@@ -481,6 +531,16 @@ class DetailView extends React.Component<IDetailProps & IntlShapeProps> {
       data.fetchRegistration &&
       data.fetchRegistration.id &&
       (data.fetchRegistration.id as string)
+
+    if (event) {
+      this.createAndStoreApplication(
+        id as string,
+        this.getEventType(event),
+        data.fetchRegistration as GQLEventRegistration,
+        history[0].type as string
+      )
+    }
+
     return {
       title:
         (applicant &&
@@ -491,7 +551,7 @@ class DetailView extends React.Component<IDetailProps & IntlShapeProps> {
         '',
       history,
       action: applicationState
-        ? this.getActionForStateAndScope(event, id, applicationState)
+        ? this.getActionForStateAndScope(event as string, id, applicationState)
         : undefined
     }
   }
@@ -631,6 +691,7 @@ function mapStateToProps(
     userDetails: getUserDetails(state),
     scope: getScope(state),
     applicationId: match && match.params && match.params.applicationId,
+    registerForms: getRegisterForm(state),
     draft:
       (state.applicationsState.applications &&
         match &&
@@ -653,6 +714,7 @@ export const Details = connect(
   {
     goToPage: goToPageAction,
     goBack: goBackAction,
-    goToPrintCertificate: goToPrintCertificateAction
+    goToPrintCertificate: goToPrintCertificateAction,
+    storeApplication
   }
 )(injectIntl(withTheme(DetailView)))
