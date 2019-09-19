@@ -19,7 +19,8 @@ export const resolvers: GQLResolver = {
     async fetchBirthRegistration(_, { id }, authHeader) {
       if (
         hasScope(authHeader, 'register') ||
-        hasScope(authHeader, 'validate')
+        hasScope(authHeader, 'validate') ||
+        hasScope(authHeader, 'declare')
       ) {
         return await fetchFHIR(`/Composition/${id}`, authHeader)
       } else {
@@ -31,7 +32,8 @@ export const resolvers: GQLResolver = {
     async fetchDeathRegistration(_, { id }, authHeader) {
       if (
         hasScope(authHeader, 'register') ||
-        hasScope(authHeader, 'validate')
+        hasScope(authHeader, 'validate') ||
+        hasScope(authHeader, 'declare')
       ) {
         return await fetchFHIR(`/Composition/${id}`, authHeader)
       } else {
