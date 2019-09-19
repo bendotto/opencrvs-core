@@ -203,20 +203,6 @@ export function createReviewApplication(
   }
 }
 
-export function createPreviewApplication(
-  applicationId: string,
-  formData: IFormData,
-  event: Event,
-  status?: string
-): IApplication {
-  return {
-    id: applicationId,
-    data: formData,
-    event,
-    registrationStatus: status
-  }
-}
-
 export function storeApplication(
   application: IApplication
 ): IStoreApplicationAction {
