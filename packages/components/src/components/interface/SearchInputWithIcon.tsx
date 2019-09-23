@@ -16,10 +16,10 @@ const Wrapper = styled.div.attrs<{
   width: 515px;
   ${({ error, touched, theme }) =>
     `
-        border: 2px solid ${
-          error && touched ? theme.colors.error : theme.colors.copy
-        };
-        `}
+    border: 2px solid ${
+      error && touched ? theme.colors.error : theme.colors.copy
+    };
+  `}
 `
 const SearchTextInput = styled.input`
   border: none;
