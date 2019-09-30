@@ -22,6 +22,17 @@ export interface IAuthenticateResponse {
   mobile: string
 }
 
+export enum QUESTION_KEYS {
+  BIRTH_TOWN = 'BIRTH_TOWN',
+  HIGH_SCHOOL = 'HIGH_SCHOOL',
+  MOTHER_NAME = 'MOTHER_NAME',
+  FAVORITE_TEACHER = 'FAVORITE_TEACHER',
+  FAVORITE_MOVIE = 'FAVORITE_MOVIE',
+  FAVORITE_SONG = 'FAVORITE_SONG',
+  FAVORITE_FOOD = 'FAVORITE_FOOD',
+  FIRST_CHILD_NAME = 'FIRST_CHILD_NAME'
+}
+
 export interface ITokenResponse {
   token: string
 }
@@ -73,9 +84,61 @@ const verifyCode = (data: ICodeVerifyData): Promise<IAuthenticateResponse> => {
   })
 }
 
+interface IUserVerifyResponse {
+  nonce: string
+}
+
+const verifyUser = (
+  mobile: string,
+  retrieveFlow: string
+): Promise<IUserVerifyResponse> => {
+  return request({
+    url: resolve(window.config.AUTH_API_URL, 'verifyUser'),
+    method: 'POST',
+    data: { mobile, retrieveFlow }
+  })
+}
+
+interface IVerifyNumberResponse {
+  nonce: string
+  securityQuestionKey: string
+}
+
+const verifyNumber = (
+  nonce: string,
+  code: string
+): Promise<IVerifyNumberResponse> => {
+  return request({
+    url: resolve(window.config.AUTH_API_URL, 'verifyNumber'),
+    method: 'POST',
+    data: { nonce, code }
+  })
+}
+
+export type IVerifySecurityAnswerResponse =
+  | {
+      matched: false
+      securityQuestionKey: QUESTION_KEYS
+    }
+  | { matched: true }
+
+const verifySecurityAnswer = (
+  nonce: string,
+  answer: string
+): Promise<IVerifySecurityAnswerResponse> => {
+  return request({
+    url: resolve(window.config.AUTH_API_URL, 'verifySecurityAnswer'),
+    method: 'POST',
+    data: { nonce, answer }
+  })
+}
+
 export const authApi = {
   request,
   authenticate,
   verifyCode,
-  resendSMS
+  resendSMS,
+  verifyNumber,
+  verifyUser,
+  verifySecurityAnswer
 }

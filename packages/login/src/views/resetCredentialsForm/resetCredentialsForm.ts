@@ -136,7 +136,7 @@ const messagesToDefine: ResetCredentialsFormMessages = {
   },
   verificationCodeFieldLabel: {
     id: 'label.field.verificationCode',
-    defaultMessage: 'Verificatrion code (6 digits)',
+    defaultMessage: 'Verification code (6 digits)',
     description: 'Label used for verification code input field'
   },
   answerFieldLabel: {
