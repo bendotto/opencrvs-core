@@ -20,7 +20,6 @@ export default async function verifyUserHandler(
 ) {
   const { mobile } = request.payload as IVerifyPayload
 
-  // tslint:disable-next-line
   const user: IUserModel | null = await User.findOne({ mobile })
 
   if (!user) {
