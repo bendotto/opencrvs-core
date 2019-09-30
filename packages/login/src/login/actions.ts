@@ -10,7 +10,8 @@ import {
   PHONE_NUMBER_VERIFICATION,
   FORGOTTEN_ITEM,
   RECOVERY_CODE_ENTRY,
-  SECURITY_QUESTION
+  SECURITY_QUESTION,
+  UPDATE_PASSWORD
 } from '@login/navigation/routes'
 export const AUTHENTICATE = 'login/AUTHENTICATE'
 export const AUTHENTICATION_COMPLETED = 'login/AUTHENTICATION_COMPLETED'
@@ -184,4 +185,7 @@ export function goToRecoveryCodeEntryForm() {
 }
 export function goToSecurityQuestionForm() {
   return push(SECURITY_QUESTION)
+}
+export function goToUpdatePasswordForm() {
+  return push(UPDATE_PASSWORD)
 }
