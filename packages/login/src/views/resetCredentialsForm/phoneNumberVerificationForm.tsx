@@ -1,7 +1,8 @@
 import {
   FORGOTTEN_ITEMS,
   goToForgottenItemForm,
-  goToRecoveryCodeEntryForm
+  goToRecoveryCodeEntryForm,
+  goToSecurityQuestionForm
 } from '@login/login/actions'
 import { authApi } from '@login/utils/authApi'
 import { phoneNumberFormat } from '@login/utils/validate'
@@ -11,7 +12,7 @@ import { SubPage } from '@opencrvs/components/lib/interface'
 import * as React from 'react'
 import { injectIntl, WrappedComponentProps } from 'react-intl'
 import { connect } from 'react-redux'
-import { RouteComponentProps } from 'react-router'
+import { RouteComponentProps, withRouter } from 'react-router'
 import styled from 'styled-components'
 import { Title } from './commons'
 import { messages } from './resetCredentialsForm'
@@ -23,9 +24,11 @@ const Actions = styled.div`
   }
 `
 
-interface BaseProps {
+interface BaseProps
+  extends RouteComponentProps<{}, {}, { forgottenItem: string }> {
   goToForgottenItemForm: typeof goToForgottenItemForm
   goToRecoveryCodeEntryForm: typeof goToRecoveryCodeEntryForm
+  goToSecurityQuestionForm: typeof goToSecurityQuestionForm
 }
 interface State {
   phone: string
@@ -62,15 +65,22 @@ class PhoneNumberVerificationComponent extends React.Component<Props, State> {
       return
     }
     try {
-      const { nonce } = await authApi.verifyUser(
-        // convertToMSISDN(this.state.phone, window.config.COUNTRY),
+      const { nonce, securityQuestionKey } = await authApi.verifyUser(
         this.state.phone,
         this.props.location.state.forgottenItem
       )
-      this.props.goToRecoveryCodeEntryForm(
-        nonce,
-        this.props.location.state.forgottenItem
-      )
+      if (securityQuestionKey) {
+        this.props.goToSecurityQuestionForm(
+          nonce,
+          securityQuestionKey,
+          this.props.location.state.forgottenItem
+        )
+      } else {
+        this.props.goToRecoveryCodeEntryForm(
+          nonce,
+          this.props.location.state.forgottenItem
+        )
+      }
     } catch (err) {
       console.log(err)
 
@@ -147,6 +157,7 @@ export const PhoneNumberVerification = connect(
   null,
   {
     goToForgottenItemForm,
-    goToRecoveryCodeEntryForm
+    goToRecoveryCodeEntryForm,
+    goToSecurityQuestionForm
   }
-)(injectIntl(PhoneNumberVerificationComponent))
+)(withRouter(injectIntl(PhoneNumberVerificationComponent)))
