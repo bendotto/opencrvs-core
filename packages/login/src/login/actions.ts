@@ -197,3 +197,6 @@ export function goToSecurityQuestionForm(
 export function goToUpdatePasswordForm() {
   return push(UPDATE_PASSWORD)
 }
+export function goToHome() {
+  return push(STEP_ONE)
+}
