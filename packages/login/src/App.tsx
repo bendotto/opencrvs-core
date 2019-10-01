@@ -19,6 +19,7 @@ import { PhoneNumberVerification } from './views/resetCredentialsForm/phoneNumbe
 import { RecoveryCodeEntry } from './views/resetCredentialsForm/recoveryCodeEntryForm'
 import { SecurityQuestion } from './views/resetCredentialsForm/securityQestionForm'
 import { UpdatePassword } from './views/resetCredentialsForm/updatePassword'
+import { PasswordUpdateSuccessPage } from './views/resetCredentialsForm/passwordUpdateSuccessPage'
 
 export const store = createStore()
 export class App extends React.Component {
@@ -55,6 +56,9 @@ export class App extends React.Component {
                     </Route>
                     <Route exact path={routes.UPDATE_PASSWORD}>
                       <UpdatePassword />
+                    </Route>
+                    <Route exact path={routes.SUCCESS}>
+                      <PasswordUpdateSuccessPage />
                     </Route>
                   </Switch>
                 </DarkPageContainer>
