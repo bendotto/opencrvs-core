@@ -1,6 +1,6 @@
 import {
   FORGOTTEN_ITEMS,
-  goBack,
+  goToPhoneNumberVerificationForm,
   goToUpdatePasswordForm
 } from '@login/login/actions'
 import {
@@ -79,7 +79,7 @@ interface BaseProps
       securityQuestionKey: QUESTION_KEYS
     }
   > {
-  goBack: typeof goBack
+  goToPhoneNumberVerificationForm: typeof goToPhoneNumberVerificationForm
   goToUpdatePasswordForm: typeof goToUpdatePasswordForm
 }
 interface State {
@@ -135,19 +135,20 @@ class SecurityQuestionComponent extends React.Component<Props, State> {
   }
 
   render() {
-    const { intl, goBack } = this.props
+    const { intl, goToPhoneNumberVerificationForm } = this.props
+    const { forgottenItem } = this.props.location.state
 
     return (
       <>
         <SubPage
           title={intl.formatMessage(sharedMessages.credentialsResetFormTitle, {
-            forgottenItem: this.props.location.state.forgottenItem
+            forgottenItem
           })}
           emptyTitle={intl.formatMessage(
             sharedMessages.credentialsResetFormTitle,
-            { forgottenItem: this.props.location.state.forgottenItem }
+            { forgottenItem }
           )}
-          goBack={goBack}
+          goBack={() => goToPhoneNumberVerificationForm(forgottenItem)}
         >
           <form onSubmit={this.handleContinue}>
             <Title>
@@ -200,7 +201,7 @@ export const SecurityQuestion = withRouter(
   connect(
     null,
     {
-      goBack,
+      goToPhoneNumberVerificationForm,
       goToUpdatePasswordForm
     }
   )(injectIntl(SecurityQuestionComponent))
