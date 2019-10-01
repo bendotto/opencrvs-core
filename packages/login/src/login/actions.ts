@@ -6,12 +6,12 @@ import {
   ITokenResponse
 } from '@login/utils/authApi'
 import {
-  STEP_ONE,
   PHONE_NUMBER_VERIFICATION,
   FORGOTTEN_ITEM,
   RECOVERY_CODE_ENTRY,
   SECURITY_QUESTION,
-  UPDATE_PASSWORD
+  UPDATE_PASSWORD,
+  STEP_ONE
 } from '@login/navigation/routes'
 export const AUTHENTICATE = 'login/AUTHENTICATE'
 export const AUTHENTICATION_COMPLETED = 'login/AUTHENTICATION_COMPLETED'
@@ -194,8 +194,8 @@ export function goToSecurityQuestionForm(
     securityQuestionKey
   })
 }
-export function goToUpdatePasswordForm() {
-  return push(UPDATE_PASSWORD)
+export function goToUpdatePasswordForm(nonce: string) {
+  return push(UPDATE_PASSWORD, { nonce })
 }
 export function goToHome() {
   return push(STEP_ONE)

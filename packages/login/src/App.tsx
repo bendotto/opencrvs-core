@@ -17,7 +17,7 @@ import { getDefaultLanguage } from './i18n/utils'
 import { ForgottenItem } from './views/resetCredentialsForm/forgottenItemForm'
 import { PhoneNumberVerification } from './views/resetCredentialsForm/phoneNumberVerificationForm'
 import { RecoveryCodeEntry } from './views/resetCredentialsForm/recoveryCodeEntryForm'
-import { SecurityQuestion } from './views/resetCredentialsForm/securityQestionForm'
+import { SecurityQuestion } from './views/resetCredentialsForm/securityQuestionForm'
 import { UpdatePassword } from './views/resetCredentialsForm/updatePassword'
 import { PasswordUpdateSuccessPage } from './views/resetCredentialsForm/passwordUpdateSuccessPage'
 
@@ -51,15 +51,21 @@ export class App extends React.Component {
                       path={routes.RECOVERY_CODE_ENTRY}
                       component={RecoveryCodeEntry}
                     ></Route>
-                    <Route exact path={routes.SECURITY_QUESTION}>
-                      <SecurityQuestion />
-                    </Route>
-                    <Route exact path={routes.UPDATE_PASSWORD}>
-                      <UpdatePassword />
-                    </Route>
-                    <Route exact path={routes.SUCCESS}>
-                      <PasswordUpdateSuccessPage />
-                    </Route>
+                    <Route
+                      exact
+                      path={routes.SECURITY_QUESTION}
+                      component={SecurityQuestion}
+                    ></Route>
+                    <Route
+                      exact
+                      path={routes.UPDATE_PASSWORD}
+                      component={UpdatePassword}
+                    ></Route>
+                    <Route
+                      exact
+                      path={routes.SUCCESS}
+                      component={PasswordUpdateSuccessPage}
+                    ></Route>
                   </Switch>
                 </DarkPageContainer>
               </ConnectedRouter>
