@@ -78,6 +78,7 @@ class PhoneNumberVerificationComponent extends React.Component<Props, State> {
       } else {
         this.props.goToRecoveryCodeEntryForm(
           nonce,
+          this.state.phone,
           this.props.location.state.forgottenItem
         )
       }
