@@ -24,8 +24,7 @@ const Actions = styled.div`
   }
 `
 
-interface BaseProps
-  extends RouteComponentProps<{}, {}, { forgottenItem: string }> {
+interface BaseProps {
   goToForgottenItemForm: typeof goToForgottenItemForm
   goToRecoveryCodeEntryForm: typeof goToRecoveryCodeEntryForm
   goToSecurityQuestionForm: typeof goToSecurityQuestionForm
@@ -97,6 +96,7 @@ class PhoneNumberVerificationComponent extends React.Component<Props, State> {
     return (
       <>
         <ActionPageLight
+          id="page-title"
           title={intl.formatMessage(messages.credentialsResetFormTitle, {
             forgottenItem: this.props.location.state.forgottenItem
           })}
