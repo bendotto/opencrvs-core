@@ -19,7 +19,7 @@
         stroke="#4C68C1"
         strokeWidth="2.5"
         fill="none"
-        stroke-linecap="round"
+        strokeLinecap="round"
       >
         <path d="M27 7H4.059" />
         <path strokeLinejoin="round" d="M7.17 12.355L1.762 6.948l5.304-5.303" />
@@ -43,7 +43,7 @@
         stroke="#4C68C1"
         strokeWidth="2.5"
         fill="none"
-        stroke-linecap="round"
+        strokeLinecap="round"
       >
         <path d="M27 7H4.059" />
         <path strokeLinejoin="round" d="M7.17 12.355L1.762 6.948l5.304-5.303" />
