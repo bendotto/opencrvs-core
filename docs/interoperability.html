@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Interoperability · OpenCRVS</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="For a digital civil registration system&#x27;s true value to be realised, it needs to work easily with other systems in the e-government ecosystem. OpenCRVS uses a standards-based approach to safely and effectively integrate with other systems."/><meta name="docsearch:version" content="1.0.0-alpha.2.1"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Interoperability · OpenCRVS"/><meta property="og:type" content="website"/><meta property="og:url" content="https://opencrvs.github.io//opencrvs-core/"/><meta property="og:description" content="For a digital civil registration system&#x27;s true value to be realised, it needs to work easily with other systems in the e-government ecosystem. OpenCRVS uses a standards-based approach to safely and effectively integrate with other systems."/><meta property="og:image" content="https://opencrvs.github.io//opencrvs-core/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://opencrvs.github.io//opencrvs-core/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/opencrvs-core/img/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://opencrvs.github.io//opencrvs-core/blog/atom.xml" title="OpenCRVS Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://opencrvs.github.io//opencrvs-core/blog/feed.xml" title="OpenCRVS Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/opencrvs-core/js/scrollSpy.js"></script><link rel="stylesheet" href="/opencrvs-core/css/main.css"/><script src="/opencrvs-core/js/codetabs.js"></script></head><body class="sideNavVisible"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/opencrvs-core/"><img class="logo" src="/opencrvs-core/img/favicon.ico" alt="OpenCRVS"/><h2 class="headerTitleWithLogo">OpenCRVS</h2></a><a href="/opencrvs-core/versions"><h3>1.0.0-alpha.2.1</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/opencrvs-core/docs/introduction" target="_self">Docs</a></li><li class=""><a href="/opencrvs-core/help" target="_self">Help</a></li><li class=""><a href="/opencrvs-core/blog/" target="_self">Blog</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>System overview</span></h2></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">System overview</h3><ul class=""><li class="navListItem"><a class="navItem" href="/opencrvs-core/docs/introduction">Introduction</a></li><li class="navListItem"><a class="navItem" href="/opencrvs-core/docs/functionalArchitecture">Functional Architecture</a></li><li class="navListItem"><a class="navItem" href="/opencrvs-core/docs/keyFeatures">Key Features</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/opencrvs-core/docs/interoperability">Interoperability</a></li><li class="navListItem"><a class="navItem" href="/opencrvs-core/docs/configuration">Configuration</a></li><li class="navListItem"><a class="navItem" href="/opencrvs-core/docs/siteMap">Site Map</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Interoperability</h1></header><article><div><span><p>For a digital civil registration system's true value to be realised, it needs to work easily with other systems in the e-government ecosystem. OpenCRVS uses a standards-based approach to safely and effectively integrate with other systems.</p>
+<h1><a class="anchor" aria-hidden="true" id="national-id"></a><a href="#national-id" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>National ID</h1>
+<p>OpenCRVS can integrate with any National ID system in order to reliably validate the existence of NID numbers provided during civil registration applications as well as reduce the time spent on the application form itself by pulling data from the NID system and auto-populating form fields.</p>
+<h2><a class="anchor" aria-hidden="true" id="use-cases"></a><a href="#use-cases" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Use Cases</h2>
+<p>OpenCRVS can be integrated with your National ID system in a number of ways, depending on your system's capability. Current capabilities include:</p>
+<ol>
+<li>To validate the existence of a NID number</li>
+<li>To auto-populate the form with data from the NID field to minimise required effort from registration staff</li>
+</ol>
+<h2><a class="anchor" aria-hidden="true" id="technical-documentation"></a><a href="#technical-documentation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Technical Documentation</h2>
+<p>For more information how this works, check out</p>
+<h1><a class="anchor" aria-hidden="true" id="health"></a><a href="#health" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Health</h1>
+<p>Births and deaths often occur in health facilities and those that occur in the community can be dealt with by health staff at the community level. These actors already use digital health systems to conduct their work and much of the data required for birth/death notifications is already gathered.</p>
+<p>We know that health staff are busy and need to focus on life-saving activities rather than administrative ones. To address the opportunity that this data has for civil registration, OpenCRVS can integrate with existing health systems via a FHIR mediator (leveraging existing health standards) and can receive data from health systems for follow up within the OpenCRVS system.</p>
+<p>For more details of how this works functionally in OpenCRVS, check out the <a href="https://www.notion.so/Notification-from-health-d0dd09f919914ef6bb221324be9bd190">Notification <em>from health</em></a> function.</p>
+<h2><a class="anchor" aria-hidden="true" id="use-cases-1"></a><a href="#use-cases-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Use Cases</h2>
+<p>OpenCRVS can integrate with an existing health system via its OpenHIE compliant &amp; FHIR standardised, interoperability layer, OpenHIM.</p>
+<p>Current capabilities include:</p>
+<ol>
+<li>To receive birth/death notification information from a health system e.g. DHIS2</li>
+<li>To allow Registration Agents and Registrars to view this data as an &quot;in-progress&quot; application and complete it in OpenCRVS</li>
+<li>To see disaggregated data related to the notifications received from health systems</li>
+</ol>
+<h2><a class="anchor" aria-hidden="true" id="technical-documentation-1"></a><a href="#technical-documentation-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Technical Documentation</h2>
+<p>[TO ADD]</p>
+<h1><a class="anchor" aria-hidden="true" id="heres-whats-coming"></a><a href="#heres-whats-coming" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Here's what's coming</h1>
+<ul>
+<li><strong>Refugee management systems</strong> e.g.</li>
+<li><strong>Social protection systems</strong> e.g. inform case management systems when vulnerable children</li>
+</ul>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/opencrvs-core/docs/keyFeatures"><span class="arrow-prev">← </span><span>Key Features</span></a><a class="docs-next button" href="/opencrvs-core/docs/configuration"><span>Configuration</span><span class="arrow-next"> →</span></a></div></div></div></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/opencrvs-core/" class="nav-home"><img src="/opencrvs-core/img/favicon.ico" alt="OpenCRVS" width="66" height="58"/></a><div><h5>Docs</h5><a href="/opencrvs-core/docs/en/doc1.html">Getting Started (or other categories)</a><a href="/opencrvs-core/docs/en/doc2.html">Guides (or other categories)</a><a href="/opencrvs-core/docs/en/doc3.html">API Reference (or other categories)</a></div><div><h5>Community</h5><a href="/opencrvs-core/en/users.html">User Showcase</a><a href="https://stackoverflow.com/questions/tagged/" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://discordapp.com/">Project Chat</a><a href="https://twitter.com/" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/opencrvs-core/blog">Blog</a><a href="https://github.com/">GitHub</a><a class="github-button" data-icon="octicon-star" data-count-href="/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><a href="https://opensource.facebook.com/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/opencrvs-core/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2020 The OpenCRVS Authors. OpenCRVS and the OpenCRVS graphic logo are (registered/a) trademark(s) of Plan International.</section></footer></div></body></html>
