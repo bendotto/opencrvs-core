@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://opencrvs.github.io//opencrvs-core/blog</id>
-    <title>OpenCRVS Blog</title>
+    <title>OpenCRVS is a digital public good to achieve universal civil registration and evidence-based decision making in low resource settings Blog</title>
     <updated>2017-10-24T06:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://opencrvs.github.io//opencrvs-core/blog"/>
-    <subtitle>The best place to stay up-to-date with the latest OpenCRVS news and events.</subtitle>
-    <logo>https://opencrvs.github.io//opencrvs-core/img/favicon.ico</logo>
+    <subtitle>The best place to stay up-to-date with the latest OpenCRVS is a digital public good to achieve universal civil registration and evidence-based decision making in low resource settings news and events.</subtitle>
+    <logo>https://opencrvs.github.io//opencrvs-core/img/logo.svg</logo>
     <rights>Copyright © 2020 The OpenCRVS Authors. OpenCRVS and the OpenCRVS graphic logo are (registered/a) trademark(s) of Plan International.</rights>
     <entry>
         <title type="html"><![CDATA[New Version 1.0.0]]></title>
