@@ -1,61 +1,29 @@
-<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Adding RSS Support - RSS Truncation Test · OpenCRVS is a digital public good to achieve universal civil registration and evidence-based decision making in low resource settings</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Adding RSS Support - RSS Truncation Test · OpenCRVS is a digital public good to achieve universal civil registration and evidence-based decision making in low resource settings"/><meta property="og:type" content="website"/><meta property="og:url" content="https://opencrvs.github.io//opencrvs-core/blog/2017/09/25/testing-rss"/><meta property="og:description" content="1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"/><meta property="og:image" content="https://opencrvs.github.io//opencrvs-core/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://opencrvs.github.io//opencrvs-core/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/opencrvs-core/img/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://opencrvs.github.io/opencrvs-core/js/gitter.js"></script><script src="/opencrvs-core/js/scrollSpy.js"></script><link rel="stylesheet" href="/opencrvs-core/css/main.css"/><script src="/opencrvs-core/js/codetabs.js"></script></head><body class="sideNavVisible"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/opencrvs-core/"><img class="logo" src="/opencrvs-core/img/logo.svg" alt="OpenCRVS is a digital public good to achieve universal civil registration and evidence-based decision making in low resource settings"/><h2 class="headerTitleWithLogo">OpenCRVS is a digital public good to achieve universal civil registration and evidence-based decision making in low resource settings</h2></a><a href="/opencrvs-core/versions"><h3>1.0.0-alpha.2.1</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/opencrvs-core/docs/introduction" target="_self">Docs</a></li><li class=""><a href="https://github.com/opencrvs/opencrvs-core" target="_self">Code</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Recent Posts</span></h2></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Recent Posts</h3><ul class=""><li class="navListItem"><a class="navItem" href="/opencrvs-core/blog/2017/10/24/new-version-1.0.0">New Version 1.0.0</a></li><li class="navListItem"><a class="navItem" href="/opencrvs-core/blog/2017/09/26/adding-rss">Adding RSS Support</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/opencrvs-core/blog/2017/09/25/testing-rss">Adding RSS Support - RSS Truncation Test</a></li><li class="navListItem"><a class="navItem" href="/opencrvs-core/blog/2017/04/10/blog-post-two">New Blog Post</a></li><li class="navListItem"><a class="navItem" href="/opencrvs-core/blog/2016/03/11/blog-post">Blog Title</a></li></ul></div></div></section></div><script>
-            var coll = document.getElementsByClassName('collapsible');
-            var checkActiveCategory = true;
-            for (var i = 0; i < coll.length; i++) {
-              var links = coll[i].nextElementSibling.getElementsByTagName('*');
-              if (checkActiveCategory){
-                for (var j = 0; j < links.length; j++) {
-                  if (links[j].classList.contains('navListItemActive')){
-                    coll[i].nextElementSibling.classList.toggle('hide');
-                    coll[i].childNodes[1].classList.toggle('rotate');
-                    checkActiveCategory = false;
-                    break;
-                  }
-                }
-              }
-
-              coll[i].addEventListener('click', function() {
-                var arrow = this.childNodes[1];
-                arrow.classList.toggle('rotate');
-                var content = this.nextElementSibling;
-                content.classList.toggle('hide');
-              });
-            }
-
-            document.addEventListener('DOMContentLoaded', function() {
-              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
-              createToggler('#tocToggler', 'body', 'tocActive');
-
-              var headings = document.querySelector('.toc-headings');
-              headings && headings.addEventListener('click', function(event) {
-                var el = event.target;
-                while(el !== headings){
-                  if (el.tagName === 'A') {
-                    document.body.classList.remove('tocActive');
-                    break;
-                  } else{
-                    el = el.parentNode;
-                  }
-                }
-              }, false);
-
-              function createToggler(togglerSelector, targetSelector, className) {
-                var toggler = document.querySelector(togglerSelector);
-                var target = document.querySelector(targetSelector);
-
-                if (!toggler) {
-                  return;
-                }
-
-                toggler.onclick = function(event) {
-                  event.preventDefault();
-
-                  target.classList.toggle(className);
-                };
-              }
-            });
-        </script></nav></div><div class="container mainContainer postContainer blogContainer"><div class="wrapper"><div class="lonePost"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle"><a href="/opencrvs-core/blog/2017/09/25/testing-rss">Adding RSS Support - RSS Truncation Test</a></h1><p class="post-meta">September 25, 2017</p><div class="authorBlock"><p class="post-authorName"><a href="http://twitter.com/ericnakagawa" target="_blank" rel="noreferrer noopener">Eric Nakagawa</a></p><div class="authorPhoto"><a href="http://twitter.com/ericnakagawa" target="_blank" rel="noreferrer noopener"><img src="https://graph.facebook.com/661277173/picture/?height=200&amp;width=200" alt="Eric Nakagawa"/></a></div></div></header><div><span><p>1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890</p>
-<p>This should be truncated.</p>
-<!--truncate-->
-<p>This line should never render in XML.</p>
-</span></div></div><div class="blogSocialSection"></div></div><div class="blog-recent"><a class="button" href="/opencrvs-core/blog/">Recent Posts</a></div></div></div></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/opencrvs-core/" class="nav-home"><img src="/opencrvs-core/img/logo.svg" alt="OpenCRVS is a digital public good to achieve universal civil registration and evidence-based decision making in low resource settings" width="125" height="28.47"/></a><div><h5>Docs</h5><a href="/opencrvs-core/docs/en/#">Product overview</a><a href="/opencrvs-core/docs/en/#">User types</a><a href="/opencrvs-core/docs/en/#">Core functions</a><a href="/opencrvs-core/docs/en/#">Support functions</a><a href="/opencrvs-core/docs/en/#">System admin functions</a></div><div><h5>Community</h5><a href="/opencrvs-core/docs/en/#">Help</a><a href="https://www.opencrvs.org/case-studies" target="_blank">Case studies</a></div><div><h5>Legal</h5><a href="#" target="_blank">Privacy</a></div><div><h5>Social</h5><a class="gitter" href="#">Gitter</a><a href="https://github.com/opencrvs/opencrvs-core" target="_blank">GitHub</a><a class="github-button" href="https://github.com/opencrvs/opencrvs-core/subscription" data-icon="octicon-eye" aria-label="Watch opencrvs/opencrvs-core on GitHub">Watch</a><br/><a class="github-button" href="https://github.com/opencrvs/opencrvs-core" data-icon="octicon-star" data-count-href="/opencrvs/opencrvs-core/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2020 The OpenCRVS Authors. OpenCRVS and the OpenCRVS graphic logo are (registered/a) trademark(s) of Plan International.</section><script async="" defer="" src="https://sidecar.gitter.im/dist/sidecar.v1.js"></script><script async="" defer="" src="https://buttons.github.io/buttons.js"></script></footer></div></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="generator" content="Docusaurus v2.0.0-alpha.55">
+<script src="https://opencrvs.github.io/opencrvs-core/js/gitter.js"></script><title data-react-helmet="true">Adding RSS Support - RSS Truncation Test | OpenCRVS Documentation</title><meta data-react-helmet="true" property="og:title" content="Adding RSS Support - RSS Truncation Test | OpenCRVS Documentation"><meta data-react-helmet="true" name="description" content="1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"><meta data-react-helmet="true" property="og:description" content="1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"><link data-react-helmet="true" rel="shortcut icon" href="/opencrvs-core/img/favicon.ico"><link rel="stylesheet" href="/opencrvs-core/styles.30d3991e.css">
+<link rel="preload" href="/opencrvs-core/styles.7463f930.js" as="script">
+<link rel="preload" href="/opencrvs-core/runtime~main.dc504ecd.js" as="script">
+<link rel="preload" href="/opencrvs-core/main.42c222ee.js" as="script">
+<link rel="preload" href="/opencrvs-core/1.7eade442.js" as="script">
+<link rel="preload" href="/opencrvs-core/2.7f2e9ff6.js" as="script">
+<link rel="preload" href="/opencrvs-core/3.16b69131.js" as="script">
+<link rel="preload" href="/opencrvs-core/ccc49370.faaaf459.js" as="script">
+<link rel="preload" href="/opencrvs-core/4d826c8d.7d0930d8.js" as="script">
+</head>
+<body>
+<div id="__docusaurus">
+<nav class="navbar navbar--light navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><div aria-label="Navigation bar toggle" class="navbar__toggle" role="button" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" role="img" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></div><a class="navbar__brand" href="/opencrvs-core/"><img class="navbar__logo" src="/opencrvs-core/img/logo.svg" alt="OpenCRVS Logo"><strong class="navbar__title"></strong></a></div><div class="navbar__items navbar__items--right"><a class="navbar__item navbar__link" href="/opencrvs-core/docs/system_overview/introduction">Docs</a><a class="navbar__item navbar__link" href="/opencrvs-core/docs/community/introduction">Community</a><a target="_blank" rel="noopener noreferrer" href="https://github.com/opencrvs/opencrvs-core" class="navbar__item navbar__link">Code</a></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div><div class="navbar-sidebar"><div class="navbar-sidebar__brand"><a class="navbar__brand" href="/opencrvs-core/"><img class="navbar__logo" src="/opencrvs-core/img/logo.svg" alt="OpenCRVS Logo"><strong class="navbar__title"></strong></a></div><div class="navbar-sidebar__items"><div class="menu"><ul class="menu__list"><li class="menu__list-item"><a class="menu__link" href="/opencrvs-core/docs/system_overview/introduction">Docs</a></li><li class="menu__list-item"><a class="menu__link" href="/opencrvs-core/docs/community/introduction">Community</a></li><li class="menu__list-item"><a target="_blank" rel="noopener noreferrer" href="https://github.com/opencrvs/opencrvs-core" class="menu__link">Code</a></li></ul></div></div></div></nav><div class="main-wrapper"><div class="container margin-vert--lg"><div class="row"><div class="col col--8 col--offset-2"><article><header><h1 class="margin-bottom--sm blogPostTitle_2RZH">Adding RSS Support - RSS Truncation Test</h1><div class="margin-vert--md"><time datetime="2017-09-25T00:00:00.000Z" class="blogPostDate_3tRe">September 25, 2017  · 1 min read</time></div><div class="avatar margin-vert--md"><div class="avatar__intro"><h4 class="avatar__name"><a href="http://twitter.com/ericnakagawa" target="_blank" rel="noreferrer noopener">Eric Nakagawa</a></h4><small class="avatar__subtitle"></small></div></div></header><section class="markdown"><p>1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890</p><p>This should be truncated.</p><p>This line should never render in XML.</p></section></article><div></div><div class="margin-vert--xl"><nav class="pagination-nav"><div class="pagination-nav__item"><a class="pagination-nav__link" href="/opencrvs-core/blog/2017/09/26/adding-rss"><div class="pagination-nav__sublabel">Previous Post</div><div class="pagination-nav__label">« Adding RSS Support</div></a></div><div class="pagination-nav__item pagination-nav__item--next"><a class="pagination-nav__link" href="/opencrvs-core/blog/2017/04/10/blog-post-two"><div class="pagination-nav__sublabel">Next Post</div><div class="pagination-nav__label">New Blog Post »</div></a></div></nav></div></div></div></div></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/opencrvs-core/" class="nav-home"><img src="/opencrvs-core/img/logo.svg" alt="OpenCRVS Documentation" width="125" height="28.47"></a><div><h5>Docs</h5><a href="/opencrvs-core/docs/system_overview/introduction">System overview</a><a href="/opencrvs-core/#">User types</a><a href="/opencrvs-core/docs/core_functions/notifyAVitalEvent">Core functions</a><a href="/opencrvs-core/docs/support_functions/login">Support functions</a><a href="/opencrvs-core/docs/system_admin/userTeam">System admin functions</a></div><div><h5>Community</h5><a href="/opencrvs-core/#">Help</a><a href="https://www.opencrvs.org/case-studies" target="_blank">Case studies</a></div><div><h5>Legal</h5><a href="#" target="_blank">Privacy</a></div><div><h5>Social</h5><a class="gitter">Gitter</a><a href="https://github.com/opencrvs/opencrvs-core" target="_blank">GitHub</a><a class="github-button" href="https://github.com/opencrvs/opencrvs-core/subscription" data-icon="octicon-eye" aria-label="Watch opencrvs/opencrvs-core on GitHub">Watch</a><br><a class="github-button" href="https://github.com/opencrvs/opencrvs-core" data-icon="octicon-star" data-count-href="/opencrvs/opencrvs-core/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2020 The OpenCRVS Authors. OpenCRVS and the OpenCRVS graphic logo are (registered/a) trademark(s) of Plan International.</section></footer></div>
+<script src="/opencrvs-core/styles.7463f930.js"></script>
+<script src="/opencrvs-core/runtime~main.dc504ecd.js"></script>
+<script src="/opencrvs-core/main.42c222ee.js"></script>
+<script src="/opencrvs-core/1.7eade442.js"></script>
+<script src="/opencrvs-core/2.7f2e9ff6.js"></script>
+<script src="/opencrvs-core/3.16b69131.js"></script>
+<script src="/opencrvs-core/ccc49370.faaaf459.js"></script>
+<script src="/opencrvs-core/4d826c8d.7d0930d8.js"></script>
+</body>
+</html>
